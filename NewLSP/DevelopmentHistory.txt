@@ -1,0 +1,24 @@
+﻿
+
+2021 03 06 Initial development of the NewLSP  (New LearningStudyProject)
+	The overall design is based on the Change embedded UserControls with a Menu bar in the WPF HowTo Table.docx
+	#ChangeUserControlsWithMenuBar
+
+	Initially there will be  # User controls
+	1.	*Home: This will be the only control visible at startup and will contain:
+		a.	A button to Create or Select the desired Subject folder
+	2.	SubjectTree: This will contain all of the code in LearningStudyProject's UserControl 
+		x:Class="LearningStudyProject.Views.SubjectTreeView", except for 
+		<Button x:Name="FileOpen" Content="Open Subject Folder"
+	3.	Review/Answer Questions: this will contain all the code in the LearningSu=tudyProject's
+		UserControl x:Class="LearningStudyProject.Views.AnswerQuestionsView"
+	4.	See TestResults: This will allow the usere to view recent and cumulative test results
+		No Code except for a test MessageBox at present
+	5.	Record Study Data: This will allow the user to seek and record various types of data from 
+		the Web and elsewhere
+		No Code except for a test MessageBox at present
+
+	Set the MainWindow's size and startup location
+		
+        Height="800" Width="1200"        
+        WindowStartupLocation="CenterScreen">
