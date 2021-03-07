@@ -1,5 +1,26 @@
 ﻿
 
+2021 03 07 0541 dev branch
+	1.	Move contnets of StudyLearningProject to SubjectTree User control
+	2.	Copy code for opening the subject directory
+		a.	*Install Microsoft.WindowsAPICodePack.Dialogs NuGet package
+		b.	*Copy btnOpenSubjectFolder_Click code
+	3.	*Create StaticHelperClasses folder
+		a.	*Copy StringHelper Class
+	4.	Copy SubjectStaticMembers
+	5.	*Create DataModels folder
+		a. *Add SubjectNodes
+	6.	*Make sure the SubjectTree will not open unless a subject node has been selected
+	7.	*Add a button to the subject tree that will display the DisplayList in the list view
+	8.	*Enable the ExpandCollapse radio button
+	9.	*Enable the add new child radio button
+	10.	*Enable the Change TitleText radio button
+
+
+
+
+==================================================================================================
+
 2021 03 06 Initial development of the NewLSP  (New LearningStudyProject)
 	The overall design is based on the Change embedded UserControls with a Menu bar in the WPF HowTo Table.docx
 	#ChangeUserControlsWithMenuBar
@@ -22,3 +43,4 @@
 		
         Height="800" Width="1200"        
         WindowStartupLocation="CenterScreen">
+	Create source control and commit and send master to dev

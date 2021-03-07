@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NewLSP.UserControls;
+using NewLSP.StaticHelperClasses;
 
 namespace NewLSP
 {
@@ -33,6 +34,12 @@ namespace NewLSP
 
         private void miSubjectTree_Click(object sender, RoutedEventArgs e)
         {
+            if(SubjectStaticMembers.DisplayList.Count ==0) 
+            { 
+                MessageBox.Show("You cannot open this tab until you select a Subject Folder");
+                return;
+            }
+           
             SetActiveUserControl(ucSubjectTree);
         }
 
