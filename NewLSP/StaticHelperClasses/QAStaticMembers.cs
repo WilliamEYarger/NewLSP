@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using NewLSP.DataModels;
 using System.IO;
