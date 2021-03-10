@@ -1,5 +1,10 @@
-﻿2021 03 09
+﻿2021 03 10 1555
+	1.	Added code to replace new line characters with ~ in the question and answer
+
+
+2021 03 09 committed 2021 03 10 1500
 	1.	Create an OpenFileDialog for the JPG Files
+	2.	Added Save file code for saving the qa file
 
 
 2021 03 08

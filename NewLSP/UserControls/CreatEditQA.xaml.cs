@@ -155,8 +155,18 @@ namespace NewLSP.UserControls
             {
                 QADataModelObject = new QADataModel();
             }
-            QADataModelObject.Question = tbxQuestion.Text;
-            QADataModelObject.Answer = tbxAnswer.Text;
+
+            // replace all of the \r\n in the question
+            string question = tbxQuestion.Text;
+            question = question.Replace("\r\n", "~");
+            QADataModelObject.Question = question;
+
+            //replace all the the \r\n in the answer
+
+            string answer = tbxAnswer.Text;
+            answer = answer.Replace("\r\n", "~");
+
+            QADataModelObject.Answer = answer;
             QADataModelObject.QuestionJpgUrl = QuestionJpgUrl;
             QADataModelObject.QuestionMp3Url = QuestionMp3Url;
             QADataModelObject.AnswerJpgUrl = AnswernJpgUrl;
