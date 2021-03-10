@@ -1,6 +1,36 @@
-﻿
+﻿2021 03 09
+	1.	Create an OpenFileDialog for the JPG Files
 
-2021 03 07 0541 dev branch
+
+2021 03 08
+	Copy the QACreateEditView  from the Learning study project
+	1.	*Make sure the user cannot open this window until a data node has been selected
+	2.	*Show Message telling the user to select the Edit Mode first
+	3.	*Copy the code from the QACreateEditView.xaml.cs 
+	4.	Create a new DataModel to hold the Question and Answer data
+		During program execution deal with the collection of QA properties as an
+		object and only convert them to a delimited string on loading or 
+		unloading a QA data text file
+		a.	Name = QADataModel
+		b.	Full properties
+			1)	*int QANumber
+			2)	*string Question
+			3)	*string Answer
+			4)	*string QuestionJpgUrl
+			5)	*String QuestionMp3Url
+			6)	*string AnswerJpgUrl
+			7)	*string AnswerMp3Url
+		c.	*Create a default constructor and one which takes an int as a parameter
+		d.	*Create a Dictionary<string,QADataModel> QADictionary is which the key is the QANumber.ToString() 
+			and the value is the QADAtaModel object associated with that key
+			1)	*Create a field to create this dictionary
+			2)	*Create a method to add to the dictionary
+			3)	*Create a method to retrieve a value when a key int.string is supplied.
+				The value is returned as a QADataModel object
+		e.	*Create a property to hold the current QAQuestionNumber
+
+
+2021 03 07 0541 dev branch committed to master 2021 03 07 0934
 	1.	Move contnets of StudyLearningProject to SubjectTree User control
 	2.	Copy code for opening the subject directory
 		a.	*Install Microsoft.WindowsAPICodePack.Dialogs NuGet package

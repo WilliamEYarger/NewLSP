@@ -91,9 +91,9 @@
                          Checked="rbExpandCollapse_Checked"
                          />
 
-                    <RadioButton x:Name="rbfurther" GroupName="NodeTasks"
-                         Content="Open/Create Data Page forSelected Node"
-                         Checked="rbfurther_Checked"
+                    <RadioButton x:Name="rbDataNode" GroupName="NodeTasks"
+                         Content="This is the DataNode"
+                         Click="rbDataNode_Click"
                                  />
 
 

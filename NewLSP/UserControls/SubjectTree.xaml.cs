@@ -68,42 +68,7 @@ namespace NewLSP.UserControls
 
             // Create a new node
             CreateNewChildSubjectNode(CurrentItemCount);
-            /*
-              #region Radio Button Add a New Child to Parent (rbNewChild_Checked)
-
-         private void rbNewChild_Checked(object sender, RoutedEventArgs e)
-         {
-
-             var rbNewChild = sender as RadioButton;
-
-             if (tbxNodeName.Text == "")
-             {
-                 MessageBox.Show("You must Enter text into the Enter Node Text TextBox and select a Parent Node");
-                 rbNewChild.IsChecked = false;
-                 return;
-             }
-             if (SelectedNode == null)
-             {
-                 MessageBox.Show("You Must select a Parent Node before Clicking Create a New Child Node");
-                 rbNewChild.IsChecked = false;
-                 return;
-             }
-             if (SelectedNode.CI == "T ")
-             {
-                 MessageBox.Show("You Cannot add a child to a Terminal node");
-                 rbNewChild.IsChecked = false;
-                 return;
-             }
-
-             // Get ItemIndex
-             int CurrentItemCount = SubjectStaticMembers.ItemCount;
-
-             // Create a new node
-             CreateNewChildSubjectNode(CurrentItemCount);
-         }// End rbNewChild_Checked
-
-         #endregion rbNewChild_Checked
-             */
+           
         }
 
         #region  #region Radio button Change Title Text of selected node (rbText_Checked)
@@ -184,14 +149,7 @@ namespace NewLSP.UserControls
             
         }
 
-        private void rbfurther_Checked(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("New Further RB Clicked");
-        }
-
-       
-
-       
+        
 
         private void btnShowDisplayLisgt_Click(object sender, RoutedEventArgs e)
         {
@@ -295,6 +253,15 @@ namespace NewLSP.UserControls
         #endregion GetParentNode
 
 
+        private void rbDataNode_Click(object sender, RoutedEventArgs e)
+        {
+            // Set the SubjectStaticMembers DataNode
+            SubjectStaticMembers.DataNode = SelectedNode;
+
+            // Set the Path to the DataNode's QAfile
+            SubjectStaticMembers.SetDataNodesQAFilePath();
+
+        }
     }// End Class
 
 }//End Namespace

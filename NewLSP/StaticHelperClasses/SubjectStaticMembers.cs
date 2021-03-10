@@ -49,7 +49,12 @@ namespace NewLSP.StaticHelperClasses
 
         private static string SubjectName;
 
+        // This is the path to the folder that holds the 'ɀ' delimited tree nodes in the selected Subject tree
         private static string SubjectsNodeDataStringsPath;
+
+
+        // This is the path to the Folder that holds the questions and answers for a given subject tree node
+        private static string DataNodesQAFilePath;
 
         #region Dictionary of Subject Nodes (SubjectNodeDictionary)
         // Create a dictionary of all subject nodes whose key is the node.NodeLevelName
@@ -91,15 +96,19 @@ namespace NewLSP.StaticHelperClasses
             }
         }
 
+        public static string SaveSubjectFolderPath { get; internal set; }
 
+        //"C:\\Users\\Owner\\OneDrive\\Documents\\_StudyFolder\\s5\\"
         #endregion  Data Node Selected
+
+
 
         #endregion Properties
 
 
         #region Public Methods
 
-       
+
 
         #region Open Data Files method (OpenFiles)
 
@@ -262,6 +271,8 @@ namespace NewLSP.StaticHelperClasses
             return NodeLevelChar.ToString();
 
         }// End GetNodeLevelPosition
+
+        
         #endregion GetNodeLevelPosition
 
         #region Remove Node From Dictionary
@@ -389,6 +400,22 @@ namespace NewLSP.StaticHelperClasses
             SubjectNodeDictionary.Add(ThisNode.NodeLevelName, ThisNode);
         }
         #endregion AddNodeToDictionary
+
+        #region SetDataNodesQAFilePath
+
+        public static void SetDataNodesQAFilePath()
+        {
+             DataNodesQAFilePath = SubjectStaticMembers.SaveSubjectFolderPath + "QAFiles\\" + DataNode.ID.ToString() + ".txt";
+            // TODO return here after setting the Subject's file path
+        }
+
+        public static string GetDataNodesQAFilePath()
+        {
+            return DataNodesQAFilePath;
+        }
+
+
+        #endregion SetDataNodesQAFilePath
 
         #endregion Public Methods
 

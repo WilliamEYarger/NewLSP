@@ -64,7 +64,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataModels\QADataModel.cs" />
     <Compile Include="DataModels\SubjectNodes.cs" />
+    <Compile Include="StaticHelperClasses\QAStaticMembers.cs" />
     <Compile Include="StaticHelperClasses\StringHelper.cs" />
     <Compile Include="StaticHelperClasses\SubjectStaticMembers.cs" />
     <Compile Include="UserControls\CreatEditQA.xaml.cs">

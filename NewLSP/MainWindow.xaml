@@ -41,7 +41,7 @@
         </Menu>
 
         <Grid Grid.Row="1">
-            <local:Home x:Name="ucHome"></local:Home>
+            <local:Home x:Name="ucHome" Visibility="Visible"></local:Home>
             <local:SubjectTree x:Name="ucSubjectTree" Visibility="Collapsed"/>
             <local:CreatEditQA x:Name="ucCreatEditQA" Visibility="Collapsed"/>
             <local:TestReview x:Name="ucTestReview" Visibility="Collapsed"/>

@@ -40,8 +40,13 @@ namespace NewLSP.UserControls
             var FolderName = StringHelper.ReturnItemAtPos(FolderPath, '\\', NumberOfSlashes - 1);
             lblTitle.Content = "This is the Subjects Tree for " + FolderName;
 
+            // Save the Path to  the selected subject
+            SubjectStaticMembers.SaveSubjectFolderPath = FolderPath;
+
             //Communicate the FolderPath to the ViewModel.SubjectNodeViewModel's OpenFile method
             SubjectStaticMembers.OpenFiles(FolderPath);
+
+
 
            
             

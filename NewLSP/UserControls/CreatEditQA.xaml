@@ -5,8 +5,105 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NewLSP.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             d:DesignHeight="800" d:DesignWidth="1200">
+
+    <UserControl.Resources>
+        <Style TargetType="MenuItem" >
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+        </Style>
+    </UserControl.Resources>
+    
+    
+    <Grid Background="White">
+
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.Row="0" Grid.ColumnSpan="2"
+            x:Name="QAMainMenu" Margin="100,0,0,0">
+
+
+            <MenuItem Name="FilesMenu" Header="Files">
+                <MenuItem Name="SaveFile"  Header="SaveFile"  
+                 Click="SaveFile_Click"/>
+            </MenuItem >
             
+            <MenuItem Name="EditMenu" Header="     EditMenu">
+                <MenuItem Name="NewFile" Header="Begin a New File"
+                 Click="NewFile_Click" />
+                
+                <MenuItem Name="Append" Header="Append"
+                 Click="Append_Click"/>
+            </MenuItem>
+            
+            <MenuItem Name="ImagesSounds" Header="     Images/Sounds">
+                <MenuItem Name="miQuestionJpgUrl" Header="Add Image to Question"
+                   Click="miQuestionJpgUrl_Click"/>
+                
+                <MenuItem Name="miAnswerJpgUrl" Header="Add Image to Answer"
+                  Click="miAnswerJpgUrl_Click"/>
+                
+                <MenuItem  Name="miQuestionMp3Url" Header="Add Sound File to Question" 
+                  Click="miQuestionMp3Url_Click"/>
+                
+                <MenuItem  Name="miAnswerMp3Url" Header="Add Sound File to Answer" 
+                  Click="miAnswerMp3Url_Click"/>
+                
+            </MenuItem>
+
+        </Menu>
+
+
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+            HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"            
+            Text="Create/Edit a QA File"/>
+        <StackPanel Orientation="Horizontal" 
+             Grid.Row="2" Grid.Column="0">
+            <TextBlock Text="Current Question Number" 
+                 Margin="180,0,50,0"
+                 FontSize="18"/>
+            <TextBlock x:Name="tbkCurrentQuestionNumber"
+                 FontSize="18" Text="0"/>
+        </StackPanel>
+        <TextBlock x:Name="tbkMessage" Grid.Row="2" Grid.Column="1"
+             Text="Select Edit Type" FontSize="18" Foreground ="Red"
+             HorizontalAlignment="Center"/>
+        <TextBlock Text="Enter Question" Grid.Row="3" Grid.Column="0"
+             FontSize="18" HorizontalAlignment="Center" />
+        <TextBlock Text="Enter Answer" Grid.Row="3" Grid.Column="1"
+             FontSize="18" HorizontalAlignment="Center" />
+        <TextBox x:Name="tbxQuestion" Grid.Row="4" Grid.Column="0"
+                  TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="tbxAnswer" Grid.Row="4" Grid.Column="1"
+                   TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"/>
+        <Button x:Name="btnGetNextQA" 
+                Click="btnGetNextQA_Click"
+                Grid.Row="5" Grid.ColumnSpan="2"
+                Content="Get Next QA Pair" FontSize="18"
+                HorizontalAlignment="Center"/>
+
+
+
     </Grid>
 </UserControl>
