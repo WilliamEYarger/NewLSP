@@ -1,8 +1,47 @@
-﻿2021 03 09
+﻿2021 03 11 0734
+	1.	*Copy AnswerQuestionView from LearningStudyProject to TestReview User control
+	2.	*Make sure that a DataNode has been chosen before opening the TestReview user control
+	3.	*Correct removing \r\n from question and answer
+	4.	*Correct the assigning jpg and mp3 file urls to a QA pair
+	5.	Tasks to be performed when opening the TextReview user control
+		a.	*Check to see that the appropriate QA File exists
+		b.	*Upload it to a Dictionary(string,string) QADictionary, where the key is 
+			the sequential qa number converted to a string
+		c.	*Create a ^ delimited string of sequential numbers, QANUmbersString, whose largest
+			value is the Count of items in the QADictionary
+		d.	*Create a private boolean variable, ThisIsATest and
+			create a working QANUmbersString so the same dictionary can be used  for
+			both a review and a test
+	6.	*When either the test or review menu item is clicked call the AnswerQuestions() method
+		Code the Review menu item and set ThisIsATest to false
+	7.	*In the AnswerQuestions method, if the length of the QANumberString is not 0
+		set all the QADataModel strings and return
+At this point save a copy of all altered files and commit and sync
+
+	7.	Code the see correct answer button
+	8.	Code the score correct button. At this time I will nod be saving any test results
+		so the only option is to remove the current QANuber from the QANUmbersString
+	10.	Code the score wrong button. When ThisIsATest is false remove the first QANumber string
+		and place it at the end of the QANUmbersString
+	9.	Set the code for the btnOpenImage Button;
+		a.	when a QA string has a question associated image
+			1)	Set the button's IsEnabled to true
+			2)	Set the foregroung color to red
+		b.	When the user clicks the OpenImageFile button insert 
+			the following into its Click event
+			System.Diagnostics.Process.Start(QADataModelObject.QuestionJpgUrl);
+		c.	Reset the foreground color to black and set the IsEnabled to false
+		d.	Do the same for when the answer has an associated jpg image
+	10.	Set the code for the btnOpenMp3 button as above 
+
+
+
+
+2021 03 09
 	1.	Create an OpenFileDialog for the JPG Files
 
 
-2021 03 08
+2021 03 08 Committed and pushed to master and GIT
 	Copy the QACreateEditView  from the Learning study project
 	1.	*Make sure the user cannot open this window until a data node has been selected
 	2.	*Show Message telling the user to select the Edit Mode first

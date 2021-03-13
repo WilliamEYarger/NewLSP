@@ -36,7 +36,7 @@ namespace NewLSP.UserControls
 
 
         private string QuestionJpgUrl;
-        private string AnswernJpgUrl;
+        private string AnswerJpgUrl;
         private string QuestionMp3Url;
         private string AnswerMp3Url;
         //private string currentQAPairStr = "";
@@ -91,6 +91,7 @@ namespace NewLSP.UserControls
 		                break;
 	
                 }
+                QADataModelObject = new QADataModel();
 
             }
             else
@@ -114,21 +115,20 @@ namespace NewLSP.UserControls
         {
 
             QuestionJpgUrl = ReturnJpgUrl();
-
+           //QADataModelObject.QuestionMp3Url = QuestionJpgUrl;
 
         }
 
         private void miAnswerJpgUrl_Click(object sender, RoutedEventArgs e)
         {
-            string JpgUrlPath = ReturnJpgUrl();
+            AnswerJpgUrl = ReturnJpgUrl();
 
-            QADataModelObject.AnswerJpgUrl = JpgUrlPath;
+            //QADataModelObject.AnswerJpgUrl = JpgUrlPath;
         }
 
         private void miQuestionMp3Url_Click(object sender, RoutedEventArgs e)
         {
-            string Mp3UrlPath = ReturnMp3Url();
-            QADataModelObject.QuestionMp3Url = Mp3UrlPath;
+            QuestionMp3Url = ReturnMp3Url();
 
             //the following will be needed in the take a qa test or review
             //System.Diagnostics.Process.Start(Mp3UrlPath);
@@ -137,8 +137,8 @@ namespace NewLSP.UserControls
         private void miAnswerMp3Url_Click(object sender, RoutedEventArgs e)
         {
 
-            string Mp3UrlPath = ReturnMp3Url();
-            QADataModelObject.AnswerMp3Url = Mp3UrlPath;
+            AnswerMp3Url = ReturnMp3Url();
+            //QADataModelObject.AnswerMp3Url = Mp3UrlPath;
         }
 
 
@@ -151,15 +151,21 @@ namespace NewLSP.UserControls
         private void btnGetNextQA_Click(object sender, RoutedEventArgs e)
         {
 
-            if(QADataModelObject == null)
-            {
-                QADataModelObject = new QADataModel();
-            }
-            QADataModelObject.Question = tbxQuestion.Text;
-            QADataModelObject.Answer = tbxAnswer.Text;
+            //if(QADataModelObject == null)
+            //{
+            //    QADataModelObject = new QADataModel();
+            //}
+
+            // Change \r\n to ~
+            string thisQuestion = tbxQuestion.Text;
+            thisQuestion = thisQuestion.Replace("\r\n", "~");
+            string thisAnswer = tbxAnswer.Text;
+            thisAnswer = thisAnswer.Replace("\r\n", "~");
+            QADataModelObject.Question = thisQuestion;
+            QADataModelObject.Answer = thisAnswer;
             QADataModelObject.QuestionJpgUrl = QuestionJpgUrl;
             QADataModelObject.QuestionMp3Url = QuestionMp3Url;
-            QADataModelObject.AnswerJpgUrl = AnswernJpgUrl;
+            QADataModelObject.AnswerJpgUrl = AnswerJpgUrl;
             QADataModelObject.AnswerMp3Url = AnswerMp3Url;
             // Save the current  QADataModelObject
             QAStaticMembers.AddQAObjectToDictionary(QAStaticMembers.CurrentQANumberInt.ToString(), QADataModelObject);
@@ -183,7 +189,7 @@ namespace NewLSP.UserControls
             tbxAnswer.Text = "";
             QuestionJpgUrl = "";
             QuestionMp3Url = "";
-            AnswernJpgUrl = "";
+            AnswerJpgUrl = "";
             AnswerMp3Url = "";
         }
 

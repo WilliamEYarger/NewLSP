@@ -5,8 +5,153 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NewLSP.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <Style TargetType="MenuItem">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+        <Style TargetType="Border">
+            <Setter Property="Margin" Value="2,0,2,0"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="          File">
+                <MenuItem Name="SaveFile"
+                          Header="Save File and Return"
+                          Click="SaveFile_Click"/>
+            </MenuItem>
+            <MenuItem Header="     Test/Review">
+                <MenuItem Header="Test" Name="Test"
+                          Click="Test_Click"/>
+                <MenuItem Header="Review" Name="Review"
+                          Click="Review_Click"/>
+            </MenuItem>
+            <MenuItem Header="     Instructions">
+                <MenuItem Header="How To Use Form" 
+                          Name="UseForm"
+                          Click="UseForm_Click"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Orientation="Horizontal"
+            Grid.Row="1" Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"    >
+            <TextBlock Text="Questions and Answers for "
+                FontSize=" 18" FontWeight="Bold"
+                Margin="0,0,50,0"
+                />
+            <TextBlock x:Name="TitleText" 
+                Text="CurrentSubject"
+                FontSize=" 18" FontWeight="Bold"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+           Grid.Row="2" Grid.ColumnSpan="2"
+           HorizontalAlignment="Center">
+            <TextBlock Text="QA Pair #"
+                FontSize=" 18" FontWeight="Bold"
+                Foreground="Red"/>
+            <TextBlock x:Name="CurrentQANum"/>
+        </StackPanel>
+        <Border BorderThickness="5" BorderBrush="Black"
+           Grid.Row="3" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" 
+                           HorizontalAlignment="Center"
+                           Text="Question"
+                            FontSize=" 18" FontWeight="Bold"/>
+                <TextBox x:Name="tbxQuestion"
+                         IsReadOnly="True"
+                         Grid.Row="1"/>
+            </Grid>
+        </Border>
+        <Border BorderThickness="5" BorderBrush="Black"
+           Grid.Row="3" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                    Text="Your Answer"
+                           HorizontalAlignment="Center"
+                           FontSize=" 18" FontWeight="Bold"
+                           x:Name="YourAnswer"/>
+                <TextBox x:Name="tbxYourAnswer"
+                         Grid.Row="1"/>
+            </Grid>
+        </Border>
+        <Border BorderThickness="5" BorderBrush="Black"
+           Grid.Row="4" Grid.Column="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="btnOpenImage" Content="Open Image File"              
+                        Grid.Column="0" Grid.Row="0"
+                        IsEnabled="False"
+                        Click="btnOpenImage_Click"/>
+                <Button x:Name="btnOpenMp3" Content="Open Sound File"              
+                        Grid.Column="1" Grid.Row="0"
+                        IsEnabled="False"
+                        Click="btnOpenMp3_Click"/>
+                <Button x:Name="btnShowCorrect" Content="Show Correct Answer"              
+                        Grid.Row="1" Grid.ColumnSpan="2"
+                        Click="btnShowCorrect_Click" />
+                <Button x:Name="btnScoreCorrect" Content="Score Correct"
+                        Grid.Column="0" Grid.Row="2"
+                        Click="btnScoreCorrect_Click" />
+                <Button x:Name="btnScoreWrong"  Content="Score Wrong" 
+                         Grid.Column="1" Grid.Row="2"
+                        Click="btnScoreWrong_Click" />
+            </Grid>
+        </Border>
+        <Border BorderThickness="5" BorderBrush="Black"
+                Grid.Column="1" Grid.Row="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                    Text="Correct Answer"
+                           HorizontalAlignment="Center"
+                           FontSize="18" FontWeight="Bold"/>
+                <TextBox Grid.Row="1"
+                    IsReadOnly="True"
+                    x:Name="tbxCorrectAnswer"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NewLSP.StaticHelperClasses
 {
@@ -26,9 +23,6 @@ namespace NewLSP.StaticHelperClasses
 
 
         #endregion ReturnNumberOfDeliniters
-
-
-
 
 
         #region ReturnItemAtPos
@@ -127,5 +121,23 @@ namespace NewLSP.StaticHelperClasses
 
         }
         #endregion ReplaceItemAtPosition
+
+        public static string GetAndRemoveNthItem(ref string  delimitedString, char del, int pos)
+        {
+
+            string[] itemsArray = delimitedString.Split(del);
+            string returnItem = itemsArray[pos];
+            List<string> ItemsList = itemsArray.ToList<string>();
+            ItemsList.RemoveAt(pos);
+            delimitedString = "";
+            foreach(string item in ItemsList)
+            {
+                delimitedString = delimitedString + item + del;
+            }
+            delimitedString = delimitedString.Substring(0, delimitedString.Length - 1);
+
+            return returnItem;
+
+        }
     }// End Class
 }// End Namespace
