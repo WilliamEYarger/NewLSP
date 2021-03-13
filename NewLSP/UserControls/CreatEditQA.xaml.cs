@@ -36,7 +36,7 @@ namespace NewLSP.UserControls
 
 
         private string QuestionJpgUrl;
-        private string AnswernJpgUrl;
+        private string AnswerJpgUrl;
         private string QuestionMp3Url;
         private string AnswerMp3Url;
         //private string currentQAPairStr = "";
@@ -91,6 +91,7 @@ namespace NewLSP.UserControls
 		                break;
 	
                 }
+                QADataModelObject = new QADataModel();
 
             }
             else
@@ -114,21 +115,20 @@ namespace NewLSP.UserControls
         {
 
             QuestionJpgUrl = ReturnJpgUrl();
-
+           //QADataModelObject.QuestionMp3Url = QuestionJpgUrl;
 
         }
 
         private void miAnswerJpgUrl_Click(object sender, RoutedEventArgs e)
         {
-            string JpgUrlPath = ReturnJpgUrl();
+            AnswerJpgUrl = ReturnJpgUrl();
 
-            QADataModelObject.AnswerJpgUrl = JpgUrlPath;
+            //QADataModelObject.AnswerJpgUrl = JpgUrlPath;
         }
 
         private void miQuestionMp3Url_Click(object sender, RoutedEventArgs e)
         {
-            string Mp3UrlPath = ReturnMp3Url();
-            QADataModelObject.QuestionMp3Url = Mp3UrlPath;
+            QuestionMp3Url = ReturnMp3Url();
 
             //the following will be needed in the take a qa test or review
             //System.Diagnostics.Process.Start(Mp3UrlPath);
@@ -137,8 +137,8 @@ namespace NewLSP.UserControls
         private void miAnswerMp3Url_Click(object sender, RoutedEventArgs e)
         {
 
-            string Mp3UrlPath = ReturnMp3Url();
-            QADataModelObject.AnswerMp3Url = Mp3UrlPath;
+            AnswerMp3Url = ReturnMp3Url();
+            //QADataModelObject.AnswerMp3Url = Mp3UrlPath;
         }
 
 
@@ -155,21 +155,11 @@ namespace NewLSP.UserControls
             {
                 QADataModelObject = new QADataModel();
             }
-
-            // replace all of the \r\n in the question
-            string question = tbxQuestion.Text;
-            question = question.Replace("\r\n", "~");
-            QADataModelObject.Question = question;
-
-            //replace all the the \r\n in the answer
-
-            string answer = tbxAnswer.Text;
-            answer = answer.Replace("\r\n", "~");
-
-            QADataModelObject.Answer = answer;
+            QADataModelObject.Question = tbxQuestion.Text;
+            QADataModelObject.Answer = tbxAnswer.Text;
             QADataModelObject.QuestionJpgUrl = QuestionJpgUrl;
             QADataModelObject.QuestionMp3Url = QuestionMp3Url;
-            QADataModelObject.AnswerJpgUrl = AnswernJpgUrl;
+            QADataModelObject.AnswerJpgUrl = AnswerJpgUrl;
             QADataModelObject.AnswerMp3Url = AnswerMp3Url;
             // Save the current  QADataModelObject
             QAStaticMembers.AddQAObjectToDictionary(QAStaticMembers.CurrentQANumberInt.ToString(), QADataModelObject);
@@ -193,7 +183,7 @@ namespace NewLSP.UserControls
             tbxAnswer.Text = "";
             QuestionJpgUrl = "";
             QuestionMp3Url = "";
-            AnswernJpgUrl = "";
+            AnswerJpgUrl = "";
             AnswerMp3Url = "";
         }
 

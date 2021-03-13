@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using NewLSP.StaticHelperClasses;
 
 namespace NewLSP.UserControls
 {
@@ -23,6 +13,54 @@ namespace NewLSP.UserControls
         public TestReview()
         {
             InitializeComponent();
+        }
+
+        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("SaveFile Menu Clicked");
+        }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            TestReviewStaticMembers.ThisIsATest = true;
+        }
+
+        private void Review_Click(object sender, RoutedEventArgs e)
+        {
+            TestReviewStaticMembers.ThisIsATest = false;
+            TestReviewStaticMembers.AnswerQuestions();
+            tbxQuestion.Text = TestReviewStaticMembers.ThisQuestion;
+            return;
+        }
+
+        private void UseForm_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Use Form Menu Clicked");
+        }
+
+        private void btnOpenImage_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Open Image Button Clicked");
+        }
+
+        private void btnOpenMp3_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Open Mp3 Button Clicked");
+        }
+
+        private void btnScoreCorrect_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Score Corret Button Clicked");
+        }
+
+        private void btnScoreWrong_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Score Wrong Button Clicked");
+        }
+
+        private void btnShowCorrect_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Score Correct Button Clicked");
         }
     }
 }

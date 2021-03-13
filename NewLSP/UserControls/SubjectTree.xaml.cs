@@ -18,12 +18,36 @@ namespace NewLSP.UserControls
             InitializeComponent();
         }
 
+
+        #region Display the Selected Subject's Root and Children
+
+
+        private void btnShowDisplayLisgt_Click(object sender, RoutedEventArgs e)
+        {
+            if (SubjectStaticMembers.DisplayList.Count != 0)
+            {
+                foreach (string line in SubjectStaticMembers.DisplayList)
+                {
+                    lvSubjects.Items.Add(line);
+                }
+            }
+        }
+
+        #endregion Display the Selected Subject's Root and Children
+
+        //=======================================================//
+
         #region Properties
         private static SubjectNodes SelectedNode;
         private static SubjectNodes ParentNode;
         private static SubjectNodes NewChildNode;
 
         #endregion Properties
+
+        //=======================================================//
+
+        #region Chose Selected Node in ListView
+
 
         private void lvSubjects_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -37,9 +61,15 @@ namespace NewLSP.UserControls
 
             }
 
-            
-        }
+        }// End  lvSubjects_PreviewMouseLeftButtonU
 
+        #endregion Chose Selected Node in ListView
+
+        //=======================================================//
+
+        #region Radio Button Methods
+
+        #region Radio button New Chile
         private void rbNewChild_Checked(object sender, RoutedEventArgs e)
         {
             var rbNewChild = sender as RadioButton;
@@ -70,6 +100,10 @@ namespace NewLSP.UserControls
             CreateNewChildSubjectNode(CurrentItemCount);
            
         }
+
+
+
+        #endregion Radio button New Chile
 
         #region  #region Radio button Change Title Text of selected node (rbText_Checked)
 
@@ -113,15 +147,30 @@ namespace NewLSP.UserControls
 
         #endregion  (rbText_Checked)
 
+
+        #region Radio button make node terminal
+        // TODO Code thr make terminal radio button
         private void rbTerminal_Checked(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("New Terminal RB Clicked");
         }
 
+        #endregion Radio button make node terminal
+
+
+        #region Radio button Delete
+
+        // TODO Code the delete node radio button
         private void rbDelete_Checked(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("New delete RB Clicked");
         }
+
+
+        #endregion Radio button Delete
+
+
+        #region Radio Button Show node, ancestory and children
 
         /// When a node's children are not showing clicking
         /// will show this node, its parents and it children
@@ -149,18 +198,30 @@ namespace NewLSP.UserControls
             
         }
 
-        
+        #endregion Radio Button Show node, ancestory and children
 
-        private void btnShowDisplayLisgt_Click(object sender, RoutedEventArgs e)
+
+
+        #region Radio Button create DataNode
+
+
+        private void rbDataNode_Click(object sender, RoutedEventArgs e)
         {
-            if (SubjectStaticMembers.DisplayList.Count != 0)
-            {
-                foreach (string line in SubjectStaticMembers.DisplayList)
-                {
-                    lvSubjects.Items.Add(line);
-                }
-            }
+            // Set the SubjectStaticMembers DataNode
+            SubjectStaticMembers.DataNode = SelectedNode;
+
+            // Set the Path to the DataNode's QAfile
+            SubjectStaticMembers.SetDataNodesQAFilePath();
+
         }
+        #endregion Radio Button create DataNode
+
+        #endregion Radio Button Methods
+
+        //=======================================================//
+
+        #region Private local methods
+
 
         #region Create a new child node  (CreateNewChildSubjectNode)
         /// <summary>
@@ -253,15 +314,8 @@ namespace NewLSP.UserControls
         #endregion GetParentNode
 
 
-        private void rbDataNode_Click(object sender, RoutedEventArgs e)
-        {
-            // Set the SubjectStaticMembers DataNode
-            SubjectStaticMembers.DataNode = SelectedNode;
+        #endregion Private local methods
 
-            // Set the Path to the DataNode's QAfile
-            SubjectStaticMembers.SetDataNodesQAFilePath();
-
-        }
     }// End Class
 
 }//End Namespace

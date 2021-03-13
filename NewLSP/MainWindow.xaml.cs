@@ -53,7 +53,28 @@ namespace NewLSP
 
         private void miTest_Click(object sender, RoutedEventArgs e)
         {
+            if (SubjectStaticMembers.DataNode == null)
+            {
+                MessageBox.Show("You must select a DataNode before opening this window");
+                return;
+            }
+
+            //Check to make sure the QAFile exists and populate the dictionary and numbers list
+            if (QAStaticMembers.DoesQAFileExist())
+            {
+                TestReviewStaticMembers.StartNewQATestReview();
+            }
+            else
+            {
+                MessageBox.Show("There is no QAFile for this subject");
+            }
+
+           
+
             SetActiveUserControl(ucTestReview);
+
+
+            MessageBox.Show("You must select a Test/Review action first");
         }
 
         public void SetActiveUserControl(UserControl control)

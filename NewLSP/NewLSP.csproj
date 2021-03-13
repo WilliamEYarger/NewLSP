@@ -69,6 +69,7 @@
     <Compile Include="StaticHelperClasses\QAStaticMembers.cs" />
     <Compile Include="StaticHelperClasses\StringHelper.cs" />
     <Compile Include="StaticHelperClasses\SubjectStaticMembers.cs" />
+    <Compile Include="StaticHelperClasses\TestReviewStaticMembers.cs" />
     <Compile Include="UserControls\CreatEditQA.xaml.cs">
       <DependentUpon>CreatEditQA.xaml</DependentUpon>
     </Compile>
