@@ -119,6 +119,8 @@ namespace NewLSP.StaticHelperClasses
         /// of Subjects. The Name of the main holding folder
         /// is the display name of the Subects as well
         /// as of the .txt file that holds the display data
+        /// References:
+        ///     1. Home.xaml.cs btnOpenSubjectFolder_Click
         /// </summary>
         /// <param name="HomeFolderPat"></param>
         public static void OpenFiles(string ThisHomeFolderPath)

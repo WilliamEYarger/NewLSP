@@ -38,7 +38,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem Header="          File">
+            <MenuItem Header="          Results">
                 <MenuItem Name="SaveFile"
                           Header="Save File and Return"
                           Click="SaveFile_Click"/>
@@ -128,12 +128,15 @@
                         Click="btnOpenMp3_Click"/>
                 <Button x:Name="btnShowCorrect" Content="Show Correct Answer"              
                         Grid.Row="1" Grid.ColumnSpan="2"
+                        IsEnabled="false"
                         Click="btnShowCorrect_Click" />
                 <Button x:Name="btnScoreCorrect" Content="Score Correct"
                         Grid.Column="0" Grid.Row="2"
+                        IsEnabled="False"
                         Click="btnScoreCorrect_Click" />
                 <Button x:Name="btnScoreWrong"  Content="Score Wrong" 
                          Grid.Column="1" Grid.Row="2"
+                        IsEnabled="False"
                         Click="btnScoreWrong_Click" />
             </Grid>
         </Border>

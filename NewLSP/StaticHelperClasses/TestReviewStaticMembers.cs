@@ -10,17 +10,34 @@ namespace NewLSP.StaticHelperClasses
     {
         #region private properties and fields
 
+        #region CurrentQuestionNumberString
+
+        private static string _CurrentQuestionNumberString;
+
+        public static string CurrentQuestionNumberString
+        {
+            get { return _CurrentQuestionNumberString; }
+            set { _CurrentQuestionNumberString = value; }
+        }
+
+
+       
+
+        #endregion CurrentQuestionNumberString
+
 
         #region Dictionary
 
         // Create an instance of the QADictionary to hold all of the question-answer data
-        private static Dictionary<string, QADataModel> QADictionary = new Dictionary<string, QADataModel>();
+        public static Dictionary<string, QADataModel> QADictionary = new Dictionary<string, QADataModel>();
 
         #endregion Dictionary
 
         #region This QADataMobelObject
 
         private static QADataModel ThisQADataModelObject;
+
+
         #endregion This QADataMobelObject
 
         #region QANUmbersString property
@@ -36,9 +53,29 @@ namespace NewLSP.StaticHelperClasses
         #endregion QANUmbersString property
 
 
+        #region CurrentKeyValue
+        private static string CurrentKeyValue;
+
+        #endregion CurrentKeyValue
+
         private static TestReview ThisTextReviewObject = new TestReview();
 
 
+        private static int _NumberOfWrongAnswers =0;
+
+        public static int NumberOfWrongAnswers
+        {
+            get { return _NumberOfWrongAnswers; }
+            set { _NumberOfWrongAnswers = value; }
+        }
+
+        private static string _DelimitedWrongAnswersStr;
+
+        public static string DelimitedWrongAnswersStr
+        {
+            get { return _DelimitedWrongAnswersStr; }
+            set { _DelimitedWrongAnswersStr = value; }
+        }
 
 
         #endregion  private properties and fields
@@ -48,7 +85,7 @@ namespace NewLSP.StaticHelperClasses
         #region ThisQuestion
 
         private static string _ThisQuestion;
-
+        
         public static string ThisQuestion
         {
             get { return _ThisQuestion; }
@@ -121,21 +158,69 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion ThisAnswerMp3Url
 
-       
+
 
 
         #region ThisIsATest boolean property
 
 
-        private static bool _ThisIsATest = false;
+        //private static bool _ThisIsATest = false;
 
-        public static bool ThisIsATest
+        //public static bool ThisIsATest
+        //{
+        //    get { return _ThisIsATest; }
+        //    set { _ThisIsATest = value; }
+        //}
+
+        #endregion ThisIsATest boolean
+
+        #region ThereIsAnImageFile boolean property
+        private static  bool _ThereIsAnImageFile;
+
+        public static bool ThereIsAnImageFile
         {
-            get { return _ThisIsATest; }
-            set { _ThisIsATest = value; }
+            get { return _ThereIsAnImageFile; }
+            set { _ThereIsAnImageFile = value; }
         }
 
-        #endregion ThisIsATest boolea
+        #region public string JpgUrl
+
+        private static string _JpgUrl;
+
+        public static string JpgUrl
+        {
+            get { return _JpgUrl; }
+            set { _JpgUrl = value; }
+        }
+
+        #endregion
+
+        #region public string Mp3Url
+        private static string _Mp3Url;
+
+        public static string Mp3Url
+        {
+            get { return _Mp3Url; }
+            set { _Mp3Url = value; }
+        }
+
+        #endregion public string Mp3Url
+
+        #endregion ThereIsAnImageFile boolean property
+
+        //ThereIsAnImageFile and ThereIsASoundFile
+
+        #region ThereIsASoundFile boolean
+
+        private static bool _ThereIsASoundFile;
+
+        public static bool ThereIsASoundFile
+        {
+            get { return _ThereIsASoundFile; }
+            set { _ThereIsASoundFile = value; }
+        }
+
+        #endregion ThereIsASoundFile boolean
 
         #endregion Public Propeties
 
@@ -143,29 +228,110 @@ namespace NewLSP.StaticHelperClasses
         #region Public Methods
 
 
+        #region  public InitializeData Method
+
+        /// <summary>
+        /// This Method downloads and initializes the 
+        /// dictionary, as well a creates and initialized
+        /// NumberOfWrongAnswers, DelimitedWrongAnswersStr
+        /// and QANUmbersString
+        /// References:
+        ///     1.  Mainwindow.xaml.cs miTest_Click(
+        /// </summary>
+        internal static void InitializeData()
+        {
+
+            QANUmbersString = "";
+            NumberOfWrongAnswers = 0;
+            DelimitedWrongAnswersStr = "";
+            SetupDictionaryAndQAString();
+
+        }
+
+        #endregion public InitializeData Method
+
+
+
         #region Public StartNewQATestReview
 
-        public static void  StartNewQATestReview()
-        {
-            SetupDictionaryAndQAString();
-        }
+        //public static void  StartNewQATestReview()
+        //{
+        //    SetupDictionaryAndQAString();
+        //}
 
         #endregion  Public StartNewQATestReview
 
 
-        #region public SetupDictionaryAndQAString()
+        #region Reset Media Fields
+
+        /// <summary>
+        /// This method returns all media related fields 
+        /// to their initial state
+        /// </summary>
+        internal static void ResetMediaFields()
+        {
+            ThereIsAnImageFile = false;
+            ThereIsASoundFile = false;
+            JpgUrl = "";
+            Mp3Url = "";
+        }
+
+        #endregion Reset Media Fields
+
+
+
+
+        public static void SetCurrentQAValues(string thisKey)
+        {
+            
+            while(QANUmbersString.Length > 0)
+            {
+                // Save thisKey as the CurrentKeyValue so it can be added to the QANUmbersString if necessary
+
+                CurrentKeyValue = thisKey;
+
+                //SET TestReviewStaticMembers.CurrentQuestionNumberString
+                CurrentQuestionNumberString = thisKey;
+
+                //Save all of the current dictionary item's data as properties                
+
+                ThisQADataModelObject = QADictionary[thisKey];
+              
+                ThisQuestion = ThisQADataModelObject.Question;
+
+                ThisAnswer = ThisQADataModelObject.Answer;
+               
+                ThisQuestionJPG = ThisQADataModelObject.QuestionJpgUrl;               
+
+                ThisQuestionMp3Url = ThisQADataModelObject.QuestionMp3Url;
+
+                ThisAnswerJpgUrl = ThisQADataModelObject.AnswerJpgUrl;
+
+                ThisAnswerMp3Url = ThisQADataModelObject.AnswerMp3Url;
+
+                return;
+
+            }
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        #region private SetupDictionaryAndQAString()
         /// <summary>
         /// This method reads in a QA file text file and creates
         /// the QADictionary and a QANUmbersString
         /// It should be called by a StartANewQATestReview in a 
         /// TestReviewStaticMembers class
+        /// References:
+        ///     1. Self InitializeData()
         /// </summary>
-        public static void SetupDictionaryAndQAString()
+        private static void SetupDictionaryAndQAString()
         {
-           
 
             // Clear any previous values in the QANumberString
-            QANUmbersString = "";
+
 
             // Read all of the lines in the qa file into an array
             string[] QALinesArray = File.ReadAllLines(SubjectStaticMembers.GetDataNodesQAFilePath());
@@ -206,50 +372,14 @@ namespace NewLSP.StaticHelperClasses
 
             }// End for each line
 
-            ////remove the terminal ^ from QANUmbersString
-            //QANUmbersString = QANUmbersString.Substring(0, QANUmbersString.Length - 1);
+            // Call AnswerQuestions to load the first item in the dictionary
+            SetCurrentQAValues("0");
 
         }// end SetupDictionaryAndQAString
 
         #endregion pubic SetupDictionaryAndQAString()
+        #endregion Private Methods
 
-        public static void AnswerQuestions()
-        {
-            int cntr = 0;
-            while(QANUmbersString.Length > 0)
-            {
-                string CurrentQANumberString = QANUmbersString;
-                // get and remove the 0th item from the QANumberString
-                string thisKey = StringHelper.GetAndRemoveNthItem(ref CurrentQANumberString, '^', 0);
-
-                // Use thisKey to get the delimited components of a QADataModel object
-                //[] thisQADataModelArray = QADictionary
-
-                ThisQADataModelObject = QADictionary[thisKey];
-              
-                ThisQuestion = ThisQADataModelObject.Question;
-
-                ThisAnswer = ThisQADataModelObject.Answer;
-
-               
-                ThisQuestionJPG = ThisQADataModelObject.QuestionJpgUrl;
-               
-
-                ThisQuestionMp3Url = ThisQADataModelObject.QuestionMp3Url;
-
-                ThisAnswerJpgUrl = ThisQADataModelObject.AnswerJpgUrl;
-
-                ThisAnswerMp3Url = ThisQADataModelObject.AnswerMp3Url;
-
-                return;
-
-
-                //Convert the delimited string into a global QADataModel object for use in 
-                //processing this QA line
-            }
-        }
-
-        #endregion Public Methods
 
 
     }// End TestReviewStaticMembers class
