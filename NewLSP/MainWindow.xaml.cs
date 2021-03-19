@@ -62,7 +62,8 @@ namespace NewLSP
             //Check to make sure the QAFile exists and populate the dictionary and numbers list
             if (QAStaticMembers.DoesQAFileExist())
             {
-                TestReviewStaticMembers.StartNewQATestReview();
+                TestReviewStaticMembers.InitializeData();
+                    //StartNewQATestReview();
             }
             else
             {

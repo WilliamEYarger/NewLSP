@@ -1,4 +1,84 @@
-﻿2021 03 11 0734
+﻿2021 03 17
+	1.	*Reset all the media bools and string at the start of AnswerQuestions
+	2.	*Both Score correct and score wrong do not call AnswerQuestions or reset the scoring buttons
+	3.	*TestReviewStaticMembers.CurrentQuestionNumberString is not set
+		*a.	Both xaml cs and static have methods called AnswerQuestions
+			1)	xaml.cs private void AnswerQuestions(char T)
+			2) static public static void AnswerQuestions(string thisKey)
+			*Change the static's name to SetCurrentQAValues
+	5.	The logic for determining whether the QANoumvers String in never called, place it in the 
+		AnsswerQuestions method
+	4.	QAnumber string does not have the first value removed and when added the ^ should follow, not
+		preceed the numberstr
+
+
+2021 03 16
+	1.	*xaml.cs shows message to pick Review or Test
+	2.	*Set the inabled state of all buttons to false
+	3.	*Mainwindow.xaml.cs Test Click calls IntializeData to download file, create dictionary and 
+		create CurrentQuestionNumberString from the count of items in the dictionary
+		a.	*Create and initialize TestReviewStatic  properties
+			1)	*download file,
+			2)	*create dictionary
+			3)	*create CurrentQuestionNumberString
+			4)	*create property int NumberOfWrongAnswers = 0
+			5)	*create property string DelimitedWrongAnswersStr
+	3.	*Both Review and Test menu items call TestReview.xaml.cs.AnswerQuestions (Q)
+		and both set the TestReview.xaml.cs private field, IsTest, appropriately
+	4.	*AnswerQuestions if Q asks Static for next question, if blank shows Message
+		telling the user to Select File-> Save, or File->Clear
+	5.	*In TestReviewStatic Create boolean fields ThereIsAnImageFile and ThereIsASoundFile
+	6.	*AnswerQuestions sets appropriate Image and sound booleans and calls buttons reset and buttons display
+	7.	*AnswerQuestions if T= Q enables the btnShowCorrect
+	8.	*Create public properties of  string JpgURl and string Mp3Url in Static
+	9.	*After setting static's there is an image and there is a sound bools and sets the URls where appropriate
+	10.	*btnShowCorrect_Click
+		a.	*Loads the correct answer into the tbxCorrectAnswer
+		b.	*Calls AnswerQuestions(A)
+		c.	*Enables the Score correct and socre wrong buttons
+		d.	*Disables the ShowCorrectAnswe button
+	11.	*Code the score correct button set CurrentQuestionNumberString to ""
+	12.	*code the score wrong button add the   to CurrentQuestionNumberString
+	13.	*Change the Name of File to results
+	14.	On save results 
+		a.	Check to see if the Directory QAResults exists and if not create it
+		b.	Write results string to QAResusts ID.txt file: DateTimeNow %correct delimited wrong answers
+	15.	Return all media urls and booleans to base after question and after scoring
+
+
+2021 03 15
+	1.	Tasks:
+		a.	In TestReview.xaml.cs
+			1)	Crete a private Method to AnswerQuestions(char T), 
+				where T is a Q or A indicating that a
+				question and any attendant media files 
+				should be loaded, or A vise versa for an Answer
+
+2021 03 14 0822 
+	1.	New: Create code to open a jpg or mp3 file when the question
+		is entered if there are urls
+		a.	Save the key to each qa pair so if the answer is incorrect and it is
+			a review, it can be appended to the end of the QANumberStirng
+
+	7.	Code the see correct answer button
+	8.	Code the score correct button. At this time I will nod be saving any test results
+		so the only option is to remove the current QANuber from the QANUmbersString
+	10.	Code the score wrong button. When ThisIsATest is false remove the first QANumber string
+		and place it at the end of the QANUmbersString
+	9.	Set the code for the btnOpenImage Button;
+		a.	when a QA string has a question associated image
+			1)	Set the button's IsEnabled to true
+			2)	Set the foregroung color to red
+		b.	When the user clicks the OpenImageFile button insert 
+			the following into its Click event
+			System.Diagnostics.Process.Start(QADataModelObject.QuestionJpgUrl);
+		c.	Reset the foreground color to black and set the IsEnabled to false
+		d.	Do t he same for when the answer has an associated jpg image
+	10.	Set the code for the btnOpenMp3 button as above 
+
+
+
+2021 03 11 0734 Committed 2021 03 14 0820
 	1.	*Copy AnswerQuestionView from LearningStudyProject to TestReview User control
 	2.	*Make sure that a DataNode has been chosen before opening the TestReview user control
 	3.	*Correct removing \r\n from question and answer
