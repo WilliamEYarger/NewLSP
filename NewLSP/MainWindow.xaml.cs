@@ -35,6 +35,7 @@ namespace NewLSP
             }
            
             SetActiveUserControl(ucSubjectTree);
+            MessageBox.Show("You must click the Show Display List to view the subject tree");
         }
 
         private void miCreateQA_Click(object sender, RoutedEventArgs e)

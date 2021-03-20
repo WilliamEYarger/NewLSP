@@ -129,6 +129,10 @@ namespace NewLSP.DataModels
         /// subject to the addition or removal at some later time.It does not indicate the number 
         /// of any grand children etc. It is used to calculate the object NodeLevelName terminal 
         /// character as described above
+        /// References:
+        ///     SubjectStaticMembers: By the OpenFile and the GetNodeLevelPosition where it
+        ///         is used to calculate the NodeLevelName
+        ///     SubjectTree.xaml.cs: by the Delete RD in 4 places, by the CreateNewChild method 3 times
         /// </summary>
         private int _NOC;
 

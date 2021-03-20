@@ -259,7 +259,7 @@ namespace NewLSP.UserControls
                 if (TestReviewStaticMembers.ThisAnswerMp3Url != "")
                 {
                     TestReviewStaticMembers.ThereIsASoundFile = true;
-                    TestReviewStaticMembers.Mp3Url = TestReviewStaticMembers.Mp3Url;
+                    TestReviewStaticMembers.Mp3Url = TestReviewStaticMembers.ThisAnswerMp3Url;
                 }
             }
             ResetMediaButtons();

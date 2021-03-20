@@ -9,7 +9,7 @@ namespace NewLSP.StaticHelperClasses
     {
         #region Properties
 
-        #region SubjectNodes
+        #region SelectedNode
 
         /// <summary>
         /// The selected node is the subject node in the ListView which the user
@@ -23,7 +23,7 @@ namespace NewLSP.StaticHelperClasses
             set { _SelectedNode = value; }
         }// End SubjectNodes
 
-        #endregion SubjectNodes
+        #endregion SelectedNode
 
 
         #region ItemCount
@@ -286,6 +286,11 @@ namespace NewLSP.StaticHelperClasses
         }// EndRemove Node From Dictionary
         #endregion Remove Node From Dictionary
 
+        public static void ReplaceNode(string thisNodesLevelName, SubjectNodes newNode)
+        {
+            SubjectNodeDictionary[thisNodesLevelName] = newNode;
+        }
+
 
         #region SaveFiles
 
@@ -340,6 +345,7 @@ namespace NewLSP.StaticHelperClasses
             // Display Parents and chosen node
             for (int i = 0; i < ThisNodesLevelName.Length; i++)
             {
+                // Increase the length of the NodeLevelName by 1 on each iteration
                 string CurrentNodeLevelName = ThisNodesLevelName.Substring(0, i + 1);
                 if (SubjectNodeDictionary.ContainsKey(CurrentNodeLevelName))
                 {
@@ -418,6 +424,11 @@ namespace NewLSP.StaticHelperClasses
 
 
         #endregion SetDataNodesQAFilePath
+
+        public static SubjectNodes ReturnNodeAtPos(string NodeLevelName)
+        {
+            return SubjectNodeDictionary[NodeLevelName];
+        }
 
         #endregion Public Methods
 

@@ -163,7 +163,40 @@ namespace NewLSP.UserControls
         // TODO Code the delete node radio button
         private void rbDelete_Checked(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("New delete RB Clicked");
+            // Test to see if the node has data or children before deleting it
+            if (SelectedNode.HasData || SelectedNode.NOC>0)
+            {
+                MessageBox.Show("You cannot delete a node that has children or data, you can only move it");
+            }
+
+            // Remove the node from the dictionary
+            SubjectStaticMembers.RemoveNodeFromDictionary(SelectedNode.NodeLevelName);
+
+            // Designate the parent node
+            string ParentNodesNLN = SelectedNode.NodeLevelName.Substring(0, SelectedNode.NodeLevelName.Length - 1);
+
+            ParentNode = SubjectStaticMembers.ReturnNodeAtPos(ParentNodesNLN);
+
+            // Adjust the parent's number of children
+            ParentNode.NOC = ParentNode.NOC - 1;
+
+            // adjust the Parent's nodes child indicaator if necessarr
+            if(ParentNode.NOC == 0)
+            {
+                ParentNode.CI = "- ";
+            }
+            // store updated parent node in the dictionary
+            SubjectStaticMembers.ReplaceNode(ParentNode.NodeLevelName, ParentNode);
+
+
+            // Change the display list to the Parents Children
+            List<string> NewDisplayList = SubjectStaticMembers.DisplayParentsAndChildren(ParentNode.NodeLevelName);
+            lvSubjects.Items.Clear();
+
+            foreach (string DisplayLine in NewDisplayList)
+            {
+                lvSubjects.Items.Add(DisplayLine);
+            }
         }
 
 
@@ -313,9 +346,13 @@ namespace NewLSP.UserControls
         }// End GetParentNode
         #endregion GetParentNode
 
-
         #endregion Private local methods
 
+
+        private void btnSaveFiles_Click(object sender, RoutedEventArgs e)
+        {
+            SubjectStaticMembers.SaveFiles();
+        }
     }// End Class
 
 }//End Namespace
