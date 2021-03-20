@@ -1,4 +1,7 @@
-﻿2021 03 19
+﻿
+
+
+2021 03 19 committed and merged 2021 03 0700
 	1.	*Correct an error with the mp3 file
 	2.	In SubjectTree code the delete node radio button
 	3.	Reconnect the SubjectStaticMembers.SaveFiles(); by creating btnSaveFiles
