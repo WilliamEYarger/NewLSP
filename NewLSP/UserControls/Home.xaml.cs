@@ -47,7 +47,7 @@ namespace NewLSP.UserControls
             SubjectStaticMembers.OpenFiles(FolderPath);
 
 
-
+            MessageBox.Show("Click the Subject Tree Page to proceed");
            
             
 

@@ -1,4 +1,13 @@
-﻿2021 03 17
+﻿2021 03 19
+	1.	*Correct an error with the mp3 file
+	2.	In SubjectTree code the delete node radio button
+	3.	Reconnect the SubjectStaticMembers.SaveFiles(); by creating btnSaveFiles
+	
+	Commit Message:
+	Corrected an error is opening a mp3 file, created code to delete a node and  
+	Reconnect the SubjectStaticMembers.SaveFiles(); by creating btnSaveFiles
+
+2021 03 17 Committed and pushed
 	1.	*Reset all the media bools and string at the start of AnswerQuestions
 	2.	*Both Score correct and score wrong do not call AnswerQuestions or reset the scoring buttons
 	3.	*TestReviewStaticMembers.CurrentQuestionNumberString is not set

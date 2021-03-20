@@ -50,6 +50,7 @@
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <Button x:Name="btnShowDisplayLisgt" 
                         FontSize="20"
@@ -95,10 +96,10 @@
                          Content="This is the DataNode"
                          Click="rbDataNode_Click"
                                  />
-
-
-
                 </StackPanel>
+                <Button x:Name="btnSaveFiles" Content="Save Subject Tree"
+                        Grid.Row="4"
+                        FontSize="20" Click="btnSaveFiles_Click"/>
             </Grid>
         </Border>
 
