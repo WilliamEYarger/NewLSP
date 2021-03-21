@@ -21,7 +21,12 @@ namespace NewLSP.UserControls
 
         #region Display the Selected Subject's Root and Children
 
-
+        /// <summary>
+        /// Displays every line in SubjectStaticMembers.DisplayList
+        /// in the lbSubjects ListView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnShowDisplayLisgt_Click(object sender, RoutedEventArgs e)
         {
             if (SubjectStaticMembers.DisplayList.Count != 0)
@@ -31,16 +36,76 @@ namespace NewLSP.UserControls
                     lvSubjects.Items.Add(line);
                 }
             }
-        }
+        }// EndbtnShowDisplayLisgt_Click
+
 
         #endregion Display the Selected Subject's Root and Children
+
+
+        #region Mouse Rigth Button Up to Select new parent
+
+
+        private void lvSubjects_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (lvSubjects.SelectedIndex >= 0)
+            {
+                // Get the NodeLevelName for this node from the SubjectNodesLevelNameList
+                string NodeLevelName = SubjectStaticMembers.SubjectNodesLevelNameList[lvSubjects.SelectedIndex];
+
+                // Use the NodeLevelName to get the correct node fromthe dictionary of SubjectNodeDictionary
+                NewParentNode = SubjectStaticMembers.SubjectNodeDictionary[NodeLevelName];
+
+            }
+
+            
+            MoveNode();
+        }
+
+        #endregion Mouse Rigth Button Up
+
+        #region MoveNode()
+
+        private void MoveNode()
+        {
+            //Increment the new parent's number of children
+            NewParentNode.NOC ++;
+
+            //determine if the leading character is correct
+            if(NewParentNode.CI != "+ ")
+            {
+                NewParentNode.CI = "+ ";
+            }
+
+            //Save the New Parent to the dictionary
+            SubjectStaticMembers.SubjectNodeDictionary[NewParentNode.NodeLevelName] = NewParentNode;
+
+            //Get the Child's NodeLevelPosition
+            string ChildsNodeLevelPosition = SubjectStaticMembers.GetNodeLevelPosition(NewParentNode.NOC);
+
+            // create new NLN for the moved node
+            string NewNLN = NewParentNode.NodeLevelName + ChildsNodeLevelPosition;
+
+            //get Old NodeLevelName
+            string OldNLN = SubjectStaticMembers.OldNLN;
+
+            // Call static to cycly through dictionary replacing OldNLN with NewNLN
+            SubjectStaticMembers.ChangeMovedNodesNLN(OldNLN, NewNLN);
+
+        }
+        #endregion MoveNode()
 
         //=======================================================//
 
         #region Properties
         private static SubjectNodes SelectedNode;
         private static SubjectNodes ParentNode;
+        private static SubjectNodes OldParentNode;
+        private static SubjectNodes NewParentNode;
         private static SubjectNodes NewChildNode;
+        private static SubjectNodes NodeToMove;
+
+        // a boolean that is true when a node has been selected to move to a new parent
+        // private static bool NodeIsMoving = false;
 
         #endregion Properties
 
@@ -48,7 +113,11 @@ namespace NewLSP.UserControls
 
         #region Chose Selected Node in ListView
 
-
+        /// <summary>
+        /// Uses the MouseLeftButtonUp event to designate the SelectedNode
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvSubjects_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (lvSubjects.SelectedIndex >= 0)
@@ -98,7 +167,7 @@ namespace NewLSP.UserControls
 
             // Create a new node
             CreateNewChildSubjectNode(CurrentItemCount);
-           
+
         }
 
 
@@ -164,7 +233,7 @@ namespace NewLSP.UserControls
         private void rbDelete_Checked(object sender, RoutedEventArgs e)
         {
             // Test to see if the node has data or children before deleting it
-            if (SelectedNode.HasData || SelectedNode.NOC>0)
+            if (SelectedNode.HasData || SelectedNode.NOC > 0)
             {
                 MessageBox.Show("You cannot delete a node that has children or data, you can only move it");
             }
@@ -181,7 +250,7 @@ namespace NewLSP.UserControls
             ParentNode.NOC = ParentNode.NOC - 1;
 
             // adjust the Parent's nodes child indicaator if necessarr
-            if(ParentNode.NOC == 0)
+            if (ParentNode.NOC == 0)
             {
                 ParentNode.CI = "- ";
             }
@@ -228,7 +297,7 @@ namespace NewLSP.UserControls
             }
             rbExpandCollapse.IsChecked = false;
             SelectedNode = null;
-            
+
         }
 
         #endregion Radio Button Show node, ancestory and children
@@ -248,6 +317,30 @@ namespace NewLSP.UserControls
 
         }
         #endregion Radio Button create DataNode
+
+
+        #region RadioButton Move Node
+
+        private void rbMoveNode_Checked(object sender, RoutedEventArgs e)
+        {
+
+           
+            // Designate the Node to move
+            NodeToMove = SelectedNode;
+
+            SelectedNode = NodeToMove;
+
+            //Set the node level name of the node to be moved
+            SubjectStaticMembers.OldNLN = SelectedNode.NodeLevelName;
+            // Get the NLN of this node's parent
+            string ParentNLN = SelectedNode.NodeLevelName.Substring(0, SelectedNode.NodeLevelName.Length - 1);
+            OldParentNode = SubjectStaticMembers.SubjectNodeDictionary[ParentNLN];
+
+
+            MessageBox.Show("Select the New Parent Node by Clicking the Right Mouse Button");
+        }// Ed rbMoveNode_Checked
+
+        #endregion RadioButton Move Node
 
         #endregion Radio Button Methods
 
@@ -353,6 +446,8 @@ namespace NewLSP.UserControls
         {
             SubjectStaticMembers.SaveFiles();
         }
+
+
     }// End Class
 
 }//End Namespace

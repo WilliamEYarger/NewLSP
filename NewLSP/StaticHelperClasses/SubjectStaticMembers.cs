@@ -9,7 +9,7 @@ namespace NewLSP.StaticHelperClasses
     {
         #region Properties
 
-        #region SelectedNode
+        #region Property SelectedNode
 
         /// <summary>
         /// The selected node is the subject node in the ListView which the user
@@ -26,7 +26,7 @@ namespace NewLSP.StaticHelperClasses
         #endregion SelectedNode
 
 
-        #region ItemCount
+        #region Property ItemCount
         /// <summary>
         /// ItemCount is the number of items created,
         ///     Not the number of items present because
@@ -43,47 +43,10 @@ namespace NewLSP.StaticHelperClasses
         }
         #endregion ItemCount
 
-        private static string ItemsCountFilePath;
-
-        private static string HomeFolderPath;
-
-        private static string SubjectName;
-
-        // This is the path to the folder that holds the 'ɀ' delimited tree nodes in the selected Subject tree
-        private static string SubjectsNodeDataStringsPath;
-
-
-        // This is the path to the Folder that holds the questions and answers for a given subject tree node
-        private static string DataNodesQAFilePath;
-
-        #region Dictionary of Subject Nodes (SubjectNodeDictionary)
-        // Create a dictionary of all subject nodes whose key is the node.NodeLevelName
-        public static Dictionary<string, SubjectNodes> SubjectNodeDictionary = new Dictionary<string, SubjectNodes>();
-
-        #endregion  SubjectNodeDictionary
-
-
-        #region List of Display strings (DisplayList)
-
-        //Create an List of strings for the ListView display and array of SubjectNodes to match it
-
-        public static List<string> DisplayList = new List<string>();
 
 
 
-        #endregion DisplayList
-
-
-        #region List of Subject NodeLevelName strings ListView display (SubjectNodesLevelName)
-
-        // Create a List of SubjectNode NodeLevelName strings to match DisplayList
-
-        public static List<string> SubjectNodesLevelNameList = new List<string>();
-
-        #endregion SubjectNodesLevelNam
-
-
-        #region Data Node Selected
+        #region Propety Data Node Selected
 
         private static SubjectNodes _DataNode;
 
@@ -105,6 +68,60 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion Properties
 
+        #region Public Fields
+
+        #region Field Dictionary of Subject Nodes (SubjectNodeDictionary)
+        // Create a dictionary of all subject nodes whose key is the node.NodeLevelName
+        public static Dictionary<string, SubjectNodes> SubjectNodeDictionary = new Dictionary<string, SubjectNodes>();
+
+
+
+        #endregion  SubjectNodeDictionary
+
+
+        #region Field List of Display strings (DisplayList)
+
+        //Create an List of strings for the ListView display and array of SubjectNodes to match it
+        public static List<string> DisplayList = new List<string>();
+        #endregion DisplayList
+
+
+        #region Field List of Subject NodeLevelName strings ListView display (SubjectNodesLevelName)
+
+        // Create a List of SubjectNode NodeLevelName strings to match DisplayList
+
+        public static List<string> SubjectNodesLevelNameList = new List<string>();
+
+        #endregion SubjectNodesLevelNam
+
+
+        #region Field OldNLN
+        public static string OldNLN;
+        #endregion Field OldNLN
+
+        #endregion Public Fields
+
+
+        #region Private Fields
+
+
+        private static string ItemsCountFilePath;
+
+        private static string HomeFolderPath;
+
+        private static string SubjectName;
+
+        // This is the path to the folder that holds the 'ɀ' delimited tree nodes in the selected Subject tree
+        private static string SubjectsNodeDataStringsPath;
+
+
+        // This is the path to the Folder that holds the questions and answers for a given subject tree node
+        private static string DataNodesQAFilePath;
+
+
+
+
+        #endregion Private Fields
 
         #region Public Methods
 
@@ -430,14 +447,74 @@ namespace NewLSP.StaticHelperClasses
             return SubjectNodeDictionary[NodeLevelName];
         }
 
-        #endregion Public Methods
+
+        #region Public Method to change all nodes with an old NLN to a new NLN: ChangeMovedNodesNLN()
+
+        internal static void ChangeMovedNodesNLN(string oldNLN, string newNLN)
+        {
+            int currentCountOfDictionary = SubjectNodeDictionary.Count;
+            
+
+            // Create an array of SubjectNodes to change the values
+           
+            SubjectNodes[] ArrayOfSubjectNodes = new SubjectNodes[currentCountOfDictionary];
+
+            //Cycle through the dictionary adding each node to the array
+            int cntr = 0;
+           foreach(KeyValuePair<string, SubjectNodes> KVP in SubjectNodeDictionary)
+            {
+                string key = KVP.Key;
+                SubjectNodes thisNode = KVP.Value;
+                ArrayOfSubjectNodes[cntr] = thisNode;
+                cntr++;
+            }
 
 
-        #region Priate Methods
+            //Cycle through the ArrayOfSubjectNodes add  nodes to be moved 
+            foreach (SubjectNodes thisNode in ArrayOfSubjectNodes)
+            {
+                string NodeLevelName = thisNode.NodeLevelName;
 
-        #region Retrun the display string for a node   (ReturnDisplayString)
 
-        private static string ReturnDisplayString(SubjectNodes ThisNode)
+                //Find all nodes that beign with OldNLN
+                if (NodeLevelName.IndexOf(oldNLN) == 0)
+                {
+                    // Get the currnt NLN
+                    string thisNodeLevelName = thisNode.NodeLevelName;
+
+                    // Repalcde it with newNLN
+                    thisNodeLevelName = thisNodeLevelName.Replace(oldNLN, newNLN);
+
+                    // Change the NLN in the node
+                    thisNode.NodeLevelName = thisNodeLevelName;
+                }
+            }// End //Cycle through the ArrayOfSubjectNodes add  nodes to be moved 
+
+            // Instantiate a new dictionary
+
+            SubjectNodeDictionary = new Dictionary<string, SubjectNodes>();
+
+            // Cycle through ArrayOfSubjectNodes adding them to SubjectNodeDictionary
+            foreach (SubjectNodes thisNode in ArrayOfSubjectNodes)
+            {
+                string Key = thisNode.NodeLevelName;
+
+                // Add thisNode to the dictionary
+                SubjectNodeDictionary.Add(Key, thisNode);
+            }
+
+        }// End ChangeMovedNodesNLN
+
+            #endregion ChangeMovedNodesNLN()
+
+            #endregion Public Methods
+
+
+            #region Priate Methods
+
+            #region Retrun the display string for a node   (ReturnDisplayString)
+
+            private static string ReturnDisplayString(SubjectNodes ThisNode)
         {
             string DisplayString = "";
             string LeadingString = ThisNode.LeadingChars;

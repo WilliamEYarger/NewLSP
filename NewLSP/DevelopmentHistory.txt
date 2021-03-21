@@ -1,4 +1,25 @@
-﻿2021 03 19
+﻿2021 03 20
+	1.	Add code to move a branch
+		a.	*In SubjectTree.xaml create new radio button rbMoveNode "Node Selected to Move"
+		b.	Identify the new parent
+				o	*Show message to select the new parent
+				o	*set bool NodeIsMoving to true
+				o	Create a MouseRightButtonUp method to select the new parent
+				o	*when a new node is selected and NodeIsMoving to true, designate that node as the NewParentNode
+				o	*Call the MoveNode() method
+				o	*Get its NLN and NOC
+				o	*create new new NLN for the node that was moved
+				o	*Create a method, ChangeMovedNodesNLN, to change to NLN of the moved node and all of its children
+				o	*Adjust the new parent't child indicator and number of children and save the revised new parent
+	Commit Message
+	Creates a new radiobutton to select a node to move; creates a list view double click method to select the new paren;
+	creates the code for renamins the node to move and all of its children; updates the new parent's number of children
+	and its child indicator if necessare and saves the new parent and all of the moved nodes with their revised 
+	node level names
+
+
+
+2021 03 19
 	1.	*Correct an error with the mp3 file
 	2.	In SubjectTree code the delete node radio button
 	3.	Reconnect the SubjectStaticMembers.SaveFiles(); by creating btnSaveFiles
