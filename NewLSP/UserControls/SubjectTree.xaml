@@ -21,13 +21,13 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical" > 
-            
+        <StackPanel Orientation="Vertical" >
+
             <TextBlock x:Name="tblkSubjectName" 
                 FontSize="20"
                 Height="40
                        "/>
-            
+
             <ListView x:Name="lvSubjects" Grid.Column ="0" 
                   Height="750"
                   SelectionMode="Single" 
@@ -37,12 +37,12 @@
                       />
 
         </StackPanel>
-        
+
         <Border Grid.Row="2" Grid.Column="1"
             BorderThickness="3" BorderBrush="Black">
-            
+
             <Grid>
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -60,15 +60,15 @@
                         Content="Show Display List"
                         Click="btnShowDisplayLisgt_Click"
                         />
-                
+
                 <TextBlock Grid.Row="1" HorizontalAlignment="Center"
                     Text="Enter Node Text"
                     FontSize="20"       />
-                
+
                 <TextBox x:Name="tbxNodeName" FontSize="20"
                     Grid.Row="2" Width="Auto" />
                 <StackPanel  Grid.Row="3" Orientation="Vertical">
-                    
+
                     <RadioButton x:Name="rbNewChild" GroupName="NodeTasks"
                          Content="Create new child for Selected Node"
                          ToolTip="You Must enter text in the Enter Node Text TextBox" 
@@ -107,7 +107,7 @@
                 </StackPanel>
                 <Button x:Name="btnSaveFiles" Content="Save Subject Tree"
                         Grid.Row="4"
-                        FontSize="20" Click="btnSaveFiles_Click"/>
+                        FontSize="20" Click="btnSaveFiles_Click" Margin="-2,3.4,1.6,-3.4"/>
             </Grid>
         </Border>
 

@@ -55,6 +55,7 @@ namespace NewLSP.UserControls
         private void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             QAStaticMembers.SaveQADictionary();
+            MessageBox.Show("This QA File Saved.");
         }
 
 

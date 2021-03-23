@@ -99,7 +99,11 @@ namespace NewLSP.StaticHelperClasses
         internal static void CreateNewQAFile()
         {
             // Get DataNodesQAFielPath
+            /* 
+             * System.IO.DirectoryNotFoundException: 'Could not find a part of the path
+             * 'C:\Users\Owner\OneDrive\Documents\_StudyFolder\Sub0323\QAFiles\1.txt'.'
 
+             */
             dataNodesQAFilePath = SubjectStaticMembers.GetDataNodesQAFilePath();
             File.Create(dataNodesQAFilePath);
 

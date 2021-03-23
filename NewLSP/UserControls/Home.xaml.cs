@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using NewLSP.UserControls;
-
+using System.IO;
 
 namespace NewLSP.UserControls
 {
@@ -43,6 +43,27 @@ namespace NewLSP.UserControls
 
             // Save the Path to  the selected subject
             SubjectStaticMembers.SaveSubjectFolderPath = FolderPath;
+
+            if (!Directory.Exists(FolderPath + "QAFiles"))
+            {
+                Directory.CreateDirectory(FolderPath + "QAFiles");
+            }
+
+            if (!Directory.Exists(FolderPath + "QAResults"))
+            {
+                Directory.CreateDirectory(FolderPath + "QAResults");
+            }
+
+            //if (!File.Exists(FolderPath + "QAFiles"))
+            //{
+            //    File.Create(FolderPath + "QAFiles");
+            //}
+            //if (!File.Exists(FolderPath + "QAResults"))
+            //{
+            //    File.Create(FolderPath + "QAResults");
+            //}
+
+            // TODO - create QAFiles and QAResults
 
             //Communicate the FolderPath to the ViewModel.SubjectNodeViewModel's OpenFile method
             SubjectStaticMembers.OpenFiles(FolderPath);

@@ -158,7 +158,7 @@ namespace NewLSP.StaticHelperClasses
             SubjectName = FolderName;
 
             // Create path to this subjects data file
-            SubjectsNodeDataStringsPath = HomeFolderPath + SubjectName + "NodeDataStrings.txt";
+            SubjectsNodeDataStringsPath = HomeFolderPath  + "NodeDataStrings.txt";
             string SubjectNodesDataFilePath = SubjectsNodeDataStringsPath;
 
             // Test to see if this file exist and if not create it
@@ -173,10 +173,10 @@ namespace NewLSP.StaticHelperClasses
                 int CurrentItemCount = 0;
 
                 //Create a binary file to hold the current number of items created
-                ItemsCountFilePath = HomeFolderPath + "\\ItemCount.bin";
+                ItemsCountFilePath = HomeFolderPath + "ItemCount.bin";
                 FileStream fs = new FileStream(ItemsCountFilePath, FileMode.Create);
                 BinaryWriter bw = new BinaryWriter(fs);
-
+                bw.Write(CurrentItemCount);
                 // Create a new file to hold the items in the subject dictionary
                 var fileStream = File.Create(SubjectsNodeDataStringsPath);
                 fileStream.Close();
@@ -328,7 +328,7 @@ namespace NewLSP.StaticHelperClasses
             // Create a string array of OutputNodeDataStringList
             string[] OutputNodeDataStringArray = OutputNodeDataStringList.ToArray();
             // Save OutputNodeDataStringList to SubjectsNodeDataStringsPath.txt
-            File.WriteAllLines(HomeFolderPath + SubjectName + "NodeDataStrings.txt", OutputNodeDataStringArray);
+            File.WriteAllLines(HomeFolderPath  + "NodeDataStrings.txt", OutputNodeDataStringArray);
 
             // Save the CurrentItemCount
             FileStream fs = new FileStream(ItemsCountFilePath, FileMode.Open);
