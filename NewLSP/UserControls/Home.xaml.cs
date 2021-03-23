@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using NewLSP.UserControls;
 
+
 namespace NewLSP.UserControls
 {
     /// <summary>
@@ -46,15 +47,39 @@ namespace NewLSP.UserControls
             //Communicate the FolderPath to the ViewModel.SubjectNodeViewModel's OpenFile method
             SubjectStaticMembers.OpenFiles(FolderPath);
 
-
-            MessageBox.Show("Click the Subject Tree Page to proceed");
+            
+            //MessageBox.Show("Click the Subject Tree Page to proceed");
            
             
 
         }// End btnOpenSubjectFolder_Click
 
 
+        /// <summary>
+        /// The purpose of this method is for the user to 
+        /// either open a previously designated instructions
+        /// folder or create it and then copy all of
+        /// the instructions text files into it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSetInstructionsFolder_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Either select a previously chosen Instructions folder, " +
+                "or create it and then manually add all of the text files in the accompanying InstructionsTextFiles to it. ");
+            // Get the Name of the Instructions folder
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            string InstructionsFolderPath = "";
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                InstructionsFolderPath = dialog.FileName + '\\';
+            }
 
+            InstructionsStaticMembers.InstructionsFolderPath = InstructionsFolderPath;
+        }
+
+        
     }// End partial class Home 
 
 

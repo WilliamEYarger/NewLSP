@@ -14,5 +14,13 @@
                 Width="300" Height="50" FontSize="18"
                 Margin="0,100,0,0"
                 Click="btnOpenSubjectFolder_Click"/>
+
+        <Button x:Name="btnSetInstructionsFolder" 
+                Content="Create or Open Instructions folder"
+                 Width="300" Height="50" FontSize="18"
+                Margin="0,100,0,0"
+                Click="btnSetInstructionsFolder_Click"
+                />
+        
     </StackPanel>
 </UserControl>

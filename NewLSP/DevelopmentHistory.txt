@@ -1,4 +1,25 @@
-﻿2021 03 20
+﻿2021 03 21 committed 2021 03 23
+	1.	*Get Rid of unnecessary messages
+	2.	*There is an error in the leading spaces for the moved node
+	3.	*Create an Instructions UserControl to  give How-to messages in a text box as selected from a menu
+		a.	*Add a new UserControl, "Instructions" to project
+		b.	*Adjust its size
+		c.	*Create a vertical stack panel
+		d.	*Add a menu
+		e.	*And a text box
+	4.	*Add code to add this user control to the main window
+	5.	*Create a static helper file, InstructionsStaticMembers,  for the instructions user control
+		a.	*create a property to hold the path to the instructions folder
+		b.	*In the Home user control create a button to create or select the instructions folder
+	6.	*There is an error in that the TestReviewStaticMembers.NumberOfWrongAnswers is not correct
+		and the results string is not writing to the file
+
+Commit Message:
+	1) Creates an Insturctions page and instructions text files; 2) Corrected errors in calculating and
+	writting the results to the Results file
+
+
+2021 03 20 Committed 2021 03 21 0800
 	1.	Add code to move a branch
 		a.	*In SubjectTree.xaml create new radio button rbMoveNode "Node Selected to Move"
 		b.	Identify the new parent

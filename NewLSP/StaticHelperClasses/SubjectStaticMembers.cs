@@ -487,6 +487,11 @@ namespace NewLSP.StaticHelperClasses
 
                     // Change the NLN in the node
                     thisNode.NodeLevelName = thisNodeLevelName;
+
+                    // Adjust the leading chars
+                    int LengthNodeLevelName = thisNode.NodeLevelName.Length*3;
+                    string LeadingChars = new string(' ', LengthNodeLevelName);
+                    thisNode.LeadingChars = LeadingChars;
                 }
             }// End //Cycle through the ArrayOfSubjectNodes add  nodes to be moved 
 

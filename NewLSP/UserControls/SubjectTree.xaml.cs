@@ -59,6 +59,8 @@ namespace NewLSP.UserControls
 
             
             MoveNode();
+
+            
         }
 
         #endregion Mouse Rigth Button Up
@@ -90,6 +92,9 @@ namespace NewLSP.UserControls
 
             // Call static to cycly through dictionary replacing OldNLN with NewNLN
             SubjectStaticMembers.ChangeMovedNodesNLN(OldNLN, NewNLN);
+
+            // Change the display to show the moved node added to the new parent
+            SubjectStaticMembers.DisplayParentsAndChildren(NewParentNode.NodeLevelName);
 
         }
         #endregion MoveNode()
@@ -221,7 +226,11 @@ namespace NewLSP.UserControls
         // TODO Code thr make terminal radio button
         private void rbTerminal_Checked(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("New Terminal RB Clicked");
+            SelectedNode.CI = "T ";
+            SubjectStaticMembers.SubjectNodeDictionary[SelectedNode.NodeLevelName] = SelectedNode;
+            string ParentNodesNodeLevelName = SelectedNode.NodeLevelName.Substring(0, SelectedNode.NodeLevelName.Length - 1);
+            ParentNode = SubjectStaticMembers.SubjectNodeDictionary[ParentNodesNodeLevelName];
+            SubjectStaticMembers.DisplayParentsAndChildren(ParentNodesNodeLevelName);
         }
 
         #endregion Radio button make node terminal
@@ -236,6 +245,7 @@ namespace NewLSP.UserControls
             if (SelectedNode.HasData || SelectedNode.NOC > 0)
             {
                 MessageBox.Show("You cannot delete a node that has children or data, you can only move it");
+                return;
             }
 
             // Remove the node from the dictionary
