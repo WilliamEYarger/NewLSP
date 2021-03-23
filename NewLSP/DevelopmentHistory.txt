@@ -1,4 +1,46 @@
-﻿2021 03 19
+﻿2021 03 21 committed 2021 03 23
+	1.	*Get Rid of unnecessary messages
+	2.	*There is an error in the leading spaces for the moved node
+	3.	*Create an Instructions UserControl to  give How-to messages in a text box as selected from a menu
+		a.	*Add a new UserControl, "Instructions" to project
+		b.	*Adjust its size
+		c.	*Create a vertical stack panel
+		d.	*Add a menu
+		e.	*And a text box
+	4.	*Add code to add this user control to the main window
+	5.	*Create a static helper file, InstructionsStaticMembers,  for the instructions user control
+		a.	*create a property to hold the path to the instructions folder
+		b.	*In the Home user control create a button to create or select the instructions folder
+	6.	*There is an error in that the TestReviewStaticMembers.NumberOfWrongAnswers is not correct
+		and the results string is not writing to the file
+
+Commit Message:
+	1) Creates an Insturctions page and instructions text files; 2) Corrected errors in calculating and
+	writting the results to the Results file
+
+
+2021 03 20 Committed 2021 03 21 0800
+	1.	Add code to move a branch
+		a.	*In SubjectTree.xaml create new radio button rbMoveNode "Node Selected to Move"
+		b.	Identify the new parent
+				o	*Show message to select the new parent
+				o	*set bool NodeIsMoving to true
+				o	Create a MouseRightButtonUp method to select the new parent
+				o	*when a new node is selected and NodeIsMoving to true, designate that node as the NewParentNode
+				o	*Call the MoveNode() method
+				o	*Get its NLN and NOC
+				o	*create new new NLN for the node that was moved
+				o	*Create a method, ChangeMovedNodesNLN, to change to NLN of the moved node and all of its children
+				o	*Adjust the new parent't child indicator and number of children and save the revised new parent
+	Commit Message
+	Creates a new radiobutton to select a node to move; creates a list view double click method to select the new paren;
+	creates the code for renamins the node to move and all of its children; updates the new parent's number of children
+	and its child indicator if necessare and saves the new parent and all of the moved nodes with their revised 
+	node level names
+
+
+
+2021 03 19
 	1.	*Correct an error with the mp3 file
 	2.	In SubjectTree code the delete node radio button
 	3.	Reconnect the SubjectStaticMembers.SaveFiles(); by creating btnSaveFiles
@@ -202,5 +244,3 @@ At this point save a copy of all altered files and commit and sync
         Height="800" Width="1200"        
         WindowStartupLocation="CenterScreen">
 	Create source control and commit and send master to dev
-
-
