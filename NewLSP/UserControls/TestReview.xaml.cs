@@ -52,19 +52,27 @@ namespace NewLSP.UserControls
             string ResultsFilePath = ResultsDirectoryPath + "\\" + DataNodeIDStr + ".txt";
 
 
-            StreamWriter sw = File.AppendText(ResultsFilePath);
+            //Get the current date time
             DateTime currentDate = DateTime.Now;
 
-
+            // compose the output line
             string FormattedDateStr = String.Format("YYYYMMDDHHmm", currentDate);
-            int total = TestReviewStaticMembers.QADictionary.Count;
-            int wrong = TestReviewStaticMembers.NumberOfWrongAnswers;
+            double total = TestReviewStaticMembers.QADictionary.Count;
+            double wrong = TestReviewStaticMembers.NumberOfWrongAnswers;
+
             double PercentCorrect = ((total - wrong) / total)*100;
 
             string PercentCorrectStr = string.Format("{0:N2}% correct = ", PercentCorrect);
+            
 
+            // create the output line
             string OutputStr = FormattedDateStr + " " + PercentCorrectStr + " " + TestReviewStaticMembers.DelimitedWrongAnswersStr;
-            sw.WriteLine(OutputStr);
+
+            // Append this line to the existing file
+            File.AppendAllText(ResultsFilePath, OutputStr + Environment.NewLine);
+
+            // Send a message telling the use that it has been saved
+            MessageBox.Show("The Results are saved. You can exit now.");
 
         }
 
@@ -168,6 +176,7 @@ namespace NewLSP.UserControls
                 TestReviewStaticMembers.DelimitedWrongAnswersStr =
                      TestReviewStaticMembers.DelimitedWrongAnswersStr + 
                         TestReviewStaticMembers.CurrentQuestionNumberString+'^';
+                TestReviewStaticMembers.NumberOfWrongAnswers++;
             }
 
             btnScoreCorrect.IsEnabled = false;

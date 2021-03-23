@@ -30,7 +30,10 @@
             
             <ListView x:Name="lvSubjects" Grid.Column ="0" 
                   Height="750"
-                  SelectionMode="Single" PreviewMouseLeftButtonUp="lvSubjects_PreviewMouseLeftButtonUp" 
+                  SelectionMode="Single" 
+                  PreviewMouseLeftButtonUp="lvSubjects_PreviewMouseLeftButtonUp" 
+                  MouseRightButtonUp="lvSubjects_MouseRightButtonUp" 
+                 
                       />
 
         </StackPanel>
@@ -86,6 +89,11 @@
                          Content="Delete Selected Node"
                          Checked="rbDelete_Checked"        
                          />
+
+                    <RadioButton x:Name="rbMoveNode" GroupName="NodeTasks"
+                         Content="Node Selected to Move"
+                         Checked="rbMoveNode_Checked"
+                                 />
 
                     <RadioButton x:Name="rbExpandCollapse" GroupName="NodeTasks"
                          Content="Show Node, Ancestors and Children"

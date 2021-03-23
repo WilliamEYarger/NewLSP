@@ -28,16 +28,23 @@
 
             </MenuItem>
             <MenuItem x:Name="miSubjectTree" Header="SubjectTreePage" 
-                      Click="miSubjectTree_Click" >
+                      Click="miSubjectTree_Click" />
+
+
+            <MenuItem x:Name="miQAPage" Header="QAPages">
+                
+                <MenuItem x:Name="CreateOrEdit"
+                      Header="Create or Edit"
+                      Click="CreateOrEdit_Click"/>
+
+                <MenuItem x:Name="miTest" Header="Test/ReviewPage"
+                      Click="miTest_Click"/>
+
 
             </MenuItem>
-            <MenuItem x:Name="miCreateQA" Header="Create/EditQAPage" 
-                      Click="miCreateQA_Click">
-
-            </MenuItem>
-            <MenuItem x:Name="miTest" Header="Test/ReviewPage" Click="miTest_Click">
-
-            </MenuItem>
+            <MenuItem x:Name="miInstructions"
+                      Header="InstructionsPage"
+                      Click="miInstructions_Click"/>
         </Menu>
 
         <Grid Grid.Row="1">
@@ -45,6 +52,7 @@
             <local:SubjectTree x:Name="ucSubjectTree" Visibility="Collapsed"/>
             <local:CreatEditQA x:Name="ucCreatEditQA" Visibility="Collapsed"/>
             <local:TestReview x:Name="ucTestReview" Visibility="Collapsed"/>
+            <local:Instrutions x:Name="ucInstructions" Visibility="Collapsed"/>
         </Grid>
     </Grid>
 </Window>
