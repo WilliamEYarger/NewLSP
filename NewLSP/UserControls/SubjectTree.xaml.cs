@@ -454,7 +454,9 @@ namespace NewLSP.UserControls
 
         private void btnSaveFiles_Click(object sender, RoutedEventArgs e)
         {
+            string SubjectFolderName = SubjectStaticMembers.GetDataNodesQAFilePath();
             SubjectStaticMembers.SaveFiles();
+            MessageBox.Show("Subject Tree Files Saved");
         }
 
 

@@ -352,9 +352,13 @@ namespace NewLSP.StaticHelperClasses
 
                 qADataModel.QANumber = Int32.Parse(Key);
 
-                qADataModel.Question = thisQALineArray[1];
+                string question = thisQALineArray[1];
+                question = question.Replace("~", "\r\n");
+                qADataModel.Question = question;
 
-                qADataModel.Answer = thisQALineArray[2];
+                string answer = thisQALineArray[2];
+                answer = answer.Replace("~", "\r\n");
+                qADataModel.Answer = answer;
 
                 qADataModel.QuestionJpgUrl = thisQALineArray[3];
 

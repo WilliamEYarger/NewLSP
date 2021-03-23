@@ -1,4 +1,18 @@
-﻿2021 03 21 committed 2021 03 23
+﻿2021 03 23 Committed 202103 03 23 1255
+	1.	*There is an error 
+		System.IO.DirectoryNotFoundException: 'Could not find a part of the path 
+		The problem is that the program is no longer creating a QA Files folder when it creates a new subject
+	2.	*There is an error in writting to the item count binary file
+	3.	*There was an error in writing to the NodeDataStrings.txt file
+	4.	*There was a error in replacing '~' with "\r\n" in the question and answer
+Committ Message
+Corrected errors 1) in creating the QAFiles and QAResults folders; 2) In updating the binary file that
+holds the current item count; 3) an error in writing to the NodeDataStrings.txt file and
+4) an error in replacing '~' with "\r\n" in the question and answer
+
+
+
+2021 03 21 committed 2021 03 23
 	1.	*Get Rid of unnecessary messages
 	2.	*There is an error in the leading spaces for the moved node
 	3.	*Create an Instructions UserControl to  give How-to messages in a text box as selected from a menu
