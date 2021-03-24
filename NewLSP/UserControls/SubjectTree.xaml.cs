@@ -60,8 +60,9 @@ namespace NewLSP.UserControls
             
             MoveNode();
 
-            
-        }
+            SubjectStaticMembers.SaveFiles();
+
+        }// End lvSubjects_MouseRightButtonUp
 
         #endregion Mouse Rigth Button Up
 
@@ -173,6 +174,9 @@ namespace NewLSP.UserControls
             // Create a new node
             CreateNewChildSubjectNode(CurrentItemCount);
 
+
+            SubjectStaticMembers.SaveFiles();
+
         }
 
 
@@ -216,14 +220,17 @@ namespace NewLSP.UserControls
             {
                 lvSubjects.Items.Add(DisplayLine);
             }
-        }
+
+            SubjectStaticMembers.SaveFiles();
+
+        }// End rbText_Checked
 
 
         #endregion  (rbText_Checked)
 
 
         #region Radio button make node terminal
-        // TODO Code thr make terminal radio button
+
         private void rbTerminal_Checked(object sender, RoutedEventArgs e)
         {
             SelectedNode.CI = "T ";
@@ -231,6 +238,8 @@ namespace NewLSP.UserControls
             string ParentNodesNodeLevelName = SelectedNode.NodeLevelName.Substring(0, SelectedNode.NodeLevelName.Length - 1);
             ParentNode = SubjectStaticMembers.SubjectNodeDictionary[ParentNodesNodeLevelName];
             SubjectStaticMembers.DisplayParentsAndChildren(ParentNodesNodeLevelName);
+
+            SubjectStaticMembers.SaveFiles();
         }
 
         #endregion Radio button make node terminal
@@ -238,7 +247,7 @@ namespace NewLSP.UserControls
 
         #region Radio button Delete
 
-        // TODO Code the delete node radio button
+      
         private void rbDelete_Checked(object sender, RoutedEventArgs e)
         {
             // Test to see if the node has data or children before deleting it
@@ -276,7 +285,10 @@ namespace NewLSP.UserControls
             {
                 lvSubjects.Items.Add(DisplayLine);
             }
-        }
+
+            SubjectStaticMembers.SaveFiles();
+
+        }// End rbDelete_Checked
 
 
         #endregion Radio button Delete
@@ -452,12 +464,12 @@ namespace NewLSP.UserControls
         #endregion Private local methods
 
 
-        private void btnSaveFiles_Click(object sender, RoutedEventArgs e)
-        {
-            string SubjectFolderName = SubjectStaticMembers.GetDataNodesQAFilePath();
-            SubjectStaticMembers.SaveFiles();
-            MessageBox.Show("Subject Tree Files Saved");
-        }
+        //private void btnSaveFiles_Click(object sender, RoutedEventArgs e)
+        //{
+        //    string SubjectFolderName = SubjectStaticMembers.GetDataNodesQAFilePath();
+        //    SubjectStaticMembers.SaveFiles();
+        //    MessageBox.Show("Subject Tree Files Saved");
+        //}
 
 
     }// End Class

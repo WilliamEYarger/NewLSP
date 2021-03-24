@@ -105,9 +105,7 @@
                          Click="rbDataNode_Click"
                                  />
                 </StackPanel>
-                <Button x:Name="btnSaveFiles" Content="Save Subject Tree"
-                        Grid.Row="4"
-                        FontSize="20" Click="btnSaveFiles_Click" Margin="-2,3.4,1.6,-3.4"/>
+
             </Grid>
         </Border>
 
