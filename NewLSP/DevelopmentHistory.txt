@@ -1,4 +1,11 @@
-﻿2021 03 23 Committed 202103 03 23 1255
+﻿2021 03 24 committed 2021 03 24 0618
+	1.	*Add call to SaveFiles() whenever the SubjectTree changes and 
+		remove the SaveFiles button
+Commit message
+Removed the SaveFiles button from the Subject Tree form and added a call to SaveFiles() to
+all radio buttons that alter the subject tree
+
+2021 03 23 Committed 202103 03 23 1255
 	1.	*There is an error 
 		System.IO.DirectoryNotFoundException: 'Could not find a part of the path 
 		The problem is that the program is no longer creating a QA Files folder when it creates a new subject

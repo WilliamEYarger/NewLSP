@@ -54,24 +54,10 @@ namespace NewLSP.UserControls
                 Directory.CreateDirectory(FolderPath + "QAResults");
             }
 
-            //if (!File.Exists(FolderPath + "QAFiles"))
-            //{
-            //    File.Create(FolderPath + "QAFiles");
-            //}
-            //if (!File.Exists(FolderPath + "QAResults"))
-            //{
-            //    File.Create(FolderPath + "QAResults");
-            //}
-
-            // TODO - create QAFiles and QAResults
-
+            
             //Communicate the FolderPath to the ViewModel.SubjectNodeViewModel's OpenFile method
             SubjectStaticMembers.OpenFiles(FolderPath);
 
-            
-            //MessageBox.Show("Click the Subject Tree Page to proceed");
-           
-            
 
         }// End btnOpenSubjectFolder_Click
 

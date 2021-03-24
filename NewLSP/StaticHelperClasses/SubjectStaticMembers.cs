@@ -313,10 +313,10 @@ namespace NewLSP.StaticHelperClasses
 
         public static void SaveFiles()
         {
-            // Create a List<string> OutputNodeDataStringList
+            // Create a List<string> OutputNodeDataStringList adding delimited node properties to the List
             List<string> OutputNodeDataStringList = new List<string>();
 
-            // Cycle thorugh SubjectNodeDictionary
+            // Cycle thorugh SubjectNodeDictionary adding delimited node properties to the List
             foreach (KeyValuePair<string, SubjectNodes> KVP in SubjectNodeDictionary)
             {
                 string Key = KVP.Key;
@@ -327,10 +327,14 @@ namespace NewLSP.StaticHelperClasses
 
             // Create a string array of OutputNodeDataStringList
             string[] OutputNodeDataStringArray = OutputNodeDataStringList.ToArray();
+
             // Save OutputNodeDataStringList to SubjectsNodeDataStringsPath.txt
             File.WriteAllLines(HomeFolderPath  + "NodeDataStrings.txt", OutputNodeDataStringArray);
 
             // Save the CurrentItemCount
+
+            //Test to see if the file is open and if so close it
+           
             FileStream fs = new FileStream(ItemsCountFilePath, FileMode.Open);
             BinaryWriter bw = new BinaryWriter(fs);
             bw.Write(ItemCount);
