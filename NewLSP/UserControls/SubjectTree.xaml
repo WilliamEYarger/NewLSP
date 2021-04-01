@@ -52,8 +52,8 @@
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="250"/>
+                    <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
                 <Button x:Name="btnShowDisplayLisgt" 
                         FontSize="20"
@@ -104,6 +104,45 @@
                          Content="This is the DataNode"
                          Click="rbDataNode_Click"
                                  />
+                </StackPanel>
+                <StackPanel Orientation="Vertical"  Grid.Row="4">
+                    <Border  Height="3"
+                            BorderThickness="3"
+                            BorderBrush="Black"/>
+                    <Label Name="lblQA" Height="30" >
+                        <StackPanel  x:Name="spQA"
+                            Orientation="Horizontal"
+                                    Visibility="Hidden">
+                            <Ellipse x:Name="QACircle"
+                                     Width="20"
+                                     Height="20"
+                                     Fill="Red"
+                                     Margin="0 0 30 0"                                     
+                                     />
+                            <TextBlock x:Name="tbkQA"
+                                Text="This node has a QA file"
+                                       FontSize="15"/>
+                        </StackPanel>
+                    </Label>
+                    <Label Name="lblData" Height="30"    >
+                        <StackPanel x:Name="spData"
+                            Orientation="Horizontal"
+                                    Visibility="Hidden">
+                            <Ellipse 
+                                     Width="20"
+                                     Height="20"
+                                     Fill="Blue"
+                                     Margin="0 0 30 0"
+                                     />
+                            <TextBlock x:Name="tbkData"
+                                Text="This node has a Data file"
+                                FontSize="15"/>
+
+                        </StackPanel>
+                        
+                    </Label>
+                        
+
                 </StackPanel>
 
             </Grid>

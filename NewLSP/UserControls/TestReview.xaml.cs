@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using NewLSP.StaticHelperClasses;
 using System;
+using NewLSP.DataModels;
 
 namespace NewLSP.UserControls
 {
@@ -24,6 +25,8 @@ namespace NewLSP.UserControls
 
         #region Boolean IsTest
         private static bool IsTest;
+
+       
         #endregion Boolean IsTest
 
         #endregion Private Fields
@@ -57,7 +60,7 @@ namespace NewLSP.UserControls
 
             // compose the output line
             string FormattedDateStr = String.Format("YYYYMMDDHHmm", currentDate);
-            double total = TestReviewStaticMembers.QADictionary.Count;
+            double total =QAStaticMembers.QADictionary.Count;
             double wrong = TestReviewStaticMembers.NumberOfWrongAnswers;
 
             double PercentCorrect = ((total - wrong) / total)*100;
@@ -71,8 +74,19 @@ namespace NewLSP.UserControls
             // Append this line to the existing file
             File.AppendAllText(ResultsFilePath, OutputStr + Environment.NewLine);
 
-            // Send a message telling the use that it has been saved
-            MessageBox.Show("The Results are saved. You can exit now.");
+
+            // Check to see if the dictionary has been changed and if so save it
+            if (QAStaticMembers.DictionaryChanged == true)
+            {
+
+
+                QAStaticMembers.SaveQADictionary();
+            }
+
+
+
+                // Send a message telling the use that it has been saved
+                MessageBox.Show("The Results are saved. You can exit now.");
 
         }
 
@@ -200,6 +214,51 @@ namespace NewLSP.UserControls
 
         #endregion ShowCorrect
 
+        #region Button SaveEditsClicked
+
+        /// <summary>
+        /// When this button is clicked and changes made to the
+        /// Question and Answer file will be saved and the
+        /// QAFileChanged boolean is set to true so that
+        /// Results/Edits -> Save File and Return menuitem
+        /// is clicked the changed QA file will be updated
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSaveEdits_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the current question
+            string currentQuestion = tbxQuestion.Text;
+            // replace all "\r\n" with ~ 
+            currentQuestion = currentQuestion.Replace("\r\n", "~");
+
+            //Get the current correct answer
+            string currentCorrectAnswer = tbxCorrectAnswer.Text;
+            // replace all "\r\n" with ~ 
+            currentCorrectAnswer = currentCorrectAnswer.Replace("\r\n", "~");
+
+            // get the QuestionNumber Key
+            string currentQANumStr  = TestReviewStaticMembers.CurrentQuestionNumberString;
+
+            //// Get the current QADataModel
+            //QADataModel NewQADataModel = QAStaticMembers.ReturnQAObject(currentQANumStr);
+            QADataModel NewQADataModel = QAStaticMembers.QADictionary[currentQANumStr];
+
+            // replace the currentQuestion and the currentCorrectAnswer
+            NewQADataModel.Question = currentQuestion;
+            NewQADataModel.Answer = currentCorrectAnswer;
+
+            // replace the QADataModel in the QADictionary
+            QAStaticMembers.ReplaceThisQADataModel(currentQANumStr, NewQADataModel);
+             
+
+            // Set the QADataModel's dictionary changed to true
+            QAStaticMembers.DictionaryChanged = true;
+
+
+        }//End btnSaveEdits_Click
+
+        #endregion Button SaveEditsClicke
 
         #endregion Button Click Methods
 
@@ -231,6 +290,7 @@ namespace NewLSP.UserControls
             if (T == 'Q')
             {
                 //This is a call for a question//
+                // TODO - there appears to be an error in that TestReviewStaticMembers.ThisQuestion is not updated
 
                 // Deternine if there are questions left and if not message
                 string thisQuestion = TestReviewStaticMembers.ThisQuestion;
@@ -240,6 +300,11 @@ namespace NewLSP.UserControls
                         " the reuslts or clear them.");
                     return;
                 }
+
+                // get the CurrentQuestionNumberString
+                string CurrentQANumber = TestReviewStaticMembers.CurrentQuestionNumberString;
+                // set the QA number
+                tblkCurrentQANum.Text = CurrentQANumber;
 
                 tbxQuestion.Text = thisQuestion;
 
@@ -352,13 +417,16 @@ namespace NewLSP.UserControls
             while (TestReviewStaticMembers.QANUmbersString.Length != 0)
             {
                 string CurrentQANumberString = TestReviewStaticMembers.QANUmbersString;
-                // get and remove the 0th item from the QANumberString
-                string thisKey = StringHelper.GetAndRemoveNthItem(ref CurrentQANumberString, '^', 0);
+                // get  the 0th item from the QANumberString
+                string thisKey = StringHelper.ReturnItemAtPos(CurrentQANumberString, '^', 0);
+                //string thisKey = StringHelper.GetAndRemoveNthItem(ref CurrentQANumberString, '^', 0);
                 TestReviewStaticMembers.QANUmbersString = CurrentQANumberString;
                 //Save the current key so that if this is a review and the answer is wrong
                 // it can be appended to the end of the CurrentQANumberString
                 TestReviewStaticMembers.CurrentQuestionNumberString = thisKey;
-                TestReviewStaticMembers.SetCurrentQAValues(thisKey);                
+                TestReviewStaticMembers.SetCurrentQAValues(thisKey);
+                CurrentQANumberString = StringHelper.RemoveFirstItem(CurrentQANumberString, '^');
+                TestReviewStaticMembers.QANUmbersString = CurrentQANumberString;
                 AnswerQuestions('Q');
                 return;
             }
@@ -373,5 +441,8 @@ namespace NewLSP.UserControls
         #endregion Test/Review Public Method
 
         #endregion  Public Methods
+
+
+
     }
 }

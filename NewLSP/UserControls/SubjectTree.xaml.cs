@@ -5,6 +5,7 @@ using System.Windows.Input;
 using NewLSP.StaticHelperClasses;
 using NewLSP.DataModels;
 using System.Collections.Generic;
+using System;
 
 namespace NewLSP.UserControls
 {
@@ -134,6 +135,31 @@ namespace NewLSP.UserControls
                 // Use the NodeLevelName to get the correct node fromthe dictionary of SubjectNodeDictionary
                 SelectedNode = SubjectStaticMembers.SubjectNodeDictionary[NodeLevelName];
 
+                //Determine if this node has a QA file
+                int NodeID = SelectedNode.ID;
+                if (SubjectStaticMembers.NodeHasQAFile(NodeID))
+                {
+                    spQA.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    spQA.Visibility = Visibility.Hidden;
+                }
+
+
+                //Determine if this node has a Data file
+               
+                if (SubjectStaticMembers.NodeHadDataFile(NodeID))
+                {
+                    spData.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    spData.Visibility = Visibility.Hidden;
+                }
+
+
+
             }
 
         }// End  lvSubjects_PreviewMouseLeftButtonU
@@ -168,11 +194,14 @@ namespace NewLSP.UserControls
                 return;
             }
 
-            // Get ItemIndex
-            int CurrentItemCount = SubjectStaticMembers.ItemCount;
+            // Get ItemIndex and convert it into an int
+            int CurrentItemCountInt = System.Int32.Parse(SubjectStaticMembers.ItemCount)+1;
 
+            
+            string ItemCount = CurrentItemCountInt.ToString();
+            SubjectStaticMembers.ItemCount = ItemCount;
             // Create a new node
-            CreateNewChildSubjectNode(CurrentItemCount);
+            CreateNewChildSubjectNode(CurrentItemCountInt);
 
 
             SubjectStaticMembers.SaveFiles();
@@ -380,11 +409,11 @@ namespace NewLSP.UserControls
         ///  and resets the display to reflect the Parents children
         /// </summary>
         /// <param name="currentItemCount"></param>
-        private void CreateNewChildSubjectNode(int currentItemCount)
+        private void CreateNewChildSubjectNode(int currentItemCountInt)
         {
 
             // Instantiate a SubjectNode with the currentItemCount
-            NewChildNode = new SubjectNodes(currentItemCount);
+            NewChildNode = new SubjectNodes(currentItemCountInt);
 
             // Get the Parent Node
             ParentNode = GetParentNode();
@@ -420,8 +449,7 @@ namespace NewLSP.UserControls
             ParentNode.CI = "+ ";
             ParentNode.NOC++;
 
-            // NEW 20210222 START
-
+           
             SubjectStaticMembers.DisplayParentsAndChildren(ParentNode.NodeLevelName);
             lvSubjects.Items.Clear();
             foreach (string item in SubjectStaticMembers.DisplayList)
@@ -437,8 +465,9 @@ namespace NewLSP.UserControls
 
             //store the updated parents node in the dictionary
             SubjectStaticMembers.SubjectNodeDictionary[ParentNode.NodeLevelName] = ParentNode;
+
             //Increment and save the ItemsIndex
-            SubjectStaticMembers.ItemCount++;
+            
             SelectedNode = null;
         }// End CreateNewChildSubjectNode
 
@@ -462,14 +491,6 @@ namespace NewLSP.UserControls
         #endregion GetParentNode
 
         #endregion Private local methods
-
-
-        //private void btnSaveFiles_Click(object sender, RoutedEventArgs e)
-        //{
-        //    string SubjectFolderName = SubjectStaticMembers.GetDataNodesQAFilePath();
-        //    SubjectStaticMembers.SaveFiles();
-        //    MessageBox.Show("Subject Tree Files Saved");
-        //}
 
 
     }// End Class

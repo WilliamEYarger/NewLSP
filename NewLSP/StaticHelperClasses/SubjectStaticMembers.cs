@@ -34,9 +34,9 @@ namespace NewLSP.StaticHelperClasses
         /// It is used to tie a subject to 
         ///    various data files
         /// </summary>
-        private static int _ItemCount = 0;
+        private static string _ItemCount;
 
-        public static int ItemCount
+        public static string ItemCount
         {
             get { return _ItemCount; }
             set { _ItemCount = value; }
@@ -164,33 +164,36 @@ namespace NewLSP.StaticHelperClasses
             // Test to see if this file exist and if not create it
             if (!File.Exists(SubjectsNodeDataStringsPath))
             {
-                /* This is a newly created subject so initialize the  ItemCounter to 0, 
-                 * create the string [] array, ArrayOfSubjectNodes to hold all of the subject nodes,
-                 * Create the Root node and set its counter to ItemCounter and update ItemCounter
-                 */
+                ///* This is a newly created subject so initialize the  ItemCounter to 0, 
+                // * create the string [] array, ArrayOfSubjectNodes to hold all of the subject nodes,
+                // * Create the Root node and set its counter to ItemCounter and update ItemCounter
+                // */
 
-                // create the initial count and write it to the ItemCount.bin file
-                int CurrentItemCount = 0;
+                //// create the initial count and write it to the ItemCount.bin file
+                //int CurrentItemCount = 0;
 
-                //Create a binary file to hold the current number of items created
-                ItemsCountFilePath = HomeFolderPath + "ItemCount.bin";
-                FileStream fs = new FileStream(ItemsCountFilePath, FileMode.Create);
-                BinaryWriter bw = new BinaryWriter(fs);
-                bw.Write(CurrentItemCount);
-                // Create a new file to hold the items in the subject dictionary
-                var fileStream = File.Create(SubjectsNodeDataStringsPath);
-                fileStream.Close();
+                ////Create a binary file to hold the current number of items created
+                //ItemsCountFilePath = HomeFolderPath + "ItemCount.bin";
+                //FileStream fs = new FileStream(ItemsCountFilePath, FileMode.Create);
+                //BinaryWriter bw = new BinaryWriter(fs);
+                //bw.Write(CurrentItemCount);
+                //// Create a new file to hold the items in the subject dictionary
+                //var fileStream = File.Create(SubjectsNodeDataStringsPath);
+                //fileStream.Close();
 
 
                 //Create a new RootNode
-                SubjectNodes RootNode = new SubjectNodes(ItemCount);
+                SubjectNodes RootNode = new SubjectNodes(0);
 
                 // Assign the CurrentItemCount to the Root node's ID
-                RootNode.ID = ItemCount;
-                ItemCount++;
+                RootNode.ID = 0;
+                ItemCount = "1";
+
+                //Write the new ItemCount to the ItemCount.txt file
+                File.WriteAllText(HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
 
 
-
+                //Set up the properties of the new RootNode
                 RootNode.CI = "- ";
                 RootNode.NodeLevelName = "*";
                 int LengthNodeLevelName = RootNode.NodeLevelName.Length;
@@ -216,16 +219,22 @@ namespace NewLSP.StaticHelperClasses
             else
             {
                 SubjectNodes RootNode = new SubjectNodes();
-                // Read in current ItemCount
-                ItemsCountFilePath = HomeFolderPath + "\\ItemCount.bin";
-                using (var filestream = File.Open(ItemsCountFilePath, FileMode.Open))
-                {
-                    using (var binaryStream = new BinaryReader(filestream))
-                    {
-                        ItemCount = binaryStream.ReadInt32();
 
-                    }
-                }
+                // Read in the current item count
+                string ItemCount = File.ReadAllText(HomeFolderPath + "ItemCount.txt");
+                SubjectStaticMembers.ItemCount = ItemCount;
+
+
+                //// Read in current ItemCount
+                //ItemsCountFilePath = HomeFolderPath + "ItemCount.bin";
+                //using (var filestream = File.Open(ItemsCountFilePath, FileMode.Open))
+                //{
+                //    using (var binaryStream = new BinaryReader(filestream))
+                //    {
+                //        ItemCount = binaryStream.ReadInt32();
+
+                //    }
+                //}
 
                 // Instantiate the Dictionary
                 SubjectNodeDictionary = new Dictionary<string, SubjectNodes>();
@@ -268,6 +277,8 @@ namespace NewLSP.StaticHelperClasses
 
             }// End if else file subject file exists
         }//End OpenFiles method
+
+
 
         #endregion OpenFiles
 
@@ -332,13 +343,10 @@ namespace NewLSP.StaticHelperClasses
             File.WriteAllLines(HomeFolderPath  + "NodeDataStrings.txt", OutputNodeDataStringArray);
 
             // Save the CurrentItemCount
+            string ItemCount = SubjectStaticMembers.ItemCount;
+            File.WriteAllText(HomeFolderPath + "ItemCount.txt", ItemCount);
 
-            //Test to see if the file is open and if so close it
            
-            FileStream fs = new FileStream(ItemsCountFilePath, FileMode.Open);
-            BinaryWriter bw = new BinaryWriter(fs);
-            bw.Write(ItemCount);
-            fs.Close();
 
 
         }// End SaveFiles
@@ -413,11 +421,12 @@ namespace NewLSP.StaticHelperClasses
             //ItemCount = -1;
             if (File.Exists(ItemsCountFilePath))
             {
-                BinaryReader binReader = new BinaryReader(File.Open(ItemsCountFilePath, FileMode.Open));
-                ItemCount = binReader.ReadInt32();
+                //BinaryReader binReader = new BinaryReader(File.Open(ItemsCountFilePath, FileMode.Open));
+                //ItemCount = binReader.ReadInt32();
+                string ItemCount = File.ReadAllText(HomeFolderPath + "ItemCount.txt");
             }
 
-            return ItemCount;
+            return Int32.Parse(ItemCount);
         }// End GetCurrentItemCount
 
         #endregion (GetCurrentItemCount)
@@ -514,16 +523,53 @@ namespace NewLSP.StaticHelperClasses
 
         }// End ChangeMovedNodesNLN
 
-            #endregion ChangeMovedNodesNLN()
+        #endregion ChangeMovedNodesNLN()
 
-            #endregion Public Methods
+        #region public method NodeHasQAFile
+
+        internal static bool NodeHasQAFile(int nodeID)
+        {
+            string QAFilePath = HomeFolderPath + "QAFiles\\" + nodeID.ToString() + ".txt";
+            if (File.Exists(QAFilePath))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }//End NodeHasQAFile
 
 
-            #region Priate Methods
+        #endregion public method NodeHasQAFile
 
-            #region Retrun the display string for a node   (ReturnDisplayString)
+        #region public method NodeHadDataFile
 
-            private static string ReturnDisplayString(SubjectNodes ThisNode)
+        internal static bool NodeHadDataFile(int nodeID)
+        {
+
+            string DataFilePath = HomeFolderPath + "Notes\\" + nodeID.ToString() + ".txt";
+            if (File.Exists(DataFilePath))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        #endregion public method NodeHadDataFi
+
+        #endregion Public Methods
+
+
+        #region Priate Methods
+
+        #region Retrun the display string for a node   (ReturnDisplayString)
+
+        private static string ReturnDisplayString(SubjectNodes ThisNode)
         {
             string DisplayString = "";
             string LeadingString = ThisNode.LeadingChars;

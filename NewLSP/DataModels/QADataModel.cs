@@ -4,20 +4,7 @@ namespace NewLSP.DataModels
     public class QADataModel
     {
 
-        #region Constructors
-
-        //public QADataModel()
-        //{
-        //    QADataModel QAObject = new QADataModel();
-        //}
-
-        //public QADataModel(int ID)
-        //{
-        //    QADataModel QAObject = new QADataModel();
-        //    QAObject.QANumber = ID;
-        //}
-
-        #endregion Constructors
+        
 
         #region Properties
 
@@ -124,13 +111,14 @@ namespace NewLSP.DataModels
             get { return _AnswerMp3Url; }
             set { _AnswerMp3Url = value; }
         }
+        
 
 
         #endregion AnswerMp3Url
 
         #endregion Properties
 
-       
+
 
 
     }// End class QADataModel
