@@ -38,7 +38,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem Header="          Results">
+            <MenuItem Header="          Results/Edits">
                 <MenuItem Name="SaveFile"
                           Header="Save File and Return"
                           Click="SaveFile_Click"/>
@@ -68,11 +68,14 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal"
            Grid.Row="2" Grid.ColumnSpan="2"
-           HorizontalAlignment="Center">
-            <TextBlock Text="QA Pair #"
+           HorizontalAlignment="Center"
+                    Margin="20 0 ">
+            <TextBlock Text="QA Pair #      "
                 FontSize=" 18" FontWeight="Bold"
                 Foreground="Red"/>
-            <TextBlock x:Name="CurrentQANum"/>
+            <TextBlock x:Name="tblkCurrentQANum"
+                 FontSize=" 18" FontWeight="Bold"      
+                       />
         </StackPanel>
         <Border BorderThickness="5" BorderBrush="Black"
            Grid.Row="3" Grid.Column="0">
@@ -86,7 +89,6 @@
                            Text="Question"
                             FontSize=" 18" FontWeight="Bold"/>
                 <TextBox x:Name="tbxQuestion"
-                         IsReadOnly="True"
                          Grid.Row="1"/>
             </Grid>
         </Border>
@@ -117,6 +119,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Button x:Name="btnOpenImage" Content="Open Image File"              
                         Grid.Column="0" Grid.Row="0"
@@ -138,6 +141,9 @@
                          Grid.Column="1" Grid.Row="2"
                         IsEnabled="False"
                         Click="btnScoreWrong_Click" />
+                <Button x:Name="btnSaveEdits" Content="Save Edits"
+                        Grid.Row="3" Grid.ColumnSpan="2"
+                        Click="btnSaveEdits_Click" />
             </Grid>
         </Border>
         <Border BorderThickness="5" BorderBrush="Black"
@@ -152,7 +158,6 @@
                            HorizontalAlignment="Center"
                            FontSize="18" FontWeight="Bold"/>
                 <TextBox Grid.Row="1"
-                    IsReadOnly="True"
                     x:Name="tbxCorrectAnswer"/>
             </Grid>
         </Border>

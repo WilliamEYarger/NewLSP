@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using NewLSP.StaticHelperClasses;
 using NewLSP.StaticHelperClasses;
 using NewLSP.UserControls;
+using NewLSP.DataModels;
 
 namespace NewLSP
 {
@@ -34,24 +31,22 @@ namespace NewLSP
                 MessageBox.Show("You cannot open this tab until you select a Subject Folder");
                 return;
             }
-           
+            if (QAStaticMembers.DictionaryChanged == true)
+            {
+                if (MessageBox.Show("There are unsaved changes to the QADictionary. Do you want to ignore them?",  "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    // Close the window  
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             SetActiveUserControl(ucSubjectTree);
-            //MessageBox.Show("You must click the Show Display List to view the subject tree");
         }
 
-        //private void miCreateQA_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if(SubjectStaticMembers.DataNode == null)
-        //    {
-        //        MessageBox.Show("You must select a DataNode before opening this window");
-        //        return;
-        //    }
-        //    SetActiveUserControl(ucCreatEditQA);
-        //    MessageBox.Show("You must Choose the Edit Mode before Proceeding");
-        //    //int CurrentQANumber = QAStaticMembers.CurrentQANumberInt;
-        //    //CreatEditQA ThisQAObject = new CreatEditQA();
-        //    //ThisQAObject.tbkCurrentQuestionNumber.Text = CurrentQANumber.ToString();
-        //}
+       
 
         private void miTest_Click(object sender, RoutedEventArgs e)
         {
@@ -59,6 +54,18 @@ namespace NewLSP
             {
                 MessageBox.Show("You must select a DataNode before opening this window");
                 return;
+            }
+
+            if (QAStaticMembers.DictionaryChanged == true)
+            {
+                if (MessageBox.Show("There are unsaved changes to the QADictionary. Do you want to ignore them?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    // Close the window  
+                }
+                else
+                {
+                    return;
+                }
             }
 
             //Check to make sure the QAFile exists and populate the dictionary and numbers list
@@ -83,7 +90,20 @@ namespace NewLSP
 
         private void miInstructions_Click(object sender, RoutedEventArgs e)
         {
-            if(InstructionsStaticMembers.InstructionsFolderPath == "")
+
+            if (QAStaticMembers.DictionaryChanged == true)
+            {
+                if (MessageBox.Show("There are unsaved changes to the QADictionary. Do you want to ignore them?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    // Close the window  
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (InstructionsStaticMembers.InstructionsFolderPath == "")
             {
                 MessageBox.Show("You cannot open this page until you have selected the instructions folder!" +
                     "Instructions for creating or opening the Instructions Page \r\n"+

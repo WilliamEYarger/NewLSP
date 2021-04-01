@@ -1,4 +1,36 @@
-﻿2021 03 24 committed 2021 03 24 0618
+﻿2021 03 30
+	0.	Change the ItemCount froma bin to a txt file?
+		a.	When creating a new subject folder
+			1)	*Create an ItemCount.txt file upon creation of a new Subject folder
+			2)	*Create a new Hyperlinks folder to hold Item hyperlinks
+			3)	*Create a new folder to hold Notes
+		b.	*When opening an existing subject foder
+		c.	*When saving files
+
+	1.	*There is an error in that the QADictionary is defined in the TestReview.xaml.cs file and
+		is not accessable outside of it so I need to define it in TestResultsStaticMemberg
+		a.	*Move QADictionary to QAStaticMembers
+		b.	*In QAStaticMembers create a ReplaceThisQADataModel(string placeKey);
+	2.	*There is an error in TestReview.xaml.cs in that the first entry is being removed
+		before calling the SetCurrentQAValues
+
+	3.	*Allow editing during a review
+		Create a Save Changes button in the Take Test page that when clicked will save any 
+		changes in the QA Dictionary and enable a bool indicating that changrs were made so
+		that when the Save Files menu is clicked the updated dictionary will be saved
+		a.	*Change the readonly status of the question and correct answer
+		a.	*Have all the Datacontrols check to see if this bool is changed 
+	4.	*Have a way to show that a DataNode already has either/and a data file or a QA file
+	5.	*After clicking the Create or Open Subject Folder, inactivate it
+
+		
+
+Commit Message: 1) Changed the ItemCount file from a binary (int)  to a text file. 2) corrected errors in
+TestReview.xaml.cs  and Moved QADictionary to QAStaticMembers 3) Created button to allow editing of
+question and or answer during Review 4) Created Lables to show if a node has either a QA file or
+a Data File 5) Disabled the  Create or Open Subject Folder button after clicking it
+
+2021 03 24 committed 2021 03 24 0618
 	1.	*Add call to SaveFiles() whenever the SubjectTree changes and 
 		remove the SaveFiles button
 Commit message

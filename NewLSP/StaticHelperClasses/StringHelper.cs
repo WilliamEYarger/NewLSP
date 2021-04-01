@@ -122,6 +122,9 @@ namespace NewLSP.StaticHelperClasses
         }
         #endregion ReplaceItemAtPosition
 
+
+        #region GetAndRemoveNthItem
+
         public static string GetAndRemoveNthItem(ref string  delimitedString, char del, int pos)
         {
 
@@ -138,6 +141,21 @@ namespace NewLSP.StaticHelperClasses
 
             return returnItem;
 
+        }//End GetAndRemoveNthItem
+
+        #endregion GetAndRemoveNthItem
+
+
+        #region RemoveFirstItem
+
+        public static string RemoveFirstItem(string delString, char del)
+        {
+            int posFirstDel = delString.IndexOf(del);
+            delString = delString.Substring(posFirstDel + 1);
+            return delString;
         }
+
+        #endregion RemoveFirstItem
+
     }// End Class
 }// End Namespace

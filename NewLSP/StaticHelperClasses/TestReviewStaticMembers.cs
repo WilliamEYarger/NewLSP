@@ -21,17 +21,11 @@ namespace NewLSP.StaticHelperClasses
         }
 
 
-       
+
 
         #endregion CurrentQuestionNumberString
 
 
-        #region Dictionary
-
-        // Create an instance of the QADictionary to hold all of the question-answer data
-        public static Dictionary<string, QADataModel> QADictionary = new Dictionary<string, QADataModel>();
-
-        #endregion Dictionary
 
         #region This QADataMobelObject
 
@@ -252,16 +246,6 @@ namespace NewLSP.StaticHelperClasses
 
 
 
-        #region Public StartNewQATestReview
-
-        //public static void  StartNewQATestReview()
-        //{
-        //    SetupDictionaryAndQAString();
-        //}
-
-        #endregion  Public StartNewQATestReview
-
-
         #region Reset Media Fields
 
         /// <summary>
@@ -279,7 +263,7 @@ namespace NewLSP.StaticHelperClasses
         #endregion Reset Media Fields
 
 
-
+        // TODO - Explain this
 
         public static void SetCurrentQAValues(string thisKey)
         {
@@ -295,7 +279,7 @@ namespace NewLSP.StaticHelperClasses
 
                 //Save all of the current dictionary item's data as properties                
 
-                ThisQADataModelObject = QADictionary[thisKey];
+                ThisQADataModelObject = QAStaticMembers.QADictionary[thisKey];
               
                 ThisQuestion = ThisQADataModelObject.Question;
 
@@ -369,7 +353,7 @@ namespace NewLSP.StaticHelperClasses
                 qADataModel.AnswerMp3Url = thisQALineArray[6];
 
                 //Add qADataModel to the QADictionary
-                QADictionary.Add(Key, qADataModel);
+                QAStaticMembers.QADictionary.Add(Key, qADataModel);
 
                 // add the question number to the QANUmbersString
                 QANUmbersString = QANUmbersString + Key + '^';

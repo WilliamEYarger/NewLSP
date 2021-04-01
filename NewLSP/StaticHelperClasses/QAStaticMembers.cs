@@ -19,7 +19,7 @@ namespace NewLSP.StaticHelperClasses
         /// Used by:
         ///     internal static void CreateNewQAFile() in QAStaticMembers
         /// </summary>
-        public static string dataNodesQAFilePath;
+        //public static string dataNodesQAFilePath;
 
         #endregion Path to the QA file field private variable
 
@@ -36,19 +36,10 @@ namespace NewLSP.StaticHelperClasses
         /// as the value
         /// </summary>
         public static Dictionary<string, QADataModel> QADictionary = new Dictionary<string, QADataModel>();
+
         #endregion QADictionary public field
 
-        //#region QANUmbersString property
-
-        //private static string _QANUmbersString;
-
-        //public static string QANUmbersString
-        //{
-        //    get { return _QANUmbersString; }
-        //    set { _QANUmbersString = value; }
-        //}
-
-        //#endregion QANUmbersString property
+        
 
         #region CurrentQANumberInt property
 
@@ -63,6 +54,22 @@ namespace NewLSP.StaticHelperClasses
             set { _CurrentQANumberInt = value; }
         }
         #endregion CurrentQANumberInt property
+
+
+
+        #region Public property dictionary changed
+
+        private static bool _DictionaryChanged = false;
+
+        public static bool DictionaryChanged
+        {
+            get { return _DictionaryChanged; }
+            set { _DictionaryChanged = value; }
+        }
+
+
+        #endregion Public property dictionary change
+
 
         #endregion public fields and properties
 
@@ -99,12 +106,9 @@ namespace NewLSP.StaticHelperClasses
         internal static void CreateNewQAFile()
         {
             // Get DataNodesQAFielPath
-            /* 
-             * System.IO.DirectoryNotFoundException: 'Could not find a part of the path
-             * 'C:\Users\Owner\OneDrive\Documents\_StudyFolder\Sub0323\QAFiles\1.txt'.'
 
-             */
-            dataNodesQAFilePath = SubjectStaticMembers.GetDataNodesQAFilePath();
+          
+            string dataNodesQAFilePath = SubjectStaticMembers.GetDataNodesQAFilePath();
             File.Create(dataNodesQAFilePath);
 
 
@@ -159,6 +163,9 @@ namespace NewLSP.StaticHelperClasses
         /// </summary>
         internal static void SaveQADictionary()
         {
+
+            // TODO - there is an error in that the QADictionary is not defined when called by the TestResults control
+            
             // Create a List<string> to hold the delimited QAFile lines
             List<string> QALines = new List<string>();
 
@@ -171,70 +178,21 @@ namespace NewLSP.StaticHelperClasses
                 QALines.Add(OutputString);
             }
 
+            string dataNodesQAFilePath = SubjectStaticMembers.GetDataNodesQAFilePath();
             File.WriteAllLines(dataNodesQAFilePath, QALines);
         }
 
 
         #endregion Save the QADictionary 
 
+        #region Replace an Entry in the QA Dictionary
 
-        //#region pubic SetupDictionaryAndQAString()
-        ///// <summary>
-        ///// This method reads in a QA file text file and creates
-        ///// the QADictionary and a QANUmbersString
-        ///// It should be called by a StartANewQATestReview in a 
-        ///// TestReviewStaticMembers class
-        ///// </summary>
-        //public static void SetupDictionaryAndQAString()
-        //{
-        //    // Create an instance of the QADictionary to hold all of the question-answer data
-        //    Dictionary<string, QADataModel> QADictionary = new Dictionary<string, QADataModel>();
+        public static void ReplaceThisQADataModel(string placeKey, QADataModel thisQADataModel)
+        {
+            QADictionary[placeKey] = thisQADataModel;
+        }// End
+        #endregion  Replace an Entry in the QA Dictionary
 
-        //    // Clear any previous values in the QANumberString
-        //    QANUmbersString = "";
-
-        //    // Read all of the lines in the qa file into an array
-        //    string[] QALinesArray = File.ReadAllLines(dataNodesQAFilePath);
-
-        //    //process each delimited line converting it into a key(question number)
-        //    // and value QADataModel object
-
-        //    foreach(string line in QALinesArray)
-        //    {
-        //        // split this string on ^
-        //        string[] thisQALineArray = line.Split('^');
-        //        // Create a new QADataModel object
-        //        QADataModel qADataModel = new QADataModel();
-
-        //        //Get the key and store it
-        //        string Key = thisQALineArray[0];
-
-
-        //        qADataModel.QANumber = Int32.Parse(Key);
-
-        //        qADataModel.Question = thisQALineArray[1];
-
-        //        qADataModel.Answer = thisQALineArray[2];
-
-        //        qADataModel.QuestionJpgUrl = thisQALineArray[3];
-
-        //        qADataModel.QuestionMp3Url = thisQALineArray[4];
-
-        //        qADataModel.AnswerJpgUrl = thisQALineArray[5];
-
-        //        qADataModel.AnswerMp3Url = thisQALineArray[6];
-
-        //        //Add qADataModel to the QADictionary
-        //        QADictionary.Add(Key, qADataModel);
-
-        //        // add the question number to the QANUmbersString
-        //        QANUmbersString = QANUmbersString + Key + '^';
-
-        //    }// End for each line
-
-        //}// end SetupDictionaryAndQAString
-
-        //#endregion pubic SetupDictionaryAndQAString()
 
         #endregion Public methods
 

@@ -24,7 +24,7 @@ namespace NewLSP.UserControls
 
         private void btnOpenSubjectFolder_Click(object sender, RoutedEventArgs e)
         {
-            // Get the Name of the Subject folder
+            // Get or create the Name of the Subject folder
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
             string FolderPath = "";
@@ -44,20 +44,42 @@ namespace NewLSP.UserControls
             // Save the Path to  the selected subject
             SubjectStaticMembers.SaveSubjectFolderPath = FolderPath;
 
+            //Create a folder to hold the QAFiles
             if (!Directory.Exists(FolderPath + "QAFiles"))
             {
                 Directory.CreateDirectory(FolderPath + "QAFiles");
             }
 
+            //Create a folder to hold the QAResults
             if (!Directory.Exists(FolderPath + "QAResults"))
             {
                 Directory.CreateDirectory(FolderPath + "QAResults");
             }
 
-            
+            //Create a folder to hold the hyperlinks files
+            if (!Directory.Exists(FolderPath + "Hyperlinks"))
+            {
+                Directory.CreateDirectory(FolderPath + "Hyperlinks");
+            }
+
+            // Create a folder to hold the subject notes
+            if (!Directory.Exists(FolderPath + "Notes"))
+            {
+                Directory.CreateDirectory(FolderPath + "Notes");
+            }
+
+
+            //Create a text file to hold the Itemcount
+            if (!File.Exists(FolderPath+ "ItemCount.txt"))
+            {
+                //File.Create(FolderPath + "ItemCount.txt");
+                File.WriteAllText(FolderPath + "ItemCount.txt", "0");
+            }
+
+            btnOpenSubjectFolder.IsEnabled = false;
+
             //Communicate the FolderPath to the ViewModel.SubjectNodeViewModel's OpenFile method
             SubjectStaticMembers.OpenFiles(FolderPath);
-
 
         }// End btnOpenSubjectFolder_Click
 
