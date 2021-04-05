@@ -107,7 +107,7 @@ namespace NewLSP.StaticHelperClasses
 
         private static string ItemsCountFilePath;
 
-        private static string HomeFolderPath;
+        public static string HomeFolderPath;
 
         private static string SubjectName;
 

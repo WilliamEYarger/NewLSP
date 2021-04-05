@@ -125,7 +125,7 @@
                         </StackPanel>
                     </Label>
                     <Label Name="lblData" Height="30"    >
-                        <StackPanel x:Name="spData"
+                        <StackPanel x:Name="spHyperlink"
                             Orientation="Horizontal"
                                     Visibility="Hidden">
                             <Ellipse 
@@ -135,7 +135,7 @@
                                      Margin="0 0 30 0"
                                      />
                             <TextBlock x:Name="tbkData"
-                                Text="This node has a Data file"
+                                Text="This node has a Hyperlink file"
                                 FontSize="15"/>
 
                         </StackPanel>
