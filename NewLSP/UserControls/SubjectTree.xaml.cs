@@ -147,15 +147,15 @@ namespace NewLSP.UserControls
                 }
 
 
-                //Determine if this node has a Data file
+                //Determine if this node has a Hyperlink file
                
                 if (SubjectStaticMembers.NodeHadDataFile(NodeID))
                 {
-                    spData.Visibility = Visibility.Visible;
+                    spHyperlink.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    spData.Visibility = Visibility.Hidden;
+                    spHyperlink.Visibility = Visibility.Hidden;
                 }
 
 

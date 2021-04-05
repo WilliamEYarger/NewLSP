@@ -148,7 +148,7 @@ namespace NewLSP
             ucCreatEditQA.Visibility = Visibility.Collapsed;
             ucTestReview.Visibility = Visibility.Collapsed;
             ucInstructions.Visibility = Visibility.Collapsed;
-
+            ucLinkNote.Visibility = Visibility.Collapsed;
 
            // Make the selected control visible
             control.Visibility = Visibility.Visible;
@@ -175,6 +175,47 @@ namespace NewLSP
             }
         }
 
-        
+
+        private void miLinkNotes_Click(object sender, RoutedEventArgs e)
+        {
+            bool HasHyperlink = false;
+            bool HasNotes = false;
+            SetActiveUserControl(ucLinkNote);
+
+            if (SubjectStaticMembers.DataNode != null)
+            {
+                //1.    Test to see if this node has hyperlinks
+                //      a.  Create the filepath to the DataNodes HyperlinkFile
+                string DataNodesHyperlinkPath = SubjectStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
+
+                //      b.  Test to see if a hyperlink file exists
+                if (File.Exists(DataNodesHyperlinkPath))
+                {
+                    HasHyperlink = true;
+                    LinkNoteStaticMembers.SetHyperlinkStringsList();
+                }
+
+                
+
+                if(HasHyperlink && !HasNotes)
+                {
+                    MessageBox.Show("This node has a hyperlink file call Files -> Open Hyperlink");
+                    
+                }
+                else if(!HasHyperlink && HasNotes)
+                {
+                    MessageBox.Show("This node has a Notes file call Files -> Open Notes");
+                   
+                }
+                else if (HasHyperlink && HasNotes)
+                {
+                    MessageBox.Show("This node has a Notes file call Files -> Open Notes \r\n" +
+                        "and a hyperlink file call Files -> Open Hyperlink");
+                    
+                }
+
+            }
+           
+        }
     }
 }

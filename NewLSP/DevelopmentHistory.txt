@@ -1,4 +1,56 @@
-﻿2021 03 30
+﻿2021 04 05
+
+COMMIT MESSAGE:
+	1) Added a LinkNote Page to create and play hyperlinks. eventually this page will also
+	be able to create Notes and Question and Answer strings
+
+
+	1.	*There is an error in dealing with the HyperlinkStringsList
+		a.	*Set the HyperlinkStringsList and the dictionary when the LinkNote user control is expanded
+		b.	*There is an error in that when saving a new hyperlink I am not adding it to the dictioary
+
+2021 04 04
+	1.	Create a method to load the hyperlinks file when the LinkNote window opens
+		a.	*Create an on mouse directly over the main grid method which will only 
+			fire when OnStartUp is true
+		b.	*When the LinkNote UserControl is activated create messages to open hyperlink or note urls
+		c.	*When opening the Hyperlink file 
+			a.	*add all the Urls to thelbxLinks list box
+			b.	*In static create a Dictionary<int, HyperlinkObject> where the int is
+				the sequence number of the link in the Hyperlink file and the HyperlinkObject
+				has three properties: Link, FileType and Bookmark  Create this object in the LinkNoteDataModel
+
+
+
+2021 03 02
+	MAIN TASK: Creation of a Link/Note page
+	1.	*Creare a Link_Note UserControl
+	2.	*Add a Menu Bar and method stems
+	3.	*Add a File Name Type ComboBox
+	4.	*Add a item Name label and  TextBox
+	5.	*Add a book mark label and textbox
+	6.	*Add a Hyperlink lable and textBox
+	7.	* Add a DataLables row
+	8.	*Add a Text input TextBox row
+	9.	Code the miOpenFileDialog_Click method
+		a.	*create a private method in xaml.cs to return the file path when the openfile dialog is called
+		b.	*Create a LinkNoteStaicMember class
+			1)	*Create a string property of Hyperlink
+			2)	*Use the OpenFileDialog to get the hyperlink
+			3)	*Set the text of the tbxHyperlink to the hyperlink
+	10.	Create a click event for the cmbxFileType
+		a.	 Create a FileType Property
+	11.	*In the Save Hyperlink menu item create a message box saying 
+		you can only use this option if you have designated a DataNode
+	12.	*Create a private  List<string> HyperlinkStringsList
+		a.	*Create a Add to method
+	13.	*When the the Save Hyperlink menu item is clicked create the delimited hyperlink
+		and add it to the List of hyperlinks
+	14.	*In Static create a string property to hold Bookmarks
+
+CREATE METHOD FOR DOWNLOADING AN EXISTING HYPERLINKS FILE
+
+2021 03 30 Committed 2021 04 01
 	0.	Change the ItemCount froma bin to a txt file?
 		a.	When creating a new subject folder
 			1)	*Create an ItemCount.txt file upon creation of a new Subject folder
