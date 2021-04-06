@@ -155,7 +155,9 @@
                 <ComboBoxItem Tag="Video">Video</ComboBoxItem>
             </ComboBox>
             <TextBlock Text="    Name  "/>
-            <TextBox x:Name="itemName" Width="780"/>
+            <TextBox x:Name="tbxLinkName" Width="780"
+                     
+                     />
             <TextBlock Text="  BookMark "/>
             <TextBox x:Name="tbxBookMark" Width="100"/>
 

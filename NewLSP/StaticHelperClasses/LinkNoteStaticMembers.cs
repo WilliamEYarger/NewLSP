@@ -71,7 +71,12 @@ namespace NewLSP.StaticHelperClasses
         #region HyperlinkDictionary
 
 
-
+        /// <summary>
+        /// This Dictionary uses the item's position in the lbxLinks ListBox
+        /// as the Key and a HyperlinkObject as the value
+        /// The HyperlinkObject contains: 1) the BookMark, 2) the Name,
+        /// 3) the Url and 4) the FileType
+        /// </summary>
         public static Dictionary<int, LinkNoteModel.HyperlinkObject> HyperlinkDictionary = new Dictionary<int, LinkNoteModel.HyperlinkObject>();
 
         #endregion HyperlinkDictionary

@@ -549,7 +549,7 @@ namespace NewLSP.StaticHelperClasses
         internal static bool NodeHadDataFile(int nodeID)
         {
 
-            string DataFilePath = HomeFolderPath + "Notes\\" + nodeID.ToString() + ".txt";
+            string DataFilePath = HomeFolderPath + "Hyperlinks\\" + nodeID.ToString() + ".txt";
             if (File.Exists(DataFilePath))
             {
                 return true;

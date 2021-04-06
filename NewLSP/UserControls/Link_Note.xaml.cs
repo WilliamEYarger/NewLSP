@@ -46,7 +46,7 @@ namespace NewLSP.UserControls
         /// <summary>
         /// This method gets a file path string by calling the
         /// ReturnFilePath() private method
-        /// It then posts the hyperlink to the Hyperlink text box
+        /// It then posts the hyperlink to tbxHyperlink.Txt
         /// It then gets the file type and posts it to LinkNoteStaticMembers.FileType
         /// </summary>
         /// <param name="sender"></param>
@@ -173,66 +173,8 @@ namespace NewLSP.UserControls
 
         private void miSaveHyperlink_Click(object sender, RoutedEventArgs e)
         {
-            // TODO - there is an error is saving an excel hyperlink in that the delimiters are not present
-
-            if (SubjectStaticMembers.DataNode == null)
-            {
-                MessageBox.Show("You cannot save this hyperlink because there is no designated DataNode");
-                return;
-            }
-
-            // create a hyperlink delimited string
-            // Get any bookmakr if present
-            string BookMark = tbxBookMark.Text;
-
-           
-
-            string thisHyperlink = LinkNoteStaticMembers.Hyperlink + '^' + LinkNoteStaticMembers.FileType + '^' + BookMark;
-
-            // Add thisHyperLink to  HyperlinkStrings
-            // TODO - there is an error in that HyperlinkStringsList has not been defined
-
-            LinkNoteStaticMembers.AddHyperlinkToList(thisHyperlink);
-
-            // Create a strin [] from HyperlinkStringsList
-            string[] HyperlinksArray = LinkNoteStaticMembers.HyperlinkStringsList.ToArray();
-
-            // Create the filepath to the DataNodes HyperlinkFile
-            string DataNodesHyperlinkPath = SubjectStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
-           
-            //Append this to the DataNode's Hyperlink file 
-            File.WriteAllLines(DataNodesHyperlinkPath, HyperlinksArray);
-
-            // Add this line to the Dictionary
-            LinkNoteStaticMembers.HyperlinkDictionary.Clear();
-            int HyperlinkCntr = 0;
-            foreach(string line in HyperlinksArray)
-            {
-                string[] HyperlinkLineArray = line.Split('^');
-                // create a new Hyperlink object
-                LinkNoteModel.HyperlinkObject thisHyperlinkObject = new LinkNoteModel.HyperlinkObject();
-                thisHyperlinkObject.Url = HyperlinkLineArray[0];
-                thisHyperlinkObject.FileType = HyperlinkLineArray[1];
-                thisHyperlinkObject.BookMark = HyperlinkLineArray[2];
-                LinkNoteStaticMembers.HyperlinkDictionary.Add(HyperlinkCntr, thisHyperlinkObject);
-                HyperlinkCntr++;
-            }
-
-            // Clear the lbxLinks listbox
-            lbxLinks.Items.Clear();
-            LinkNoteStaticMembers.BookMarks = new List<string>();
-
-            // Determine if a HyperlinkStringsList already exists
-            // TOTO - 2021 04 05 0738 out of range error here
-            // add the revised HyperlinkToList to the ListBox
-            foreach (string line in LinkNoteStaticMembers.HyperlinkStringsList)
-            {
-                string[] linkSegments = line.Split('^');
-                lbxLinks.Items.Add(linkSegments[0]);
-                LinkNoteStaticMembers.BookMarks.Add(linkSegments[2]);
-            }
-
-
+            SaveHyperlink();
+            return;
 
         }// End miSaveHyperlink_Click
 
@@ -258,48 +200,6 @@ namespace NewLSP.UserControls
             //      b.  Test to see if a hyperlink file exists
             if (File.Exists(DataNodesHyperlinkPath))
             {
-                ////Read In all of the delimited hyperlikn lines
-                //string[] DataNodeHyperlinkArray = File.ReadAllLines(DataNodesHyperlinkPath);
-                //int HyperlinkCntr = 0;
-                /*
-                
-                int HyperlinkCntr = 0;
-                =
-                //process each delimited line
-                foreach(string line in DataNodeHyperlinkArray)
-                {
-                    // add each line to the HyperlinkStringsList
-                    LinkNoteStaticMembers.HyperlinkStringsList.Add(line);
-                    string[] HyperlinkLineArray = line.Split('^');
-                    HyperlinkUrls.Add(HyperlinkLineArray[0]);
-
-                    // create a new Hyperlink object
-                    LinkNoteModel.HyperlinkObject thisHyperlinkObject = new LinkNoteModel.HyperlinkObject();
-                    thisHyperlinkObject.Url = HyperlinkLineArray[0];
-                    thisHyperlinkObject.FileType = HyperlinkLineArray[1];
-                    thisHyperlinkObject.BookMark = HyperlinkLineArray[2];
-                    LinkNoteStaticMembers.HyperlinkDictionary.Add(HyperlinkCntr, thisHyperlinkObject);
-                    HyperlinkCntr++;
-
-                 */
-                ////process each delimited line
-                //foreach (string line in LinkNoteStaticMembers.  DataNodeHyperlinkArray)
-                //{
-                //    // add each line to the HyperlinkStringsList
-                //    LinkNoteStaticMembers.HyperlinkStringsList.Add(line);
-                //    string[] HyperlinkLineArray = line.Split('^');
-                //    HyperlinkUrls.Add(HyperlinkLineArray[0]);
-
-                //    // create a new Hyperlink object
-                //    LinkNoteModel.HyperlinkObject thisHyperlinkObject = new LinkNoteModel.HyperlinkObject();
-                //    thisHyperlinkObject.Url = HyperlinkLineArray[0];
-                //    thisHyperlinkObject.FileType = HyperlinkLineArray[1];
-                //    thisHyperlinkObject.BookMark = HyperlinkLineArray[2];
-                //    LinkNoteStaticMembers.HyperlinkDictionary.Add(HyperlinkCntr, thisHyperlinkObject);
-                //    HyperlinkCntr++;
-
-                //}
-
                 lbxLinks.Items.Clear();
                 foreach(string line in LinkNoteStaticMembers.HyperlinkUrls)
                 {
@@ -364,6 +264,7 @@ namespace NewLSP.UserControls
         private void cmbxFileType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem thisItem = (ComboBoxItem)cmbxFileType.SelectedItem;
+            if (thisItem == null) return;
             string thisItemsTag = thisItem.Tag.ToString();
             LinkNoteStaticMembers.FileType = thisItemsTag;
 
@@ -381,6 +282,7 @@ namespace NewLSP.UserControls
         {
             int ItemClicked = lbxLinks.SelectedIndex;
             LinkNoteModel.HyperlinkObject thisHyperlinkObject = LinkNoteStaticMembers.GetHyperlinkObject(ItemClicked);
+            string LinkName = thisHyperlinkObject.Name;
             string Url = thisHyperlinkObject.Url;
             string BookMark = thisHyperlinkObject.BookMark;
             string Filetype = thisHyperlinkObject.FileType;
@@ -415,12 +317,19 @@ namespace NewLSP.UserControls
             // Set the BookMark
             tbxBookMark.Text = BookMark;
 
+            if(tbxBookMark.Text != "")
+            {
+                Clipboard.SetText(tbxBookMark.Text);
+            }
+
             //Open the hyperlink
             OpenAnApp(Url);
 
         }// End Mouse Up
 
         #endregion Mouse up on List box of Links
+
+        #region Private Methods
 
         #region private method open an executable or specific file type
 
@@ -432,6 +341,109 @@ namespace NewLSP.UserControls
 
 
         #endregion private method open an executable or specific file type
+
+        #region private method SaveHyperlink
+
+        private void SaveHyperlink()
+        {
+            if (SubjectStaticMembers.DataNode == null)
+            {
+                MessageBox.Show("You cannot save this hyperlink because there is no designated DataNode");
+                return;
+            }
+            if (tbxLinkName.Text == "")
+            {
+                MessageBox.Show("You cannot save this hyperlink because there is no Name");
+                return;
+            }
+
+            // create a hyperlink delimited string
+            // Get Hyperlink string fields
+
+            //      Get any bookmakr if present
+            string BookMark = tbxBookMark.Text;
+
+            //      Get Name
+            string HyperlinkName = tbxLinkName.Text;
+
+            //      Get Url
+            string Url = LinkNoteStaticMembers.Hyperlink;
+
+            //      Get FileType
+            string FileType = LinkNoteStaticMembers.FileType;
+
+            string thisHyperlink = HyperlinkName + '^' + Url + '^' + FileType + '^' + BookMark;
+
+            // Add thisHyperLink to  HyperlinkStrings           
+
+            LinkNoteStaticMembers.AddHyperlinkToList(thisHyperlink);
+
+            // Get the updated HyperlinkStringsList
+            List<string> currentHyperlinkStringsList = LinkNoteStaticMembers.HyperlinkStringsList;
+
+            // Create a string [] from HyperlinkStringsList
+           // string[] HyperlinksArray = new string[4];
+
+
+            // Create the filepath to the DataNodes HyperlinkFile
+            string DataNodesHyperlinkPath = SubjectStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
+
+            //Append this to the DataNode's Hyperlink file 
+            File.WriteAllLines(DataNodesHyperlinkPath, currentHyperlinkStringsList);
+
+            // Add this line to the Dictionary
+            LinkNoteStaticMembers.HyperlinkDictionary.Clear();
+
+
+            //For each line in currentHyperlinkStringsList get the component parts and convert them into a Dictionary value
+            int HyperlinkCntr = 0;
+            foreach (string line in currentHyperlinkStringsList)
+            {
+                string[] HyperlinkLineArray = line.Split('^');
+                // create a new Hyperlink object
+                LinkNoteModel.HyperlinkObject thisHyperlinkObject = new LinkNoteModel.HyperlinkObject();
+                thisHyperlinkObject.Name = HyperlinkLineArray[0];
+                thisHyperlinkObject.Url = HyperlinkLineArray[1];
+                thisHyperlinkObject.FileType = HyperlinkLineArray[2];
+                thisHyperlinkObject.BookMark = HyperlinkLineArray[3];
+
+                //Add thisHyperlinkObject to the HyperlinkDictionary
+                LinkNoteStaticMembers.HyperlinkDictionary.Add(HyperlinkCntr, thisHyperlinkObject);
+                HyperlinkCntr++;
+            }
+
+            // Clear the lbxLinks listbox
+            lbxLinks.Items.Clear();
+            LinkNoteStaticMembers.BookMarks = new List<string>();
+
+
+            // add the revised HyperlinkToList to the ListBox
+            foreach (string line in LinkNoteStaticMembers.HyperlinkStringsList)
+            {
+                string[] linkSegments = line.Split('^');
+                lbxLinks.Items.Add(linkSegments[0]);
+                LinkNoteStaticMembers.BookMarks.Add(linkSegments[3]);
+            }
+
+            // Clear all the fields
+            cmbxFileType.SelectedIndex = -1;
+            tbxHyperlink.Text = "";
+            tbxLinkName.Text = "";
+            tbxBookMark.Text = "";
+
+            return;
+        }
+        #endregion private method SaveHyperlink
+
+        #region Open Hyperlink
+
+        private void OpenHyperlink()
+        {
+
+        }
+        #endregion Open Hyperlink
+
+        #endregion Private Methods
 
     }// End class
 }// End Name space
