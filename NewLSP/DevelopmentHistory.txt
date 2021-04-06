@@ -1,4 +1,29 @@
-﻿2021 04 05
+﻿2021 04 06
+CommitMessage: 1)Revised the HyperlinkObject to include a Name property 2)Changed save hyperlinks 
+to only function when there is a name 3) wrote the BookMark to the clipboard 4) Changed the
+listbox to show the Name fields
+
+	THE PRIMARY TASK OF THIS SESSION IS TO REVISE HOW HYPERLINKS
+	ARE ENTERED, SAVED, NAMED AND OPENED
+	1.	*Add a Name property to HyperlinkObject class
+	2.	*Add a Name field to xaml
+	3.	*Send any selected hyperlinks to the xaml  tbxHyperlink
+	4.	Prevent saving a hyperlink unless the tbxLinkName text is present
+	5.	List only the Names in the lbxLinks ListBox
+	6.	To Open a hyperlink
+		a.	*Select an item in the lbxLinks ListBox OR
+		b.	Click OpenHyperlink in the Files Menu
+		c.	*If either is selected copy the BookMark, if any, to the clipboard
+
+
+
+2021 04 05 
+	1.	*Corrected an error in that they hyperlinks was not acknowledged
+	2.	There is an error in adding a bookmark
+
+
+
+2021 04 05 Committed 2021 04 05 0940
 
 COMMIT MESSAGE:
 	1) Added a LinkNote Page to create and play hyperlinks. eventually this page will also
