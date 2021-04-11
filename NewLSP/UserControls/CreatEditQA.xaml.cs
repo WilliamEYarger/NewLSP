@@ -65,7 +65,15 @@ namespace NewLSP.UserControls
 
         private void Append_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Append Menu Item clicked");
+            // Test to see if the dictionary is empty and if fill it and get the current item cound
+            if(QAStaticMembers.QADictionary.Count == 0)
+            {
+                TestReviewStaticMembers.InitializeData();
+                QAStaticMembers.CurrentQANumberInt = QAStaticMembers.QADictionary.Count;
+                tbkCurrentQuestionNumber.Text = QAStaticMembers.CurrentQANumberInt.ToString();
+            }
+
+           
         }
         #endregion Append to File
 
@@ -152,31 +160,29 @@ namespace NewLSP.UserControls
         private void btnGetNextQA_Click(object sender, RoutedEventArgs e)
         {
 
-            //if(QADataModelObject == null)
-            //{
-            //    QADataModelObject = new QADataModel();
-            //}
+            AddThisQAPairToTheDictionary();
+            
 
-            // Change \r\n to ~
-            string thisQuestion = tbxQuestion.Text;
-            thisQuestion = thisQuestion.Replace("\r\n", "~");
-            string thisAnswer = tbxAnswer.Text;
-            thisAnswer = thisAnswer.Replace("\r\n", "~");
-            QADataModelObject.Question = thisQuestion;
-            QADataModelObject.Answer = thisAnswer;
-            QADataModelObject.QuestionJpgUrl = QuestionJpgUrl;
-            QADataModelObject.QuestionMp3Url = QuestionMp3Url;
-            QADataModelObject.AnswerJpgUrl = AnswerJpgUrl;
-            QADataModelObject.AnswerMp3Url = AnswerMp3Url;
-            // Save the current  QADataModelObject
-            QAStaticMembers.AddQAObjectToDictionary(QAStaticMembers.CurrentQANumberInt.ToString(), QADataModelObject);
+            //// Change \r\n to ~
+            //string thisQuestion = tbxQuestion.Text;
+            //thisQuestion = thisQuestion.Replace("\r\n", "~");
+            //string thisAnswer = tbxAnswer.Text;
+            //thisAnswer = thisAnswer.Replace("\r\n", "~");
+            //QADataModelObject.Question = thisQuestion;
+            //QADataModelObject.Answer = thisAnswer;
+            //QADataModelObject.QuestionJpgUrl = QuestionJpgUrl;
+            //QADataModelObject.QuestionMp3Url = QuestionMp3Url;
+            //QADataModelObject.AnswerJpgUrl = AnswerJpgUrl;
+            //QADataModelObject.AnswerMp3Url = AnswerMp3Url;
+            //// Save the current  QADataModelObject
+            //QAStaticMembers.AddQAObjectToDictionary(QAStaticMembers.CurrentQANumberInt.ToString(), QADataModelObject);
 
-            // Clear this object and create a new one
-            QADataModelObject = null;
-            QADataModelObject = new QADataModel();
+            //// Clear this object and create a new one
+            //QADataModelObject = null;
+            //QADataModelObject = new QADataModel();
 
-            // Increment the current question number
-            QAStaticMembers.CurrentQANumberInt++;
+            //// Increment the current question number
+            //QAStaticMembers.CurrentQANumberInt++;
 
 
             //send the current quesntion number string to tbkCurrentQuestionNumber
@@ -229,7 +235,33 @@ namespace NewLSP.UserControls
 
         }
 
+        #region AddThisQAPairToTheDictionary
 
+        private  void AddThisQAPairToTheDictionary()
+        {
+            // Change \r\n to ~
+            string thisQuestion = tbxQuestion.Text;
+            thisQuestion = thisQuestion.Replace("\r\n", "~");
+            string thisAnswer = tbxAnswer.Text;
+            thisAnswer = thisAnswer.Replace("\r\n", "~");
+            QADataModelObject.Question = thisQuestion;
+            QADataModelObject.Answer = thisAnswer;
+            QADataModelObject.QuestionJpgUrl = QuestionJpgUrl;
+            QADataModelObject.QuestionMp3Url = QuestionMp3Url;
+            QADataModelObject.AnswerJpgUrl = AnswerJpgUrl;
+            QADataModelObject.AnswerMp3Url = AnswerMp3Url;
+            // Save the current  QADataModelObject
+            QAStaticMembers.AddQAObjectToDictionary(QAStaticMembers.CurrentQANumberInt.ToString(), QADataModelObject);
+
+            // Clear this object and create a new one
+            QADataModelObject = null;
+            QADataModelObject = new QADataModel();
+
+            // Increment the current question number
+            QAStaticMembers.CurrentQANumberInt++;
+        }
+
+        #endregion AddThisQAPairToTheDictionary
 
 
         #endregion  Private Methods

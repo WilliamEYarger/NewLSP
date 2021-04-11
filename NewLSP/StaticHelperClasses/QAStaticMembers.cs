@@ -164,7 +164,7 @@ namespace NewLSP.StaticHelperClasses
         internal static void SaveQADictionary()
         {
 
-            // TODO - there is an error in that the QADictionary is not defined when called by the TestResults control
+           
             
             // Create a List<string> to hold the delimited QAFile lines
             List<string> QALines = new List<string>();
@@ -193,6 +193,55 @@ namespace NewLSP.StaticHelperClasses
         }// End
         #endregion  Replace an Entry in the QA Dictionary
 
+
+        #region Read the QAFile into the Dictionary ReadQAFileIntoDictionary()
+
+        public static void ReadQAFileIntoDictionary()
+        {
+            // Read all of the lines in the qa file into an array
+            string[] QALinesArray = File.ReadAllLines(SubjectStaticMembers.GetDataNodesQAFilePath());
+
+            //process each delimited line converting it into a key(question number)
+            // and value QADataModel object
+
+            foreach (string line in QALinesArray)
+            {
+                // split this string on ^
+                string[] thisQALineArray = line.Split('^');
+                // Create a new QADataModel object
+                QADataModel qADataModel = new QADataModel();
+
+                //Get the key and store it
+                string Key = thisQALineArray[0];
+
+
+                qADataModel.QANumber = Int32.Parse(Key);
+
+                string question = thisQALineArray[1];
+                question = question.Replace("~", "\r\n");
+                qADataModel.Question = question;
+
+                string answer = thisQALineArray[2];
+                answer = answer.Replace("~", "\r\n");
+                qADataModel.Answer = answer;
+
+                qADataModel.QuestionJpgUrl = thisQALineArray[3];
+
+                qADataModel.QuestionMp3Url = thisQALineArray[4];
+
+                qADataModel.AnswerJpgUrl = thisQALineArray[5];
+
+                qADataModel.AnswerMp3Url = thisQALineArray[6];
+
+                //Add qADataModel to the QADictionary
+                QAStaticMembers.QADictionary.Add(Key, qADataModel);
+
+                // add the question number to the QANUmbersString
+                //QANUmbersString = QANUmbersString + Key + '^';
+
+            }// End for each line
+        }
+        #endregion Read the QAFile into the DictionaryReadQAFileIntoDictionary()
 
         #endregion Public methods
 

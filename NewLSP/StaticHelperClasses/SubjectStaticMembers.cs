@@ -164,24 +164,7 @@ namespace NewLSP.StaticHelperClasses
             // Test to see if this file exist and if not create it
             if (!File.Exists(SubjectsNodeDataStringsPath))
             {
-                ///* This is a newly created subject so initialize the  ItemCounter to 0, 
-                // * create the string [] array, ArrayOfSubjectNodes to hold all of the subject nodes,
-                // * Create the Root node and set its counter to ItemCounter and update ItemCounter
-                // */
-
-                //// create the initial count and write it to the ItemCount.bin file
-                //int CurrentItemCount = 0;
-
-                ////Create a binary file to hold the current number of items created
-                //ItemsCountFilePath = HomeFolderPath + "ItemCount.bin";
-                //FileStream fs = new FileStream(ItemsCountFilePath, FileMode.Create);
-                //BinaryWriter bw = new BinaryWriter(fs);
-                //bw.Write(CurrentItemCount);
-                //// Create a new file to hold the items in the subject dictionary
-                //var fileStream = File.Create(SubjectsNodeDataStringsPath);
-                //fileStream.Close();
-
-
+                
                 //Create a new RootNode
                 SubjectNodes RootNode = new SubjectNodes(0);
 
@@ -225,16 +208,7 @@ namespace NewLSP.StaticHelperClasses
                 SubjectStaticMembers.ItemCount = ItemCount;
 
 
-                //// Read in current ItemCount
-                //ItemsCountFilePath = HomeFolderPath + "ItemCount.bin";
-                //using (var filestream = File.Open(ItemsCountFilePath, FileMode.Open))
-                //{
-                //    using (var binaryStream = new BinaryReader(filestream))
-                //    {
-                //        ItemCount = binaryStream.ReadInt32();
-
-                //    }
-                //}
+              
 
                 // Instantiate the Dictionary
                 SubjectNodeDictionary = new Dictionary<string, SubjectNodes>();
@@ -243,7 +217,10 @@ namespace NewLSP.StaticHelperClasses
                 SubjectNodes ThisNode = new SubjectNodes();
                 // Create the delimiter
                 char D = '\u0240';
+
+
                 //Read in SubjectsNodeDataStringsPath 
+                //string[] SubjectNodeDataStringArray = File.ReadAllLines(SubjectsNodeDataStringsPath);
                 string[] SubjectNodeDataStringArray = File.ReadAllLines(SubjectsNodeDataStringsPath);
 
                 foreach (string line in SubjectNodeDataStringArray)
@@ -444,7 +421,7 @@ namespace NewLSP.StaticHelperClasses
         public static void SetDataNodesQAFilePath()
         {
              DataNodesQAFilePath = SubjectStaticMembers.SaveSubjectFolderPath + "QAFiles\\" + DataNode.ID.ToString() + ".txt";
-            // TODO return here after setting the Subject's file path
+           
         }
 
         public static string GetDataNodesQAFilePath()

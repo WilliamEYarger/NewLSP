@@ -58,8 +58,17 @@ namespace NewLSP.UserControls
             //Get the current date time
             DateTime currentDate = DateTime.Now;
 
+            string CurrentDateTimeString = currentDate.ToString("yyy MM dd HHmm");
+            /*
+              DateTime myDate = (DateTime)value;
+        if (myDate != DateTime.MinValue)
+        {
+           return myDate.ToString("dd/MM/yyyy HH:mm:ss");
+        }
+             */
+
             // compose the output line
-            string FormattedDateStr = String.Format("YYYYMMDDHHmm", currentDate);
+            //string FormattedDateStr = String.Format("YYYYMMDDHHmm", currentDate);
             double total =QAStaticMembers.QADictionary.Count;
             double wrong = TestReviewStaticMembers.NumberOfWrongAnswers;
 
@@ -69,7 +78,7 @@ namespace NewLSP.UserControls
             
 
             // create the output line
-            string OutputStr = FormattedDateStr + " " + PercentCorrectStr + " " + TestReviewStaticMembers.DelimitedWrongAnswersStr;
+            string OutputStr = CurrentDateTimeString + "|  " + PercentCorrectStr + " " + TestReviewStaticMembers.DelimitedWrongAnswersStr;
 
             // Append this line to the existing file
             File.AppendAllText(ResultsFilePath, OutputStr + Environment.NewLine);
@@ -290,7 +299,7 @@ namespace NewLSP.UserControls
             if (T == 'Q')
             {
                 //This is a call for a question//
-                // TODO - there appears to be an error in that TestReviewStaticMembers.ThisQuestion is not updated
+               
 
                 // Deternine if there are questions left and if not message
                 string thisQuestion = TestReviewStaticMembers.ThisQuestion;
@@ -438,11 +447,12 @@ namespace NewLSP.UserControls
             
         }
 
+
+
         #endregion Test/Review Public Method
 
         #endregion  Public Methods
 
-
-
+        
     }
 }

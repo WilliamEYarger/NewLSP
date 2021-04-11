@@ -313,52 +313,59 @@ namespace NewLSP.StaticHelperClasses
         /// </summary>
         private static void SetupDictionaryAndQAString()
         {
+            QANUmbersString = "";
 
+            QAStaticMembers.ReadQAFileIntoDictionary();
+
+            for(int i=0; i< QAStaticMembers.QADictionary.Count; i++)
+            {
+                QANUmbersString = QANUmbersString + i.ToString() + '^';
+            }
             // Clear any previous values in the QANumberString
 
 
-            // Read all of the lines in the qa file into an array
-            string[] QALinesArray = File.ReadAllLines(SubjectStaticMembers.GetDataNodesQAFilePath());
+            //// Read all of the lines in the qa file into an array
+            //string[] QALinesArray = File.ReadAllLines(SubjectStaticMembers.GetDataNodesQAFilePath());
 
-            //process each delimited line converting it into a key(question number)
-            // and value QADataModel object
+            ////process each delimited line converting it into a key(question number)
+            //// and value QADataModel object
 
-            foreach (string line in QALinesArray)
-            {
-                // split this string on ^
-                string[] thisQALineArray = line.Split('^');
-                // Create a new QADataModel object
-                QADataModel qADataModel = new QADataModel();
+            //foreach (string line in QALinesArray)
+            //{
+            //    // split this string on ^
+            //    string[] thisQALineArray = line.Split('^');
+            //    // Create a new QADataModel object
+            //    QADataModel qADataModel = new QADataModel();
 
-                //Get the key and store it
-                string Key = thisQALineArray[0];
+            //    //Get the key and store it
+            //    string Key = thisQALineArray[0];
 
 
-                qADataModel.QANumber = Int32.Parse(Key);
+            //    qADataModel.QANumber = Int32.Parse(Key);
 
-                string question = thisQALineArray[1];
-                question = question.Replace("~", "\r\n");
-                qADataModel.Question = question;
+            //    string question = thisQALineArray[1];
+            //    question = question.Replace("~", "\r\n");
+            //    qADataModel.Question = question;
 
-                string answer = thisQALineArray[2];
-                answer = answer.Replace("~", "\r\n");
-                qADataModel.Answer = answer;
+            //    string answer = thisQALineArray[2];
+            //    answer = answer.Replace("~", "\r\n");
+            //    qADataModel.Answer = answer;
 
-                qADataModel.QuestionJpgUrl = thisQALineArray[3];
+            //    qADataModel.QuestionJpgUrl = thisQALineArray[3];
 
-                qADataModel.QuestionMp3Url = thisQALineArray[4];
+            //    qADataModel.QuestionMp3Url = thisQALineArray[4];
 
-                qADataModel.AnswerJpgUrl = thisQALineArray[5];
+            //    qADataModel.AnswerJpgUrl = thisQALineArray[5];
 
-                qADataModel.AnswerMp3Url = thisQALineArray[6];
+            //    qADataModel.AnswerMp3Url = thisQALineArray[6];
 
-                //Add qADataModel to the QADictionary
-                QAStaticMembers.QADictionary.Add(Key, qADataModel);
+            //    //Add qADataModel to the QADictionary
+            //    QAStaticMembers.QADictionary.Add(Key, qADataModel);
 
-                // add the question number to the QANUmbersString
-                QANUmbersString = QANUmbersString + Key + '^';
+            //    // add the question number to the QANUmbersString
+            //    QANUmbersString = QANUmbersString + Key + '^';
 
-            }// End for each line
+            //}// End for each line
 
             // Call AnswerQuestions to load the first item in the dictionary
             SetCurrentQAValues("0");
