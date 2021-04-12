@@ -157,6 +157,16 @@ namespace NewLSP.UserControls
         }
         #endregion  Notepad++ MenuItem
 
+
+        #region Meun Item MS Paint
+
+        private void miPaint_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"C:\Windows\system32\mspaint.exe");
+        }
+        #endregion Meun Item MS Paint
+
+
         #endregion Applications Menu
 
         private void miHyperlink_Click(object sender, RoutedEventArgs e)
@@ -192,6 +202,7 @@ namespace NewLSP.UserControls
 
         private void miOpenHyperLink_Click(object sender, RoutedEventArgs e)
         {
+            
             // Create a List<string> of Hyperlink display string
             //List<string> HyperlinkUrls = new List<string>();
 
@@ -200,10 +211,33 @@ namespace NewLSP.UserControls
             //      b.  Test to see if a hyperlink file exists
             if (File.Exists(DataNodesHyperlinkPath))
             {
+                // Read the hyperlinks file into the LinkNoteStaticMembers.HyperlinkDictionary
+
+                // read all lines in the hyperlink file into a string []
+                string[] HyperlinksArray = File.ReadAllLines(DataNodesHyperlinkPath);
+
+                LinkNoteStaticMembers.HyperlinkDictionary.Clear();
+
+                
+
                 lbxLinks.Items.Clear();
-                foreach(string line in LinkNoteStaticMembers.HyperlinkUrls)
+                int HyperlinkCntr = 0;
+                foreach(string line in HyperlinksArray)
                 {
-                    lbxLinks.Items.Add(line);
+                    // Get the component parts
+                    string[] componentItems = line.Split('^');
+                    string Name = componentItems[0];
+                    string Url = componentItems[1];
+                    string FileType = componentItems[2];
+                    string BookMark = componentItems[3];
+                    LinkNoteModel.HyperlinkObject hyperlinkObject = new LinkNoteModel.HyperlinkObject();
+                    hyperlinkObject.Name = Name;
+                    hyperlinkObject.Url = Url;
+                    hyperlinkObject.FileType = FileType;
+                    hyperlinkObject.BookMark = BookMark;
+                    LinkNoteStaticMembers.AddItemToHyperlinkDictionary(HyperlinkCntr, hyperlinkObject);
+
+                    lbxLinks.Items.Add(Name);
                 }
             }
         }
@@ -270,12 +304,7 @@ namespace NewLSP.UserControls
 
         }
 
-        private void miOpenHyperlink_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
+       
         #region Mouse up on List box of Links
 
         private void lbxLinks_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -444,6 +473,9 @@ namespace NewLSP.UserControls
         #endregion Open Hyperlink
 
         #endregion Private Methods
+
+
+
 
     }// End class
 }// End Name space

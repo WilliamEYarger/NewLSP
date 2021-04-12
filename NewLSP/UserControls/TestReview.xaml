@@ -43,7 +43,7 @@
                           Header="Save File and Return"
                           Click="SaveFile_Click"/>
             </MenuItem>
-            <MenuItem Header="     Test/Review">
+            <MenuItem Header="     Test/Review" >
                 <MenuItem Header="Test" Name="Test"
                           Click="Test_Click"/>
                 <MenuItem Header="Review" Name="Review"

@@ -1,4 +1,25 @@
-﻿2021 04 06
+﻿2021 04 07
+	1.	*Added a menu item to Application to open ms Paint
+	2.	*Added an append menu item to the QAPage
+		a.	If the dictionary is blank, fill it and get the current qa item count
+			1)	*Move the setup dictionary from TestReviewStaticMembers to QAStaticMembers
+				and adjust the code in testReviewStatic 
+			2)	*Test to see if you can append qa pairs -YES
+			3)	*Test to see if you can add QA pairs to a new file -YES
+			4)	*Test to see if you can take a review on an appended file
+			5)	*Test to see if you can take a test on an appended file -YES
+				but there is an error in recording results in that the DateTime isn't correct
+	3.	*Correct writting the date time to a results file
+	4.	*There is an error in the LinkNotes Open Hyperlink file menu item in that it is only loading the yperlink name
+	5.	*There is a major error in writing the QAFiles in that new lines are not converted to ~. This only appears in the last
+		QA File. I DONT KNOW WHY IT DIDN'T ADD THEM TO THE LAST EHRMAN QA PAIR BUT IT IS WORKING NOW
+Commit Message: 1) Added Paint to list of apps that can be opened; 2) Added code to allow appending to an 
+existing QA File; 3) Corrected the DateTime Format printing in the results of taking a text
+
+
+
+
+2021 04 06 Committed 2021 04 06
 CommitMessage: 1)Revised the HyperlinkObject to include a Name property 2)Changed save hyperlinks 
 to only function when there is a name 3) wrote the BookMark to the clipboard 4) Changed the
 listbox to show the Name fields

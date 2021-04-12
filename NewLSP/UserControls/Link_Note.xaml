@@ -64,6 +64,10 @@
                 <MenuItem Header="FireFox Browser"
                           Name="miFireFox"
                           Click="miFireFox_Click"/>
+                <MenuItem Header="MS Paint"
+                          Name="miPaint"
+                          Click="miPaint_Click"/>
+                
 
             </MenuItem>
             
@@ -105,7 +109,7 @@
                           Name="miSaveQAItem"
                           Click="miSaveQAItem_Click"/>
 
-                <MenuItem Header="Open Hyperlink"
+                <MenuItem Header="Open Hyperlink File"
                           Name="miOpenHyperLink"
                           Click="miOpenHyperLink_Click"/>
 
@@ -153,6 +157,7 @@
                 <ComboBoxItem Tag="Image">Image</ComboBoxItem>
                 <ComboBoxItem Tag="Sound">Sound</ComboBoxItem>
                 <ComboBoxItem Tag="Video">Video</ComboBoxItem>
+                <ComboBoxItem Tag="Paint">Video</ComboBoxItem>
             </ComboBox>
             <TextBlock Text="    Name  "/>
             <TextBox x:Name="tbxLinkName" Width="780"
