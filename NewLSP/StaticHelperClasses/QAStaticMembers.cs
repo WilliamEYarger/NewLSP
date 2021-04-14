@@ -101,7 +101,9 @@ namespace NewLSP.StaticHelperClasses
 
         /// <summary>
         /// Check to insure that the file doesn't exist and then creat it
-        /// Called by CreateEditQA.xaml.cs
+        /// Called by CreateEditQA.xaml.cs NewFile_Click(
+        /// it 1: Sets the dataNodesQAFilePath and then passes
+        /// that to the File.Create procedure in system.IO
         /// </summary>
         internal static void CreateNewQAFile()
         {
@@ -150,6 +152,10 @@ namespace NewLSP.StaticHelperClasses
         /// <param name="qADataModelObject"></param>
         public static void AddQAObjectToDictionary(string NumberKey, QADataModel qADataModelObject)
         {
+            // TODO - Error
+            //-		$exception	{"An item with the same key has already been added."}	System.ArgumentException
+
+
             QADictionary.Add(NumberKey, qADataModelObject);
 
         }// End AddQAObjectToDictionary

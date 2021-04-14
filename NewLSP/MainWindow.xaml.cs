@@ -154,6 +154,14 @@ namespace NewLSP
             control.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Called when the user clicks the QAPages tab.
+        /// If there is not data node a message is shown and control returns
+        /// Else SetActiveUserContro is called to open the ucCreateEditQA control
+        /// and a message to choose the edit Mode before proceeding is shown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateOrEdit_Click(object sender, RoutedEventArgs e)
         {
 
@@ -192,7 +200,7 @@ namespace NewLSP
                 if (File.Exists(DataNodesHyperlinkPath))
                 {
                     HasHyperlink = true;
-                    LinkNoteStaticMembers.SetHyperlinkStringsList();
+                   // LinkNoteStaticMembers.SetHyperlinkStringsList();
                 }
 
                 

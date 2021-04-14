@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NewLSP.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200">
+             d:DesignHeight="800" d:DesignWidth="1200" >
     <UserControl.Resources>
         <Style TargetType="MenuItem">
             <Setter Property="FontSize" Value="15"/>
@@ -119,9 +119,12 @@
 
             </MenuItem>
             <!--the QAMedia menu-->
-            <MenuItem Header="QAMedia">
+            <MenuItem Header="Leave Page" 
+                      Name="miLeavePage"
+                      Click="miLeavePage_Click"
+                      >
 
-                <MenuItem Header="Add Question Image"
+                <!--<MenuItem Header="Add Question Image"
                           Name="miQAddJpg"
                           Click="miQAddJpg_Click"/>
 
@@ -136,7 +139,7 @@
 
                 <MenuItem Header="Add Answer Sound File"
                           Name="miAAddMp3"
-                          Click="miAAddMp3_Click"/>
+                          Click="miAAddMp3_Click"/>-->
             </MenuItem>
             <!--the Instructions menu-->
             <MenuItem Header="Instructions"></MenuItem>
@@ -157,7 +160,7 @@
                 <ComboBoxItem Tag="Image">Image</ComboBoxItem>
                 <ComboBoxItem Tag="Sound">Sound</ComboBoxItem>
                 <ComboBoxItem Tag="Video">Video</ComboBoxItem>
-                <ComboBoxItem Tag="Paint">Video</ComboBoxItem>
+                <ComboBoxItem Tag="Paint">Paint</ComboBoxItem>
             </ComboBox>
             <TextBlock Text="    Name  "/>
             <TextBox x:Name="tbxLinkName" Width="780"

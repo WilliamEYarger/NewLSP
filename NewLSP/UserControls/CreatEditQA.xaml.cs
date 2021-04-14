@@ -83,6 +83,13 @@ namespace NewLSP.UserControls
 
         #region Begin New QAFile
 
+
+        /// <summary>
+        /// Called when the user clicks the Begin a New File Menu item
+        /// It then uses a Yes/No MessageBox to ask if the user wants to override it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NewFile_Click(object sender, RoutedEventArgs e)
         {
             //Check to insure that the file doesn't exist and then create it

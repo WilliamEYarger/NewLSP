@@ -358,10 +358,38 @@ namespace NewLSP.UserControls
         #region Radio Button create DataNode
 
 
+        /// <summary>
+        /// Called when the user clicks the 
+        /// This is the DataNode Radio button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rbDataNode_Click(object sender, RoutedEventArgs e)
         {
             // Set the SubjectStaticMembers DataNode
             SubjectStaticMembers.DataNode = SelectedNode;
+
+            // 2021 04 13 Start
+
+            //blank the dataNodesQAFilePath
+            SubjectStaticMembers.DataNodesQAFilePath = "";
+
+            //sets the int CurrentQANumberInt  and QAStaticMembers.CurrentQANumberInt to 0
+            QAStaticMembers.CurrentQANumberInt = 0;
+
+
+            // Clear the hyperlink dictionary
+            LinkNoteStaticMembers.HyperlinkDictionary.Clear();
+
+            // clear the QAStaticMembers.QADictionary
+            QAStaticMembers.QADictionary.Clear();
+
+            //Clear the Hyperlink dictionary
+            LinkNoteStaticMembers.HyperlinkDictionary.Clear();
+
+            //clear the hyperlink counter
+
+            //2021 04 13 End
 
             // Set the Path to the DataNode's QAfile
             SubjectStaticMembers.SetDataNodesQAFilePath();

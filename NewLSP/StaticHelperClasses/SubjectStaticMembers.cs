@@ -116,7 +116,7 @@ namespace NewLSP.StaticHelperClasses
 
 
         // This is the path to the Folder that holds the questions and answers for a given subject tree node
-        private static string DataNodesQAFilePath;
+        public static string DataNodesQAFilePath;
 
 
 
@@ -418,8 +418,15 @@ namespace NewLSP.StaticHelperClasses
 
         #region SetDataNodesQAFilePath
 
+
+        /// <summary>
+        /// Called by STxc .rbDataNode_Click
+        /// which tens sets the DataNodesQAFilePath to the 
+        /// QAFiles folder's DataNode's ID.txt file
+        /// </summary>
         public static void SetDataNodesQAFilePath()
         {
+            //
              DataNodesQAFilePath = SubjectStaticMembers.SaveSubjectFolderPath + "QAFiles\\" + DataNode.ID.ToString() + ".txt";
            
         }

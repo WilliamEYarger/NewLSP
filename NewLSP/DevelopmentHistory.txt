@@ -1,4 +1,27 @@
-﻿2021 04 07
+﻿
+
+
+2021 04 12
+	1.	Corrected error in listing Paint program in Link_Nore cmbxFileType_SelectionChanged
+	2.	Log what happens when a new DataNode is selected
+		a.	*Test to see if the Yes/No user control works if there is an existing QAFile =YES
+	3.	*Allow use of multiple DataNodes in the same session
+			Tasks to do when initializing a new DataNode
+		•	set the SubjectStaticMembers (SSM) .DataNode
+		•	*blank the dataNodesQAFilePath
+		•	*sets the int CurrentQANumberInt  and QAStaticMembers.CurrentQANumberInt to 0
+		•	 DELETE  Then bool HasHyperlink = false; and bool HasNotes  false
+		•	Set the bool HasHyperlink = false; and bool HasNotes =false
+		•	???Set the DataNodesHyperlinkPath to “”
+		•	set DataNodesHyperlinkPath = false
+		•	Clear LinkNoteStaticMembers.SetHyperlinkStringsList();
+		•	Clear HyperlinkDictionary
+	4.	*QAStaticMembers.QADictionary has not been cleared
+	5.	*HyperlinkDictionary is not being cleared
+Commit Message: 1) Corrected an error in callin  Paint; 2) Added code to enable using multiple DataNodes in the same session
+
+
+2021 04 07 Committed 2021 04 11
 	1.	*Added a menu item to Application to open ms Paint
 	2.	*Added an append menu item to the QAPage
 		a.	If the dictionary is blank, fill it and get the current qa item count

@@ -106,6 +106,8 @@ namespace NewLSP.StaticHelperClasses
 
         public static void AddItemToHyperlinkDictionary(int cntr, LinkNoteModel.HyperlinkObject thisHyperlinkObject)
         {
+            // TODO - $exception	{"An item with the same key has already been added."}	System.ArgumentException
+
             HyperlinkDictionary.Add(cntr, thisHyperlinkObject);
         }
 
@@ -119,10 +121,12 @@ namespace NewLSP.StaticHelperClasses
 
         /// <summary>
         /// Called when the LinkNote control is expanded
-        /// It  reads all on the lines in the hyperlink file into an array and then
+        /// It  reads all on the lines in the hyperlink file into the DataNodeHyperlinkArray and then
         /// for each line it:
         ///     1) Adds the delimitd line to the HyperlinkStringsList
-        ///     2)  It creates the HyperlinkDictionary using its position 
+        ///     2) Sets the  int HyperlinkCntr to 0
+        ///     3) It cycles through each line the DataNodeHyperlinkArray
+        ///     creates the HyperlinkDictionary using its position 
         ///         in the array as the key and the component itmes as
         ///         properties of the LinkNoteModel.HyperlinkObject that is the value
         /// </summary>

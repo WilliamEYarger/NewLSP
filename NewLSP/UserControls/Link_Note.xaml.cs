@@ -169,6 +169,22 @@ namespace NewLSP.UserControls
 
         #endregion Applications Menu
 
+
+
+        #region LeavePage Menu
+
+        private void miLeavePage_Click(object sender, RoutedEventArgs e)
+        {//Added 2021 04 13
+
+            lbxLinks.Items.Clear();
+            tbxHyperlink.Text = "";
+            cmbxFileType.SelectedIndex = -1;
+            LinkNoteStaticMembers.HyperlinkDictionary.Clear();
+
+        }//End miLeavePage_Click
+        #endregion LeavePage MenuItem
+
+
         private void miHyperlink_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("miHyperlink_Click");
@@ -238,6 +254,7 @@ namespace NewLSP.UserControls
                     LinkNoteStaticMembers.AddItemToHyperlinkDictionary(HyperlinkCntr, hyperlinkObject);
 
                     lbxLinks.Items.Add(Name);
+                    HyperlinkCntr++;
                 }
             }
         }
@@ -470,11 +487,13 @@ namespace NewLSP.UserControls
         {
 
         }
+
+
+
+
         #endregion Open Hyperlink
 
         #endregion Private Methods
-
-
 
 
     }// End class
