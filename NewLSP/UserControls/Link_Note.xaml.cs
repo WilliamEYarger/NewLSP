@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using NewLSP.StaticHelperClasses;
 using System.IO;
 using NewLSP.DataModels;
+using System;
 
 namespace NewLSP.UserControls
 {
@@ -381,7 +382,14 @@ namespace NewLSP.UserControls
 
         private void OpenAnApp(string hyperlink)
         {
-            System.Diagnostics.Process.Start(hyperlink);
+            try
+            {
+                System.Diagnostics.Process.Start(hyperlink);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message+ " = "+ hyperlink);
+            }
         }
 
 

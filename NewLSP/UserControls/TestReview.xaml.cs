@@ -132,8 +132,32 @@ namespace NewLSP.UserControls
 
         #endregion Test/Review Menu
 
+        #region Subject Order Menu
 
-        #region Instructions
+
+        #region Menu Item Seriatim
+
+        private void miSeriatim_Click(object sender, RoutedEventArgs e)
+        {
+            TestReviewStaticMembers.QuestionsSeriatim = true;
+        }
+
+
+        #endregion Menu Item Seriatim
+
+
+        #region MenuItem Random
+
+        private void miRandom_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion MenuItem Random
+        #endregion Subject Order Menu
+
+
+        #region Instructions Menu
 
         #region UseForm
 
@@ -410,8 +434,10 @@ namespace NewLSP.UserControls
         /// a.  Test = all questions have been answered and scordx
         /// b.   Review = all questions have been answered correctly 
         ///     but not scored
+        /// Depending on whether TextReviewStaticMember.QuestionsSeriatim is true or false
+        /// prepare a deliited string of question numbers
         /// </summary>
-        internal  void TestOrReview()
+        internal void TestOrReview()
         {
             // Return all media buttons to disabled
             ResetMediaButtons();
@@ -449,10 +475,10 @@ namespace NewLSP.UserControls
 
 
 
+
         #endregion Test/Review Public Method
 
         #endregion  Public Methods
 
-        
     }
 }

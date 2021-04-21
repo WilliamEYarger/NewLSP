@@ -216,6 +216,19 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion ThereIsASoundFile boolean
 
+
+
+        #region QuestionsSeriatim bool
+
+        private static bool _QuestionsSeriatim = true;
+
+        public static bool QuestionsSeriatim
+        {
+            get { return _QuestionsSeriatim; }
+            set { _QuestionsSeriatim = value; }
+        }
+
+        #endregion QuestionsSeriatim bool
         #endregion Public Propeties
 
 
@@ -313,8 +326,10 @@ namespace NewLSP.StaticHelperClasses
         /// </summary>
         private static void SetupDictionaryAndQAString()
         {
+            //Initialize the question number string
             QANUmbersString = "";
 
+            //Read the data in the QAFile into the QADictionary
             QAStaticMembers.ReadQAFileIntoDictionary();
 
             for(int i=0; i< QAStaticMembers.QADictionary.Count; i++)

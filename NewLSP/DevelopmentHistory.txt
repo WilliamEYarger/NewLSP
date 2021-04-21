@@ -1,7 +1,16 @@
-﻿
+﻿2021 04 20
+	1.	*There appears to be an error because an a hyperlink file name was changed
+		Place the code in a try catch block
 
+2021 04 17
+	1.	Allow the user to select seriatim or random for the question order
+		a.	*in QAStaticMembers create bool QuestionsSeriatim
+		b.	*Create QuestionOrder Menu Item
+		c.	*Create code to randomize question string
+Commit Message: 1) Created code to present questions in random order; 2) Placed opening hyperlink file
+in a Try/Catch block;
 
-2021 04 12
+2021 04 12Committed
 	1.	Corrected error in listing Paint program in Link_Nore cmbxFileType_SelectionChanged
 	2.	Log what happens when a new DataNode is selected
 		a.	*Test to see if the Yes/No user control works if there is an existing QAFile =YES

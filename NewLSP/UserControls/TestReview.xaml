@@ -49,6 +49,15 @@
                 <MenuItem Header="Review" Name="Review"
                           Click="Review_Click"/>
             </MenuItem>
+
+            <MenuItem Header="Question Order">
+                <MenuItem Header="Seriatim"
+                          Name="miSeriatim"
+                          Click="miSeriatim_Click"/>
+                <MenuItem Header="Random"
+                          Name="miRandom"
+                          Click="miRandom_Click"/>
+            </MenuItem>
             <MenuItem Header="     Instructions">
                 <MenuItem Header="How To Use Form" 
                           Name="UseForm"

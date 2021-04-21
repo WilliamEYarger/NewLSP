@@ -84,7 +84,7 @@ namespace NewLSP
             SetActiveUserControl(ucTestReview);
 
 
-            MessageBox.Show("You must select a Test/Review action first");
+            MessageBox.Show("You must select a Test/Review action first. If you want to randomize the questions select QuestionOrder -> Randomize first" );
         }
 
 

@@ -71,6 +71,7 @@ namespace NewLSP.StaticHelperClasses
         #endregion Public property dictionary change
 
 
+
         #endregion public fields and properties
 
 
