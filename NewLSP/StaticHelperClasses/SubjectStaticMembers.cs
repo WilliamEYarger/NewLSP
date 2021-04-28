@@ -44,8 +44,6 @@ namespace NewLSP.StaticHelperClasses
         #endregion ItemCount
 
 
-
-
         #region Propety Data Node Selected
 
         private static SubjectNodes _DataNode;
@@ -59,12 +57,67 @@ namespace NewLSP.StaticHelperClasses
             }
         }
 
-        public static string SaveSubjectFolderPath { get; internal set; }
-
-        //"C:\\Users\\Owner\\OneDrive\\Documents\\_StudyFolder\\s5\\"
+       
         #endregion  Data Node Selected
 
+        #region Property NoteReferenceFilesPath
 
+        /// <summary>
+        /// Holds the path to the folder that will contain
+        /// the note  text files whose name is generated from
+        /// the current number of files in the NoteReferenceFiles folder (0.txt, 1.txt...n.txt etc.)
+        /// </summary>
+        //private static string _NoteReferenceFilesPath;
+
+        //public static string NoteReferenceFilesPath
+        //{
+        //    get { return _NoteReferenceFilesPath; }
+        //    set { _NoteReferenceFilesPath = value; }
+        //}
+
+        #endregion Property NoteReferenceFilesPath
+
+        #region Property CompositDataPath
+
+        private static string _CompositDataPath;
+
+        /// <summary>
+        ///  Holds the path to the folder that will contain the
+        ///  Dictionary.txt  and a Timelin file,
+        /// </summary>
+        public static string CompositDataPath
+        {
+            get { return _CompositDataPath; }
+            set { _CompositDataPath = value; }
+        }
+
+        #endregion Property CompositDataPath
+
+        #region Property NotesDictionaryPath
+
+        private static string _NotesDictionaryPath;
+
+        public static string NotesDictionaryPath
+        {
+            get { return _NotesDictionaryPath; }
+            set { _NotesDictionaryPath = value; }
+        }
+
+        #endregion Property NotesDictionaryPath
+
+
+        #region Property TimelineFilePath
+
+        private static string _TimelineFilePath;
+
+        public static string TimelineFilePath
+        {
+            get { return _TimelineFilePath; }
+            set { _TimelineFilePath = value; }
+        }
+
+
+        #endregion Property TimelineFilePath
 
         #endregion Properties
 
@@ -107,7 +160,7 @@ namespace NewLSP.StaticHelperClasses
 
         private static string ItemsCountFilePath;
 
-        public static string HomeFolderPath;
+       // public static string HomeFolderPath;
 
         private static string SubjectName;
 
@@ -144,21 +197,30 @@ namespace NewLSP.StaticHelperClasses
         {
 
             // set HomeFolderPath
-            HomeFolderPath = ThisHomeFolderPath;
+            CommonStaticMembers.HomeFolderPath = ThisHomeFolderPath;
+
+            // Set DataNode Hyperlinks Path
+            CommonStaticMembers.DataNodesHyperlinksPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks";
+
+            // Set the Path to the DataNodesNotesPath
+
+            CommonStaticMembers.DataNodesNotesPath = CommonStaticMembers.HomeFolderPath + "Notes";
+
+
 
             // Get the name of the subject from the last item in the path 
 
             // Get the number of '\\'s in FolderPath
-            int NumberOfSlashes = StringHelper.ReturnNumberOfDeliniters(HomeFolderPath, '\\');
+            int NumberOfSlashes = StringHelper.ReturnNumberOfDeliniters(CommonStaticMembers.HomeFolderPath, '\\');
 
             // Get the Subjects Name from the item a position NumberOfSlashes -1
-            var FolderName = StringHelper.ReturnItemAtPos(HomeFolderPath, '\\', NumberOfSlashes - 1);
+            var FolderName = StringHelper.ReturnItemAtPos(CommonStaticMembers.HomeFolderPath, '\\', NumberOfSlashes - 1);
 
             //Use the FolderName to name the Subject, and its main data files
             SubjectName = FolderName;
 
             // Create path to this subjects data file
-            SubjectsNodeDataStringsPath = HomeFolderPath  + "NodeDataStrings.txt";
+            SubjectsNodeDataStringsPath = CommonStaticMembers.HomeFolderPath + "NodeDataStrings.txt";
             string SubjectNodesDataFilePath = SubjectsNodeDataStringsPath;
 
             // Test to see if this file exist and if not create it
@@ -173,7 +235,7 @@ namespace NewLSP.StaticHelperClasses
                 ItemCount = "1";
 
                 //Write the new ItemCount to the ItemCount.txt file
-                File.WriteAllText(HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
+                File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
 
 
                 //Set up the properties of the new RootNode
@@ -204,7 +266,7 @@ namespace NewLSP.StaticHelperClasses
                 SubjectNodes RootNode = new SubjectNodes();
 
                 // Read in the current item count
-                string ItemCount = File.ReadAllText(HomeFolderPath + "ItemCount.txt");
+                string ItemCount = File.ReadAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt");
                 SubjectStaticMembers.ItemCount = ItemCount;
 
 
@@ -317,11 +379,11 @@ namespace NewLSP.StaticHelperClasses
             string[] OutputNodeDataStringArray = OutputNodeDataStringList.ToArray();
 
             // Save OutputNodeDataStringList to SubjectsNodeDataStringsPath.txt
-            File.WriteAllLines(HomeFolderPath  + "NodeDataStrings.txt", OutputNodeDataStringArray);
+            File.WriteAllLines(CommonStaticMembers.HomeFolderPath + "NodeDataStrings.txt", OutputNodeDataStringArray);
 
             // Save the CurrentItemCount
             string ItemCount = SubjectStaticMembers.ItemCount;
-            File.WriteAllText(HomeFolderPath + "ItemCount.txt", ItemCount);
+            File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount);
 
            
 
@@ -400,7 +462,7 @@ namespace NewLSP.StaticHelperClasses
             {
                 //BinaryReader binReader = new BinaryReader(File.Open(ItemsCountFilePath, FileMode.Open));
                 //ItemCount = binReader.ReadInt32();
-                string ItemCount = File.ReadAllText(HomeFolderPath + "ItemCount.txt");
+                string ItemCount = File.ReadAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt");
             }
 
             return Int32.Parse(ItemCount);
@@ -427,7 +489,7 @@ namespace NewLSP.StaticHelperClasses
         public static void SetDataNodesQAFilePath()
         {
             //
-             DataNodesQAFilePath = SubjectStaticMembers.SaveSubjectFolderPath + "QAFiles\\" + DataNode.ID.ToString() + ".txt";
+             DataNodesQAFilePath = CommonStaticMembers.SubjectFolderPath + "QAFiles\\" + DataNode.ID.ToString() + ".txt";
            
         }
 
@@ -513,7 +575,7 @@ namespace NewLSP.StaticHelperClasses
 
         internal static bool NodeHasQAFile(int nodeID)
         {
-            string QAFilePath = HomeFolderPath + "QAFiles\\" + nodeID.ToString() + ".txt";
+            string QAFilePath = CommonStaticMembers.HomeFolderPath + "QAFiles\\" + nodeID.ToString() + ".txt";
             if (File.Exists(QAFilePath))
             {
                 return true;
@@ -530,10 +592,10 @@ namespace NewLSP.StaticHelperClasses
 
         #region public method NodeHadDataFile
 
-        internal static bool NodeHadDataFile(int nodeID)
+        internal static bool NodeHasHyperlinksFile(int nodeID)
         {
 
-            string DataFilePath = HomeFolderPath + "Hyperlinks\\" + nodeID.ToString() + ".txt";
+            string DataFilePath = CommonStaticMembers.DataNodesHyperlinksPath + "\\" + nodeID.ToString() + ".txt";
             if (File.Exists(DataFilePath))
             {
                 return true;

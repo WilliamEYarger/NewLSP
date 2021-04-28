@@ -109,6 +109,7 @@
                     <Border  Height="3"
                             BorderThickness="3"
                             BorderBrush="Black"/>
+                    <!--Create Label to indicate A QA file is present-->
                     <Label Name="lblQA" Height="30" >
                         <StackPanel  x:Name="spQA"
                             Orientation="Horizontal"
@@ -124,6 +125,8 @@
                                        FontSize="15"/>
                         </StackPanel>
                     </Label>
+                    
+                    <!--Create a Label to indicat that a Hyperlinks is present-->
                     <Label Name="lblData" Height="30"    >
                         <StackPanel x:Name="spHyperlink"
                             Orientation="Horizontal"
@@ -137,11 +140,27 @@
                             <TextBlock x:Name="tbkData"
                                 Text="This node has a Hyperlink file"
                                 FontSize="15"/>
-
+                        </StackPanel>                        
+                    </Label>
+                    
+                    <!--Create a Label to indicate that a Note is present-->
+                    <Label Name="lblNote" Height="30">
+                        <StackPanel x:Name="spNote"
+                                    Orientation="Horizontal"
+                                    Visibility="Hidden">
+                            <Ellipse 
+                                     Width="20"
+                                     Height="20"
+                                     Fill ="Yellow"
+                                     Margin="0 0 30 0"
+                                     />
+                            <TextBlock x:Name="tblkNote"
+                                       Text="This node has a Notes File"
+                                FontSize="15"/>
+                                
                         </StackPanel>
                         
-                    </Label>
-                        
+                    </Label>   
 
                 </StackPanel>
 

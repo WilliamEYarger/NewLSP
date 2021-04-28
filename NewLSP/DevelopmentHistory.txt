@@ -1,4 +1,161 @@
-﻿2021 04 20
+﻿2021 04 27 TASKS
+	1.	*Create globals to hold all note components
+		a.	In LNStatic create 4 List<string> notenames, hyperlinks, bookmark, and keywords
+	2.	*Code displaying note names
+	3.	*Code displaying keywords
+
+Commit Message: 1) Created code to create note references and to display them in a listbox; 2) Created
+code to select and open a note from the note name listbox; 3)Created code to  display the various
+KeyWords associated with a NoteName in a TextBox
+
+
+2021 04 26 TASKS DEBUG Notes code
+	1.	*NoteReferencesPath in in LinkNotes is null
+		??? Where should NoteReferencesPath be defined ???
+		Ans when the Notes file is created
+	2.	At line 647 in LinoNOtes xaml.cs I need to include the IDfileName and the  Notes
+		file, not the NOtereference file
+		a.	*In common change all reference for SubjectStaticMembers.SaveSubjectFolderPath to
+			CommonStaticMembers.SubjectFolderPath 
+			1)	*Create SubjectFolderPath  property
+			2)	*change all reference for SubjectStaticMembers.SaveSubjectFolderPath to
+				CommonStaticMembers.SubjectFolderPath 
+		b.	In common  DataNodesHyperlinksPath
+			1)	*create
+			2)	*reference
+	3.	*I have eliminated the open hyperlinks file menu 
+	4.	*In Common create path to \\DataNodesNotesPath
+		a.	*Create
+		b.	*reference
+			!) there is an error in "C:\\Users\\Owner\\OneDrive\\Documents\\_StudyFolder\\S1References\\NoteReferenceFiles"
+	5.	Code  lbxOpenSelectedNote_PreviewMouseLeftButtonUp to open the selected note
+
+
+
+
+2021 04 25 TASKS
+	1.	Devellop strategy for loading a DataNodeId's Note onto lbxOpenSelectedNote
+		a.	*In LinkNode Staic members Create 4 List<string> by spliting each line of the DataNode's Note
+			1)	NoteNames
+			2)	Hyperlinks
+			3)	BookMarks
+			4)	KeyWords
+		b.	*Have the UI call the List of NoteNames to display in lbxOpenSelectedNote 
+			when the user clicks the Display Notes menuItem
+		c.	*Create a Label in SubjectTree.xaml to display that a Note is present if it is
+			1) *In Common static create a bool to indicate that the DataNode has a note file
+			2)	*Set this to true when the node has a note
+		d.	In LinkNotes xaml create menuitem to open notes file
+
+
+		c.	When the user left clicks on a Note Name, transmit the selected index to static
+			and display the hyperlink and Book mark in the appropriate text boxes, 
+			write the bookmark to the Clipboard and use System.Diagnostics.Process.Start 
+			to open the hyperlink
+		d.	When the user Right clicks on a Note name send the selected index to static
+			which returns  a List<string> of the delimited Key words
+			which are displayed seriatim in tbxDisplayKeyWords
+	2.	CREATE A COMMON STATIC AREA TO HOLD ALL PATHS AND COMMON PROPERITES
+		a.	*Create CommonStaticMembers
+		b.	*Add NoteReferencesPath to it
+		c.	*Change all reference of SubjectStaticMembers.NoteReferenceFilesPath to CommonStaticMembers.NoteReferencesPath
+		d.	Move HomeFolderPath to CommonStatic
+			1)	*Create Property in CommonStatic
+			2)	*Change all reference from SubjectStaticMembers.HomeFolderPath  to CommonStaticMembers.HomeFolderPath
+
+
+
+
+2021 04 24 0700 TASKS
+	1.	*Code requirement forcing the user to create or choose a References folder on startup
+		a.	*create a message telling the user to create a references folder
+		b.	*open file CommonOpenFileDialog 
+		c.	*create "NoteReferenceFiles" and "CompositData" folders
+		d.	*In SubjectStaticMembers create properties to hold "NoteReferenceFiles" and "CompositData" folder paths
+		e.	*In the CompositData folder create a NotesDictionary.txt file
+		f.	*If the user wants to have a timeline they will have to add it manually
+		g.	*In SubjectStaticMembers create properties to hold NotesDictionary.txt and the Timeline path
+	2.	*Creating a NoteReference 
+		a.	*A  NoteReference contains a '^' delimited string containing : 1) A Note Name; 2) a hyperlink; 3) +/-  a bookmark; 4) a ';' delimited 
+			string of KeyWords
+		b.	*When the proto-note reference contains at least 1,2 and 4
+			1)	Create a NoteReference string
+		c.	*save the NoteReference to the NoteReferenceFiles folder and to the SubjectName\Notes folder
+
+2021 04 24 0600 	LOGIC FOR NAMING, CREATING AND STORING NOTE REFERENCES AND NOTES
+	1.	A Note Reference is a single line of double delimited text that contains:
+		a.	A unique, and sequentially generated ID integer string
+		b.	a Note Name
+		c.	a Note Hyperlink
+		d.	a delimited list of key words and content class names
+			1)	a key word is one or more words that may include spaces. They will be indexed
+				and will serve as keys in a Dictionary<string,string> whose value will be
+				a delimited string of various ID integer strings that contain this key word(s).
+				Althoug the user may enter the key words +/- caps and with spaces, befroe
+				being converted into Dictionary Entries  with  dictionary keys they will be converted to all lower case
+				and all spaces with be replaces with undersocres('_')
+			2)	Content Class Names are terms preceeded with a '#'. they indicate that a 
+				particular reference contains this kind of data. For example #lived, indicates
+				that this particular reference contains the date that an indicidual lived,
+				#occurred tells that a particular event occurred on a given date, #parents
+				and #children says that the reference contains data abour a person's parents
+				or progeny. Although Content Class Names will be displayed when a particular
+				note name is selected, they WILL NOT BE INDEXED for includion in a dictionary.
+				If date related Content Class Names are all in CAPS, i.e. #REIGNED, this means
+				that these dates have been entered in a linkable excel Timeline worksheet.
+	2.	Where Note References are stored and how they are naned
+		1.	On startup the user will be asked to designate or creare a References folder.
+			This folder will generally NOT reside in the same folder as a given subject,
+			because often it will contain referens to related, but different subjects. 
+			For example the References folder for the Bart Ehrman - The New Testament Notes and Questions
+			Might reside under the Christianity, or Religion Learning folder because it will
+			contain references to other data relative tothe sutdy of Christianity or other
+			Religions. This References folder will contain two program generated folders
+			"NoteReferenceFiles" and "CompositData"
+			a.	The NoteReferenceFiles will contain text files whose name is generated from
+				the current number of files in the NoteReferenceFiles folder (0.txt, 1.txt...n.txt etc.)
+				Each file will contain one Note Reference as defined above.
+			b.	The CompositData folder will always contain one Dictionary.txt file, where each line
+				represents a Dictionary Entries as defined above
+			c.	The CompositeData folder will also contain one Excel Timelin file, which the
+				user can exect to add data to if the subject mater is historical
+	3.	Where Notes are stored and how they are named.
+		1.	The Notes, which are a collection of Note References all of which have been linked 
+			to a particular DataNode ID will be in the "Subject Name"/Notes file and their
+			name will be the DataNode ID + .txt
+		2.	The user will be notified that a particular subject item has a Note file 
+			when it is selected to be a DataNode
+
+
+
+2021 04 22
+	Development of Note capability
+	1.	controls needed
+		•	*a Label, a text box for the Name, for a Title
+		•	*a Label, a text box for the Name to add Key words
+		•	*a Label, a text box for the Name, for a hyperlink
+		•	*a ListView to show all Keywords added to a note or to show for a note selected for further review (this will be linked to what ever Note name is selected in the following)
+		•	*a ListView to show all linked note Names
+		•	*a Button to open the hyperlink of a selected note name
+	2.	TASKS
+		1.	*Leave coding for searching for notes using Key words for lates
+		2.	Divide LinkNotes screen into 3 parts:
+			a.	*Input area
+				1) *FileType, Name, 
+				2) *Hyperlink path
+				30 *NEW Key words lable "Enter KeyWords;" and textbox
+			b.	*Lable and ListBox for selecting hyperlinks
+			c.	*Label and textboxes for displaying/entering key word
+			d.	*Force User to select Link type: 
+			d.	*Label and ListBox for selecting note Names
+				1)	*Left mouse button up to open a Note
+				2)	*Right mouse button up to show the Key words associated with a Note Name
+		
+
+
+
+
+2021 04 20 Committed
 	1.	*There appears to be an error because an a hyperlink file name was changed
 		Place the code in a try catch block
 
@@ -23,7 +180,8 @@ in a Try/Catch block;
 		•	Set the bool HasHyperlink = false; and bool HasNotes =false
 		•	???Set the DataNodesHyperlinkPath to “”
 		•	set DataNodesHyperlinkPath = false
-		•	Clear LinkNoteStaticMembers.SetHyperlinkStringsList();
+		•	C
+		r LinkNoteStaticMembers.SetHyperlinkStringsList();
 		•	Clear HyperlinkDictionary
 	4.	*QAStaticMembers.QADictionary has not been cleared
 	5.	*HyperlinkDictionary is not being cleared

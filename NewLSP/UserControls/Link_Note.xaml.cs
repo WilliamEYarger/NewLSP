@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using System.Collections.Generic;
-
 using System.Windows;
 using System.Windows.Controls;
 using NewLSP.StaticHelperClasses;
@@ -19,25 +18,9 @@ namespace NewLSP.UserControls
         {
             InitializeComponent();
         }
-
-        #region Private Methods
-
-        private string ReturnFilePath()
-        {
-            OpenFileDialog od = new OpenFileDialog();
-            if (od.ShowDialog() == true) ;
-            {
-                return od.FileName;
-            }
-
-        }
-
-        #endregion  Private Methods
-
-
+       
         #region Menu Click Methods
 
-        #endregion Menu Click Methods
 
         #region Applications Menu
 
@@ -171,20 +154,9 @@ namespace NewLSP.UserControls
         #endregion Applications Menu
 
 
+        #region DataType Menu
 
-        #region LeavePage Menu
-
-        private void miLeavePage_Click(object sender, RoutedEventArgs e)
-        {//Added 2021 04 13
-
-            lbxLinks.Items.Clear();
-            tbxHyperlink.Text = "";
-            cmbxFileType.SelectedIndex = -1;
-            LinkNoteStaticMembers.HyperlinkDictionary.Clear();
-
-        }//End miLeavePage_Click
-        #endregion LeavePage MenuItem
-
+        #region Menu Item Hyperlink
 
         private void miHyperlink_Click(object sender, RoutedEventArgs e)
         {
@@ -192,11 +164,27 @@ namespace NewLSP.UserControls
 
         }
 
-        private void miQAItem_Click(object sender, RoutedEventArgs e)
-        {
+        #endregion Menu Item Hyperlink
 
-            MessageBox.Show("miQAItem_Click");
+
+        #region Menu Item Note
+
+        private void miNote_Click(object sender, RoutedEventArgs e)
+        {
+            //The User is working on notes
+            MessageBox.Show("the menu ite Note clicked");
         }
+
+        #endregion Menu Item Note
+
+        #endregion DataType Menu
+
+
+        #region Files Menu
+
+
+
+        #region Save Hyperlink MenuItem
 
         private void miSaveHyperlink_Click(object sender, RoutedEventArgs e)
         {
@@ -205,25 +193,83 @@ namespace NewLSP.UserControls
 
         }// End miSaveHyperlink_Click
 
+        #endregion Save Hyperlink MenuItem
+
+
+        #region Save Note MenuItem
+
         private void miSaveNote_Click(object sender, RoutedEventArgs e)
         {
+            // Make sure that all required data fields are present
+           if((tbxLinkName.Text == "") || (tbxHyperlink.Text=="") || (tbxKeyWords.Text == ""))
+            {
+                MessageBox.Show("You cannot save a Note unless there is a Name, a hyperlink and KeyWord(s)");
+                return;
+            }
 
-            MessageBox.Show("miSaveNote_Click");
-        }
+           // Make sure the Key words are delimited witb ;s
+            if (!tbxKeyWords.Text.Contains(";"))
+            {
+                MessageBox.Show("Key words must be delimigted wint ';'s ");
+                return;
+            }
+            // create a NoteReference string
+            string NoteReferenceStr = tbxLinkName.Text + "^" + tbxHyperlink.Text + "^" + tbxBookMark.Text + "^" + tbxKeyWords.Text;
 
-        private void miSaveQAItem_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("miSaveQAItem_Click");
+            //Get the path to the folder holding all note references
+            //CommonStaticMembers.NoteReferencesPath = SubjectStaticMembers.NoteReferenceFilesPath;
 
-        }
+
+            // Find out how many files are in the C:\Users\Owner\OneDrive\Documents\Learning\Religion\ReligionReferences\NoteReferenceFiles folder
+            int fCount = Directory.GetFiles(CommonStaticMembers.NoteReferencesPath, "*", SearchOption.TopDirectoryOnly).Length;
+
+            // Use it to create the name for the next NoteReference.txt file
+            string ReferenceName = fCount.ToString() + ".txt";
+            string ReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + ReferenceName;
+
+            //Write the NoteReferenceStr to this file
+            File.WriteAllText(ReferenceFilePath, NoteReferenceStr);
+          
+            // Crete the path to store this DataNodes's Note           
+            string NotesFilePath = CommonStaticMembers.HomeFolderPath + "Notes\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
+
+            // Check to see if the SubjectName\Notes folder contains a file whose name is the DataNodeID.txt
+            if (File.Exists(NotesFilePath))
+            {
+                // The file already exists so append the new note reference to it
+                File.AppendAllText(CommonStaticMembers.NoteReferencesPath, NoteReferenceStr);
+            }
+            else
+            {
+                // The file doesn't exist so write the note reference to a new file
+                File.WriteAllText(NotesFilePath, NoteReferenceStr);
+            }
+
+            // Clear lbxOpenSelectedNote and tbxDisplayKeyWords
+            lbxOpenSelectedNote.Items.Clear();
+            tbxDisplayKeyWords.Text = "";
+
+            // Call ReadNotesIntoSelectNoteListBox()
+            ReadNotesIntoSelectNoteListBox();
+
+            PopulateNoteListBox();
+
+        }// End miSaveNote_Click
+
+
+
+        #endregion Save Note MenuItem
+
+
+        #region Open Hyperlink MenuInte
 
         private void miOpenHyperLink_Click(object sender, RoutedEventArgs e)
         {
-            
+
             // Create a List<string> of Hyperlink display string
             //List<string> HyperlinkUrls = new List<string>();
 
-            string DataNodesHyperlinkPath = SubjectStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
+            string DataNodesHyperlinkPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
 
             //      b.  Test to see if a hyperlink file exists
             if (File.Exists(DataNodesHyperlinkPath))
@@ -235,11 +281,11 @@ namespace NewLSP.UserControls
 
                 LinkNoteStaticMembers.HyperlinkDictionary.Clear();
 
-                
+
 
                 lbxLinks.Items.Clear();
                 int HyperlinkCntr = 0;
-                foreach(string line in HyperlinksArray)
+                foreach (string line in HyperlinksArray)
                 {
                     // Get the component parts
                     string[] componentItems = line.Split('^');
@@ -260,59 +306,93 @@ namespace NewLSP.UserControls
             }
         }
 
-        private void miOpenNote_Click(object sender, RoutedEventArgs e)
+        #endregion Open Hyperlink MenuInte
+
+        #region Show MenuItem
+
+        private void miShowNote_Click(object sender, RoutedEventArgs e)
         {
-
-            MessageBox.Show("miOpenNote_Click");
-        }
-
-        private void miQAddImage_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("miQAddImage_Click");
-
-        }
-
-        private void miQAddMp3_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("miQAddMp3_Click");
+            int NodeID = SubjectStaticMembers.DataNode.ID;
+            if (CommonStaticMembers.NodeHasNoteFile(NodeID))
+            {
+                ReadNotesIntoSelectNoteListBox();
+            }
 
         }
 
+        #endregion Show Note MenuItem
 
 
+        #region Display Note Names MenuItem
 
-
-        private void miNote_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// This method is called when the user clicks the
+        /// "Display Note Name MenuItem
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void miDisplayNoteNames_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("miNote_Click");
-        }
-
-        private void miQAddJpg_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("miQAddJpg_Click");
-        }
-
-        private void miAAddJpg_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("miAAddJpg_Click");
-        }
-
-        private void miAAddMp3_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("miAAddMp3_Click");
-        }
-
-        #region Select File Type from cmbxFileType ComboBox
-
-        private void cmbxFileType_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            string FileType = cmbxFileType.SelectedItem.ToString();
-            LinkNoteStaticMembers.FileType = FileType;
+            ReadNotesIntoSelectNoteListBox();
+            PopulateNoteListBox();
         }
 
 
-        #endregion  Select File Type from cmbxFileType ComboBox
+        #endregion Display Note Names MenuItem
 
+        #endregion Files Menu
+
+
+        #region ResetPage Menu 
+        /// <summary>
+        /// The user clicks this menu item when they
+        /// want to clear all the fields, properties and controls so 
+        /// that a new DataNode can be seleted
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void miResetPage_Click(object sender, RoutedEventArgs e)
+        {
+            lbxLinks.Items.Clear();
+            tbxHyperlink.Text = "";
+            cmbxFileType.SelectedIndex = -1;
+            LinkNoteStaticMembers.HyperlinkDictionary.Clear();
+        }
+
+
+        #endregion ResetPage MenuItem
+
+        #region Instructions Menu
+
+        #region Create New Hyperlink Instructions Menu Item
+
+        private void miCreateNewHyperlinkInstructions_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        #endregion Create New Hyperlink Instructions Menu Item
+
+        #endregion Instructions Menu
+
+
+        #endregion Menu Click Methods
+
+
+        #region Private Methods
+
+      
+        #region FileType combobox changed method
+
+
+        /// <summary>
+        /// When the File type is changed this method
+        /// converts the combobox item tag to a string
+        /// and sets the LinkNotesStaticMembers FileType to that string
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbxFileType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem thisItem = (ComboBoxItem)cmbxFileType.SelectedItem;
@@ -322,7 +402,8 @@ namespace NewLSP.UserControls
 
         }
 
-       
+        #endregion FileType combobox changed method
+
         #region Mouse up on List box of Links
 
         private void lbxLinks_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -376,7 +457,6 @@ namespace NewLSP.UserControls
 
         #endregion Mouse up on List box of Links
 
-        #region Private Methods
 
         #region private method open an executable or specific file type
 
@@ -440,7 +520,7 @@ namespace NewLSP.UserControls
 
 
             // Create the filepath to the DataNodes HyperlinkFile
-            string DataNodesHyperlinkPath = SubjectStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
+            string DataNodesHyperlinkPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
 
             //Append this to the DataNode's Hyperlink file 
             File.WriteAllLines(DataNodesHyperlinkPath, currentHyperlinkStringsList);
@@ -489,19 +569,151 @@ namespace NewLSP.UserControls
         }
         #endregion private method SaveHyperlink
 
-        #region Open Hyperlink
 
-        private void OpenHyperlink()
+
+        #region Return File Path of File Dialog OpenFile
+
+
+
+        /// <summary>
+        /// This method is called when the user clicks the 
+        /// OpenFileDialog menu item 
+        /// It uses the OpenFile Dialog to return the
+        /// file path to the selected file
+        /// </summary>
+        /// <returns></returns>
+        private string ReturnFilePath()
         {
+            OpenFileDialog od = new OpenFileDialog();
+            if (od.ShowDialog() == true) ;
+            {
+                return od.FileName;
+            }
+
+        }
+
+        #endregion Return File Path of File Dialog OpenFile
+
+
+
+        #region Open Selected Note Left Mouse click
+
+        /// <summary>
+        /// This method opens the selected Note when
+        /// the user left clicks on a selected note name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lbxOpenSelectedNote_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+           //get the selected items index number
+            int NoteSelectedIndex = lbxOpenSelectedNote.SelectedIndex;
+
+            //Get the hyperlink and bookmark
+            string NoteHyperlink = LinkNoteStaticMembers.ListOfNoteHyperlinks[NoteSelectedIndex];
+            string NoteBookMark = LinkNoteStaticMembers.ListOfNoteBookMarks[NoteSelectedIndex];
+            
+            //populate the hyperlink and bookmark text boxes
+            tbxHyperlink.Text = NoteHyperlink;
+            tbxBookMark.Text = NoteBookMark;
+
+            //copy the bookmark to the clipboard
+            Clipboard.SetText(NoteBookMark);
+
+            //open the hyperlink
+            System.Diagnostics.Process.Start(NoteHyperlink);
+
+
+        }
+
+        #endregion Open Selected Note Left Mouse click
+
+
+        #region Show Key Words of Right Selected Note Name
+        /// <summary>
+        /// This method displays the Key words associated with the
+        /// Note name that the User clicks with the Right Mouse button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lbxOpenSelectedNote_PreviewMouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //get the selected items index number
+            int NoteSelectedIndex = lbxOpenSelectedNote.SelectedIndex;
+
+            // Clear tbxDisplayKeyWords
+            tbxDisplayKeyWords.Text = "";
+
+            //get the keywords string
+            string DelimitedKeyWords = LinkNoteStaticMembers.ListOfNoteKeyWords[NoteSelectedIndex];
+
+            // Replace ';' with "\r\n"
+            DelimitedKeyWords = DelimitedKeyWords.Replace(";", "\r\n");
+
+            //Display the keywords
+            tbxDisplayKeyWords.Text = DelimitedKeyWords;
 
         }
 
 
 
 
-        #endregion Open Hyperlink
 
-        #endregion Private Methods
+
+        #endregion Show Key Words of Right Selected Note Name
+
+        #region Private Method to Read noteReference file into lbxOpenSelectedNote
+
+        private void ReadNotesIntoSelectNoteListBox()
+        {
+            // New 202101427
+            // Call LNStatic to read in the file
+            LinkNoteStaticMembers.ReadInNotesFile();
+
+
+
+            // Create the path to the DataNodeIDs Note file
+            
+            //Create path to the DataNodeIDs notes file
+            //string IDFileName = SubjectStaticMembers.DataNode.ID.ToString();
+            //string DataNodesNotesPath = CommonStaticMembers.DataNodesNotesPath + "\\"+IDFileName + ".txt";
+
+            //string[] lines = System.IO.File.ReadAllLines(DataNodesNotesPath);
+
+            // TODO - create a global to hold all note components
+            //Send this array to static to create 4 lists
+            //List<string> NamesList = LinkNoteStaticMembers.CreateNoteLists(lines);
+
+            // Clear lbxOpenSelectedNote and tbxDisplayKeyWords
+            lbxOpenSelectedNote.Items.Clear();
+            tbxDisplayKeyWords.Text = "";
+
+            //////Fill lbxOpenSelectedNote with NamesList
+            ////foreach (string Name in NamesList)
+            ////{
+            ////    lbxOpenSelectedNote.Items.Add(Name);
+            ////}
+        }
+
+        #endregion Private Method to Read noteReference file into lbxOpenSelectedNote
+
+
+        #region PopulateNoteListBox
+
+        private void PopulateNoteListBox()
+        {
+            List<string> NoteNamesList = LinkNoteStaticMembers.ListOfNoteNames;
+            lbxOpenSelectedNote.Items.Clear();
+            foreach (string noteName in NoteNamesList)
+            {
+                lbxOpenSelectedNote.Items.Add(noteName);
+            }
+            
+        }
+
+        #endregion PopulateNoteListBox
+
+        #endregion  Private Methods
 
 
     }// End class

@@ -41,7 +41,7 @@ namespace NewLSP.UserControls
         private void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             //Check to see if the QAResults directory exists and if not create it
-            string ResultsDirectoryPath = SubjectStaticMembers.SaveSubjectFolderPath+"QAResults";
+            string ResultsDirectoryPath = CommonStaticMembers.SubjectFolderPath+"QAResults";
             if (!Directory.Exists(ResultsDirectoryPath))
             {
                 Directory.CreateDirectory(ResultsDirectoryPath);

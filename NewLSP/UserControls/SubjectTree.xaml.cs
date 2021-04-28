@@ -149,7 +149,7 @@ namespace NewLSP.UserControls
 
                 //Determine if this node has a Hyperlink file
                
-                if (SubjectStaticMembers.NodeHadDataFile(NodeID))
+                if (SubjectStaticMembers.NodeHasHyperlinksFile(NodeID))
                 {
                     spHyperlink.Visibility = Visibility.Visible;
                 }
@@ -158,7 +158,16 @@ namespace NewLSP.UserControls
                     spHyperlink.Visibility = Visibility.Hidden;
                 }
 
+                // Determin if the node has a Notes file
 
+                if (CommonStaticMembers.NodeHasNoteFile(NodeID))
+                {
+                    spNote.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    spNote.Visibility = Visibility.Hidden;
+                }
 
             }
 
@@ -367,9 +376,7 @@ namespace NewLSP.UserControls
         private void rbDataNode_Click(object sender, RoutedEventArgs e)
         {
             // Set the SubjectStaticMembers DataNode
-            SubjectStaticMembers.DataNode = SelectedNode;
-
-            // 2021 04 13 Start
+            SubjectStaticMembers.DataNode = SelectedNode;            
 
             //blank the dataNodesQAFilePath
             SubjectStaticMembers.DataNodesQAFilePath = "";
@@ -386,10 +393,6 @@ namespace NewLSP.UserControls
 
             //Clear the Hyperlink dictionary
             LinkNoteStaticMembers.HyperlinkDictionary.Clear();
-
-            //clear the hyperlink counter
-
-            //2021 04 13 End
 
             // Set the Path to the DataNode's QAfile
             SubjectStaticMembers.SetDataNodesQAFilePath();

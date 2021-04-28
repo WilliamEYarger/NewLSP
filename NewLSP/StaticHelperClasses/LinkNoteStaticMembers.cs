@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using NewLSP.DataModels;
 
 namespace NewLSP.StaticHelperClasses
@@ -81,16 +79,79 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion HyperlinkDictionary
 
+        #region HyperlinkUrls
 
         public static List<string> HyperlinkUrls = new List<string>();
 
+        #endregion HyperlinkUrls
+
+
+        #region HyperlinkStringsList
+
         public static List<string> HyperlinkStringsList = new List<string>();
+        #endregion HyperlinkStringsList
+
+        #region ListOfNoteNames
+
+        private static List<string> _ListOfNoteNames;
+
+        public static List<string> ListOfNoteNames
+        {
+            get { return _ListOfNoteNames; }
+            set { _ListOfNoteNames = value; }
+        }
+
+
+        #endregion ListOfNoteNames
+
+        #region ListOfNoteHyperlinks
+
+        private static List<string> _ListOfNoteHyperlinks;
+
+        public static List<string> ListOfNoteHyperlinks
+        {
+            get { return _ListOfNoteHyperlinks; }
+            set { _ListOfNoteHyperlinks = value; }
+        }
+
+
+        #endregion ListOfNoteHyperlinks
+
+
+        #region ListOfNoteBookMarks
+
+        private static List<string> _ListOfNoteBookMarks;
+
+        public static List<string> ListOfNoteBookMarks
+        {
+            get { return _ListOfNoteBookMarks; }
+            set { _ListOfNoteBookMarks = value; }
+        }
+
+
+        #endregion ListOfNoteBookMarks
+
+        #region ListOfNoteKeyWords
+
+        private static List<string> _ListOfNoteKeyWords;
+
+        public static List<string> ListOfNoteKeyWords
+        {
+            get { return _ListOfNoteKeyWords; }
+            set { _ListOfNoteKeyWords = value; }
+        }
+
+
+        #endregion ListOfNoteKeyWords
+
 
         #endregion Properties
 
 
 
         #region Public Methods
+
+        #region AddHyperlinkToList
 
 
         /// <summary>
@@ -104,12 +165,21 @@ namespace NewLSP.StaticHelperClasses
             HyperlinkStringsList.Add(delimitedHyperlink);
         }
 
+
+        #endregion AddHyperlinkToList
+
+
+        #region AddItemToHyperlinkDictionary
+
         public static void AddItemToHyperlinkDictionary(int cntr, LinkNoteModel.HyperlinkObject thisHyperlinkObject)
         {
             // TODO - $exception	{"An item with the same key has already been added."}	System.ArgumentException
 
             HyperlinkDictionary.Add(cntr, thisHyperlinkObject);
         }
+
+        #endregion AddItemToHyperlinkDictionary
+
 
         #region Get Hyperlink
 
@@ -134,7 +204,7 @@ namespace NewLSP.StaticHelperClasses
         {
             //read in the hyperlinks file
             string[] DataNodeHyperlinkArray = 
-                File.ReadAllLines(SubjectStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt");
+                File.ReadAllLines(CommonStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt");
             
 
             // Create a counter to use as the Key to the Hyperlinks dictionary
@@ -158,17 +228,82 @@ namespace NewLSP.StaticHelperClasses
                 HyperlinkDictionary.Add(HyperlinkCntr, thisHyperlinkObject);
                 HyperlinkCntr++;
 
-
-
             }// End foreach (string line in DataNodeHyperlinkArray
 
-            
+        }// End SetHyperlinkStringsList
 
-
-        }
 
         #endregion Get Hyperlink
 
+
+        #region Create 4 Lists from DataNode's Note file
+
+        /// <summary>
+        /// This method receives a string array
+        /// where every line is a '^' delimited string of note references
+        /// It creates 4 lists (Names, Hyperlinks, BookMarkd, and KeyWords)
+        /// and it returns the List of Note Names
+        /// </summary>
+        /// <param name="lines"></param>
+        internal static List<string> CreateNoteLists(string[] lines)
+        {
+
+            //Docetism-Wikipeida^https://en.wikipedia.org/wiki/Docetism^^Docetism;#Definition;Ignatius of Antioch;1 John;
+
+            // create Lists
+            List<string> NamesList = new List<string>();
+            List<string> HyperlinksList = new List<string>();
+            List<string> BookmarkList = new List<string>();
+            List<string> KeyWordsList = new List<string>();
+
+            foreach (string line in lines)
+            {
+                string[] thisLineArray = line.Split('^');
+                NamesList.Add(thisLineArray[0]);
+                HyperlinksList.Add(thisLineArray[1]);
+                BookmarkList.Add(thisLineArray[2]);
+                KeyWordsList.Add(thisLineArray[3]);
+            }
+
+            return NamesList;
+        }// End CreateNoteLists
+
+        #endregion Create 4 Lists from DataNode's Note file
+
+
+        #region ReadInNotesFile
+
+
+        public static void ReadInNotesFile()
+        {
+            //Create path to the DataNodeIDs notes file
+            string IDFileName = SubjectStaticMembers.DataNode.ID.ToString();
+            string DataNodesNotesPath = CommonStaticMembers.DataNodesNotesPath + "\\" + IDFileName + ".txt";
+
+            // create a string array of all lines in the DataNodeReferences file
+            string[] lines = System.IO.File.ReadAllLines(DataNodesNotesPath);
+
+            // Crear and instantiate all the required lists
+            ListOfNoteNames = new List<string>();
+            ListOfNoteHyperlinks = new List<string>();
+            ListOfNoteBookMarks = new List<string>();
+            ListOfNoteKeyWords = new List<string>();
+
+            foreach(string line in lines)
+            {
+                // create an array of the note components
+                string[] NoteComponents = line.Split('^');
+             
+                ListOfNoteNames.Add(NoteComponents[0]);
+                ListOfNoteHyperlinks.Add(NoteComponents[1]);
+                ListOfNoteBookMarks.Add(NoteComponents[2]);
+                ListOfNoteKeyWords.Add(NoteComponents[3]);
+
+            }
+
+        }
+
+        #endregion ReadInNotesFile
         #endregion  Public Methods
 
     }// End LinkNoteStaticMembers

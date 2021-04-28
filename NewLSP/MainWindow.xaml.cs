@@ -194,7 +194,7 @@ namespace NewLSP
             {
                 //1.    Test to see if this node has hyperlinks
                 //      a.  Create the filepath to the DataNodes HyperlinkFile
-                string DataNodesHyperlinkPath = SubjectStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
+                string DataNodesHyperlinkPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
 
                 //      b.  Test to see if a hyperlink file exists
                 if (File.Exists(DataNodesHyperlinkPath))
@@ -225,5 +225,7 @@ namespace NewLSP
             }
            
         }
+
+        
     }
 }

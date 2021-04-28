@@ -31,17 +31,21 @@
             <RowDefinition Height="40"/>
             <!--Row 2, the name hyperlink row-->
             <RowDefinition Height="40"/>
-            <!--Row 3, theselect link row-->
-            <RowDefinition Height="200"/>
-            <!--Row 4, the divider  row-->
-            <RowDefinition Height="4"/>
+            <!--Row 3, the label and KeyWords row-->
+            <RowDefinition Height="40"/>
+            <!--Row 4 Divider line row-->
+            <RowDefinition Height="5"/>
+            <!--Row 5, hyperlink row-->
+            <RowDefinition Height="*"/>
+            <!--Row 6, the Notes  row-->
+            <RowDefinition Height="*"/>
             <!--Row 5, the labels row-->
-            <RowDefinition Height="30"/>
+            <!--<RowDefinition Height="30"/>-->
             <!--the textbox row-->
-            <RowDefinition Height="*"/>            
+            <!--<RowDefinition Height="*"/>-->            
         </Grid.RowDefinitions>
         
-        <!--the MenuBar row-->
+        <!-- Row 0 the MenuBar row-->
         <Menu Grid.Row="0">
             <!--the Applications menu-->
             <MenuItem Header="          Applications">
@@ -85,17 +89,11 @@
                           Name="miNote"
                           Click="miNote_Click"/>
 
-                <MenuItem Header="QAItem"
-                          Name="miQAItem" 
-                          Click="miQAItem_Click"
-                          />
                           
             </MenuItem>
 
             <!--the Files menu-->
             <MenuItem Header="Files">
-                
-                
 
                 <MenuItem Header="Save Hyperlink"
                           Name="miSaveHyperlink"
@@ -104,48 +102,38 @@
                 <MenuItem Header="Save Note"
                           Name="miSaveNote"
                           Click="miSaveNote_Click"/>
-
-                <MenuItem Header="Save QAItem"
-                          Name="miSaveQAItem"
-                          Click="miSaveQAItem_Click"/>
-
+                
+                <!--I may not need the two items below-->
                 <MenuItem Header="Open Hyperlink File"
                           Name="miOpenHyperLink"
                           Click="miOpenHyperLink_Click"/>
 
-                <MenuItem Header="Open Note"
-                          Name="miOpenNote"
-                          Click="miOpenNote_Click"/>
+                <MenuItem Header="Show Notes"
+                          Name="miShowNote"
+                          Click="miShowNote_Click"/>
+
+                <MenuItem Header="Display Note Names"
+                          Name="miDisplayNoteNames"
+                          Click="miDisplayNoteNames_Click"/>
 
             </MenuItem>
-            <!--the QAMedia menu-->
-            <MenuItem Header="Leave Page" 
-                      Name="miLeavePage"
-                      Click="miLeavePage_Click"
-                      >
-
-                <!--<MenuItem Header="Add Question Image"
-                          Name="miQAddJpg"
-                          Click="miQAddJpg_Click"/>
-
-                <MenuItem Header="Add Question Sound File"
-                          Name="miQAddMp3"
-                          Click="miQAddMp3_Click"/>
+            <!--the Reset Page menu item-->
+                <MenuItem Header="Reset Page" 
+                      Name="miResetPage"
+                      Click="miResetPage_Click"/>
 
 
-                <MenuItem Header="Add Answer Image"
-                          Name="miAAddJpg"
-                          Click="miAAddJpg_Click"/>
-
-                <MenuItem Header="Add Answer Sound File"
-                          Name="miAAddMp3"
-                          Click="miAAddMp3_Click"/>-->
-            </MenuItem>
+            
             <!--the Instructions menu-->
-            <MenuItem Header="Instructions"></MenuItem>
+            <MenuItem Header="Instructions">
+                <MenuItem Header="Create a new Hyperlink"
+                          Name="miCreateNewHyperlinkInstructions"
+                          Click="miCreateNewHyperlinkInstructions_Click"/>
+
+            </MenuItem>
         </Menu>
-        
-        <!--The FileType, Name and bookmark Row--> 
+
+        <!-- -Row 1 The FileType, Name and bookmark Row--> 
         
         <StackPanel Orientation="Horizontal"  Grid.Row="1"                    
                     Margin="0 5 0 5">
@@ -170,8 +158,8 @@
             <TextBox x:Name="tbxBookMark" Width="100"/>
 
         </StackPanel>
-        
-        <!--The Hyperlink Row--> 
+
+        <!-- -Row 2 The Hyperlink Row--> 
         
         <StackPanel  Grid.Row="2" Orientation="Horizontal"
                      Margin=" 0 5">
@@ -180,9 +168,29 @@
                      Width="1000"/>
         </StackPanel>
         
-        <!--The Select Link Row-->
+        <!--Row 3 the KeyWords row-->
+        <StackPanel  Grid.Row="3" Orientation="Horizontal"
+                     Margin=" 0 5">
+            <TextBlock Text="KeyWords; "/>
+            <TextBox x:Name="tbxKeyWords"
+                     Width="1000"
+                     Margin="10 0 0 0"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="False"
+                     VerticalScrollBarVisibility="Auto"/>
+
+        </StackPanel>
+
+        <!--Row 4 Divider line row-->
+        <Border Grid.Row="4" Width="1190" Height="10">
+            <Line X1="5" Y1="3" X2="1185" Y2="3" StrokeThickness="5"
+                  Stroke="Black"/>
+        </Border>
+
+       
+        <!-- -Row 4The Select Link Row-->
         
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="5">
             
              <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
@@ -196,49 +204,61 @@
             
         </Grid>
         
-        <!--The Divider Row-->
-        
-        <Border Grid.Row="4" BorderBrush="Black" 
-                BorderThickness="2"  />
-        
-        <!--The DataLables row-->
-        <Grid Grid.Row="5" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" 
-                       x:Name="tblkLabel1"
-                       Text="Input 1"
-                       HorizontalAlignment="Center"/>
-            <TextBlock Grid.Column="1" 
-                       x:Name="tblkLabel2"
-                       Text="Input 2"
-                       HorizontalAlignment="Center"/>
-        </Grid>
-        
-        <!--The Input Text boxes row-->
+        <!--Row 6 the notes and keywords row-->
         <Grid Grid.Row="6">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>                
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0"  x:Name="tbxInput1"
-                     Width="580" 
-                     Height="450"
-                     AcceptsReturn="True" 
-                     TextWrapping="Wrap"
-                     VerticalScrollBarVisibility="Auto"
-                     />
+            <!--Create a grid with 2 columns-->
+            <Grid x:Name ="NotesGrid">
+                <Grid.ColumnDefinitions>
+                    <!--The column for the Key words label and textbox-->
+                    <ColumnDefinition Width="200"/>
+                    <!--The column for the Note Names-->
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--In column 0 create a grid with 2 rows-->
+                <Grid Grid.Column="0">
+                    <Grid x:Name="KeywordsColumn">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"                                     
+                                   Text="Key Words"
+                                   HorizontalAlignment="Center"/>
+                        <TextBox x:Name="tbxDisplayKeyWords"
+                                 Grid.Row="1"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"/>
+                    </Grid>
+                </Grid>  <!--end keyword column-->
+                <Grid Grid.Column="1" Name="NoteNamesColumn">
+                    <!--In column 1 create a grid with 2 rows-->                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Note Names"
+                             FontSize="15"
+                               HorizontalAlignment="Center"/>
+                    <ListBox Grid.Row="1"   x:Name="lbxOpenSelectedNote" 
+                             FontSize="15"
+                             PreviewMouseLeftButtonUp="lbxOpenSelectedNote_PreviewMouseLeftButtonUp" 
+                             PreviewMouseRightButtonUp="lbxOpenSelectedNote_PreviewMouseRightButtonUp">
+                        
 
-            <TextBox Grid.Column="1"  x:Name="tbxInput2"
-                     Width="580" 
-                     Height="450"
-                     AcceptsReturn="True" 
-                     TextWrapping="Wrap"
-                     VerticalScrollBarVisibility="Auto"
-                     />
+                    </ListBox>
 
-        </Grid>
+
+
+
+
+                </Grid> <!--end "Note Names Column"-->
+            </Grid> <!--end  x:Name ="NotesGrid"-->
+
+        </Grid> <!--end grid row 6-->
+       
+        
+       
     </Grid>
 </UserControl>

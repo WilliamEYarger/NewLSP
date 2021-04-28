@@ -67,6 +67,7 @@
     <Compile Include="DataModels\LinkNoteModel.cs" />
     <Compile Include="DataModels\QADataModel.cs" />
     <Compile Include="DataModels\SubjectNodes.cs" />
+    <Compile Include="StaticHelperClasses\CommonStaticMembers.cs" />
     <Compile Include="StaticHelperClasses\InstructionsStaticMembers.cs" />
     <Compile Include="StaticHelperClasses\LinkNoteStaticMembers.cs" />
     <Compile Include="StaticHelperClasses\QAStaticMembers.cs" />
