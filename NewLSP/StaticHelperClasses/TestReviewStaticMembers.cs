@@ -14,6 +14,10 @@ namespace NewLSP.StaticHelperClasses
 
         private static string _CurrentQuestionNumberString;
 
+
+        /// <summary>
+        /// The numeric character string  of the currently active QA pair
+        /// </summary>
         public static string CurrentQuestionNumberString
         {
             get { return _CurrentQuestionNumberString; }
@@ -29,6 +33,10 @@ namespace NewLSP.StaticHelperClasses
 
         #region This QADataMobelObject
 
+        /// <summary>
+        /// A Data object to hold all of the properties of 
+        /// a value item in the QADictionary
+        /// </summary>
         private static QADataModel ThisQADataModelObject;
 
 
@@ -38,6 +46,14 @@ namespace NewLSP.StaticHelperClasses
 
         private static string _QANUmbersString;
 
+
+        /// <summary>
+        /// the QANUmbersString is a '^' delimited string
+        /// that is used to call a Question and Answer pair
+        /// Initailly it is a seriatem list from 0
+        /// to the number of entries in the question and answer dictionary
+        /// but may be randomized if the user desires
+        /// </summary>
         public static string QANUmbersString
         {
             get { return _QANUmbersString; }
@@ -48,6 +64,9 @@ namespace NewLSP.StaticHelperClasses
 
 
         #region CurrentKeyValue
+        /// <summary>
+        /// The value of the current question and answer pair
+        /// </summary>
         private static string CurrentKeyValue;
 
         #endregion CurrentKeyValue
@@ -276,34 +295,40 @@ namespace NewLSP.StaticHelperClasses
         #endregion Reset Media Fields
 
 
-        // TODO - Explain this
-
+        
+        /// <summary>
+        /// The 'thisKey' parameter is a numeric character string
+        /// representing the current value of the QADictionary
+        /// being processed
+        /// It sets CurrentKeyValue and CurrentQuestionNumberString the
+        /// this key value so they are available to other interested parties
+        /// It then creates a QAStaticMembers.QADictionary data object,ThisQADataModelObject,
+        /// to Hold all of the QA pairs properties and also converts
+        /// the properties into the strings used by the various controls
+        /// of the TestReview.xaml user control 
+        /// </summary>
+        /// <param name="thisKey"></param>
         public static void SetCurrentQAValues(string thisKey)
         {
             
             while(QANUmbersString.Length > 0)
             {
                 // Save thisKey as the CurrentKeyValue so it can be added to the QANUmbersString if necessary
-
                 CurrentKeyValue = thisKey;
 
-                //SET TestReviewStaticMembers.CurrentQuestionNumberString
+                //SET CurrentQuestionNumberString
                 CurrentQuestionNumberString = thisKey;
 
-                //Save all of the current dictionary item's data as properties                
-
+                //Create a dataobject from the QADictionaries current key value which contains
+                //all of the current dictionary item's data as properties    
                 ThisQADataModelObject = QAStaticMembers.QADictionary[thisKey];
               
+                //Set the values of all of the strings to be used in the TextReview user control
                 ThisQuestion = ThisQADataModelObject.Question;
-
-                ThisAnswer = ThisQADataModelObject.Answer;
-               
-                ThisQuestionJPG = ThisQADataModelObject.QuestionJpgUrl;               
-
+                ThisAnswer = ThisQADataModelObject.Answer;               
+                ThisQuestionJPG = ThisQADataModelObject.QuestionJpgUrl; 
                 ThisQuestionMp3Url = ThisQADataModelObject.QuestionMp3Url;
-
                 ThisAnswerJpgUrl = ThisQADataModelObject.AnswerJpgUrl;
-
                 ThisAnswerMp3Url = ThisQADataModelObject.AnswerMp3Url;
 
                 return;
@@ -336,52 +361,7 @@ namespace NewLSP.StaticHelperClasses
             {
                 QANUmbersString = QANUmbersString + i.ToString() + '^';
             }
-            // Clear any previous values in the QANumberString
-
-
-            //// Read all of the lines in the qa file into an array
-            //string[] QALinesArray = File.ReadAllLines(SubjectStaticMembers.GetDataNodesQAFilePath());
-
-            ////process each delimited line converting it into a key(question number)
-            //// and value QADataModel object
-
-            //foreach (string line in QALinesArray)
-            //{
-            //    // split this string on ^
-            //    string[] thisQALineArray = line.Split('^');
-            //    // Create a new QADataModel object
-            //    QADataModel qADataModel = new QADataModel();
-
-            //    //Get the key and store it
-            //    string Key = thisQALineArray[0];
-
-
-            //    qADataModel.QANumber = Int32.Parse(Key);
-
-            //    string question = thisQALineArray[1];
-            //    question = question.Replace("~", "\r\n");
-            //    qADataModel.Question = question;
-
-            //    string answer = thisQALineArray[2];
-            //    answer = answer.Replace("~", "\r\n");
-            //    qADataModel.Answer = answer;
-
-            //    qADataModel.QuestionJpgUrl = thisQALineArray[3];
-
-            //    qADataModel.QuestionMp3Url = thisQALineArray[4];
-
-            //    qADataModel.AnswerJpgUrl = thisQALineArray[5];
-
-            //    qADataModel.AnswerMp3Url = thisQALineArray[6];
-
-            //    //Add qADataModel to the QADictionary
-            //    QAStaticMembers.QADictionary.Add(Key, qADataModel);
-
-            //    // add the question number to the QANUmbersString
-            //    QANUmbersString = QANUmbersString + Key + '^';
-
-            //}// End for each line
-
+            
             // Call AnswerQuestions to load the first item in the dictionary
             SetCurrentQAValues("0");
 

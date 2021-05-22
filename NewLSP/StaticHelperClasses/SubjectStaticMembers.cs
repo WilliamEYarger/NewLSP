@@ -95,12 +95,12 @@ namespace NewLSP.StaticHelperClasses
 
         #region Property NotesDictionaryPath
 
-        private static string _NotesDictionaryPath;
+        private static string _KeyWordsDictionaryPath;
 
-        public static string NotesDictionaryPath
+        public static string KeyWordsDictionaryPath
         {
-            get { return _NotesDictionaryPath; }
-            set { _NotesDictionaryPath = value; }
+            get { return _KeyWordsDictionaryPath; }
+            set { _KeyWordsDictionaryPath = value; }
         }
 
         #endregion Property NotesDictionaryPath

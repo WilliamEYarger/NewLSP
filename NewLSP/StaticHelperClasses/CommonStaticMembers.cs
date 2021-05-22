@@ -87,7 +87,6 @@ namespace NewLSP.StaticHelperClasses
         #endregion DataNodesQAResultsFilePath
 
 
-
         #region DataNodesQAFilePath
 
         public static string DataNodesQAFilePath { get; internal set; }
@@ -99,6 +98,21 @@ namespace NewLSP.StaticHelperClasses
         public static string ItemCountPath { get; internal set; }
 
         #endregion ItemCountPath
+
+        #region 
+        private static string _KeyWordsDictionaryPath;
+
+        public static string KeyWordsDictionaryPath
+        {
+            get { return _KeyWordsDictionaryPath; }
+            set 
+            { 
+                _KeyWordsDictionaryPath = value;
+                KeyWordsStaticMembers.KeyWordsDictionaryPath = _KeyWordsDictionaryPath;
+            }
+        }
+        #endregion 
+
         #endregion Paths
 
         #region Booleans

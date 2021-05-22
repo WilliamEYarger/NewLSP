@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NewLSP.UserControls"
         mc:Ignorable="d"
+        WindowStyle="None"
         Title="New Learning Study Project"
         Height="800" Width="1200"        
         WindowStartupLocation="CenterScreen">
@@ -48,6 +49,9 @@
             <MenuItem x:Name="miInstructions"
                       Header="InstructionsPage"
                       Click="miInstructions_Click"/>
+            <MenuItem Name="miCloseApplication"
+                      Header="Close Application"
+                      Click="miCloseApplication_Click"/>
         </Menu>
 
         <Grid Grid.Row="1">

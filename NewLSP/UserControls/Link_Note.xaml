@@ -32,7 +32,7 @@
             <!--Row 2, the name hyperlink row-->
             <RowDefinition Height="40"/>
             <!--Row 3, the label and KeyWords row-->
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="150"/>
             <!--Row 4 Divider line row-->
             <RowDefinition Height="5"/>
             <!--Row 5, hyperlink row-->
@@ -169,18 +169,8 @@
         </StackPanel>
         
         <!--Row 3 the KeyWords row-->
-        <StackPanel  Grid.Row="3" Orientation="Horizontal"
-                     Margin=" 0 5">
-            <TextBlock Text="KeyWords; "/>
-            <TextBox x:Name="tbxKeyWords"
-                     Width="1000"
-                     Margin="10 0 0 0"
-                     TextWrapping="Wrap"
-                     AcceptsReturn="False"
-                     VerticalScrollBarVisibility="Auto"/>
-
-        </StackPanel>
-
+        <local:KeyWordControl Grid.Row="3" x:Name="ucKeyWordControl" Visibility="Visible"/>
+        
         <!--Row 4 Divider line row-->
         <Border Grid.Row="4" Width="1190" Height="10">
             <Line X1="5" Y1="3" X2="1185" Y2="3" StrokeThickness="5"

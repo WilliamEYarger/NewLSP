@@ -153,10 +153,6 @@ namespace NewLSP.StaticHelperClasses
         /// <param name="qADataModelObject"></param>
         public static void AddQAObjectToDictionary(string NumberKey, QADataModel qADataModelObject)
         {
-            // TODO - Error
-            //-		$exception	{"An item with the same key has already been added."}	System.ArgumentException
-
-
             QADictionary.Add(NumberKey, qADataModelObject);
 
         }// End AddQAObjectToDictionary

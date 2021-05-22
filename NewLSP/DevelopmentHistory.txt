@@ -1,4 +1,111 @@
-﻿2021 04 27 TASKS
+﻿2021 05 22 Committed at 0753
+	COMMIT AND REVISE LOGIC
+	There is a problem with the current version in that apparently a user control  
+	contained  inside another user control can't call on its controls.
+	1.	I will commit and push the current version BUT I WILL NOT MERGE IT WITH THE MASTER	
+	2.	I will create an new branch from dev -> dev2
+	3.	In dev2 I will incorporate all of the controls from the KeyWordControl into con
+		controls on the Link_Note.xaml
+	Commit Message: 1) Created NoteReferenceFile  code to store data relative to a Note. The
+	NoteReferenceFile contains a) a descriptive name b) a hyperlink c) +/- a bookmark and 
+	d) a string of ';' delimited key words; 2) Created a KeyWordControl user control to
+	manage the input of keywords, but this contains a linking error to the holder usercontrol's
+	controls.
+
+2021 05 20	REVISED LOGIC OF KEYWORD SEARCH
+	0.	NEW LOGIC - RESTRICT ALL KEYWORD COMPARISONS TO TWO ONLY
+	1.	Keyword search will be fired when the user adds an entry that changes the text of the tbxAllKeyWords
+		a.	*This will cause the btnSubmit "Search" button to become visable
+		b.	*It will block the user from enterine new keywords and limit them to existing keywords
+	2.	*All keywords will be entered by calling lbxKeyWords_MouseLeftButtonUp when the user
+		selects an existing kehyword in the the lbxKewWords or by hitting the Enter key in the tbxInput text box. this occurs
+		when the desired key word in at position 0 in lbxKeyWords or there is only one entry. If there
+		are no entries in lbxKeyWords then the user will be sent a message informing them that the
+		are limited to existing key words
+	3.	*All selected keywords will show in tbxAllKeyWords
+	4.	When the first KeyWord is entered, then all Notes containing that keywrod will be displayed
+		and the Revert Key becomes available
+	5.	If a new KeyWord is entered, then the intersection between the two will be displayed
+		and the entry in the text in the tbxAllKeyWords will be changed to a KeyWord comparison,
+		i.e. the combination of the first KeyWord, or KeyComparsion and the new KeyWord seperated
+		by " + "
+	6.	If the Revert button is clicked then the last KeyWord to be compared is removed
+		and the former KeyCombination or the original KeyWord is displayed in tbxAllKeyWords
+		and the References associated with them is displayed. Repeated pressing the Revert button
+		can occur until there is nothing displayed in the tbxAllKeyWords or the lbxOpenSelectedNote
+	
+
+
+2021 05 08 
+	TODO ITEMS EXPLANATION
+	1.	TODO - 202105080750 Code Lookup NoteReferences containing the KeyWords Entered
+		a. This will involve making  two string [] of the ';' deliited string of NoteReferenceID number names
+			And then using Set theory Intersection  to determine the IDs found in both arrays.
+		b.	It will also need to store 	NoteReferenceID number name of any note reference
+			called for further inspection so that if the user wants to update its KeyWords string
+			the program will know what Note to call for appending a KeyWord value. If a match
+			is found then that
+
+2021 05 07
+	1.	*Notes References string SO NOT HAVE Note ID number in them. ???Do they need them???
+		NO, they are needed for Keyword look ups and are supplied by the Key words dictionary, 
+		but the NotesReferences file already contains all the notes linked to a DataNoteID,
+		complete with hyperlinks
+	2.	*Need to trim leading spaces in Keywords before adding them to the List of keywords
+	3.	*When CREATING a new note, I need to add its NoteNjmericChars Name to all of its KeyWords
+		in the dictionary
+	4.	*Remove the Close button so the user can only close the application by clicking the menu opiton
+
+  
+2021 05 05
+	1.	*Adjust code so that hitting Enter in the txbInput chooses the first item in lbxKeyWords if there
+		are items already present but if not items are present, create a new KeyWord Item
+	2.	*Change Terms to Key Words
+		a.	*Change Open to Add. When KeyWordsStaticMembers.ListAccess is set to true you are in the
+			mode of adding a Keyword to a new Note Reference
+		b.	*When KeyWordsStaticMembers.ListAccess is set to false you are in the mode of searching
+			for Notes who contain EXISTING KEYWORDS
+	3.	*Create code for adding Key words and converted key words to both the active properts and to the 
+		storage files
+
+
+2021 05 04
+	1.	When a notereference is created the following happens
+		a.	a NoteReference file is created and named by the number of files in the NotesReferences folder
+			It is a '^' deliited string containing :
+			1)	An item Numeric character string which references a NoteReferenceFiles .txt file (ie 25^)
+			2)	A NoteName (ie Docetism-Wikipeida^
+			3)	A hyperline (ie https://en.wikipedia.org/wiki/Docetism^
+			4)	+/-  a BookMark
+			5)	a string of ';' delimited Keywords (ie Docetism;#Definition;Ignatius of Antioch;1 John;^)
+		b.	In the CompositData folder a  KeyWords List  "ListOfKeyWords.txt"
+			(
+			 Dociticism,
+			 Herasy,
+			 Iraeneus,
+			 Paul, St.
+			 Peter, St.
+			 etc.
+			 )
+		c.	For each keyword in ListOfKeyWords
+			1)	All spaces are coverted to undersocres ie Paul, St. =  Paul,_St.
+			2)	If the KeyWords Dictionary already contains a key on the underscoreKeyWords, then it 
+				item's Numeric character string is appended to the '^' list of ItemNumberStrings 
+				(i.e. ^2^13^25^)
+			3)	Else a new dicionary item is added with the new  underscoreKeyWords as the Key
+				and ^item Numeric character strin^ ( i.e. ^25^)
+	2.	Folders and Files needed
+		a.	*A User designated References folder (ie C:\Users\Owner\OneDrive\Documents\Learning\Religion\ReligionReferences)
+		b.	Within the references folder a computer generated folder CompositData
+			1)	*a Computer generated file NotesDictionary.txt to hold the delimited dicgtionay lines
+			2)	*a Computer generated file ListOfKeyWords.txt to hold the keywords
+			3)	*+/- a User Generated excel file Timeline file ReligionTimeline.xlsx
+		c.	Within the references folder a computer generated folder NoteReferenceFiles
+       
+			
+
+
+2021 04 27 TASKS Committed 2021 04 28 0700
 	1.	*Create globals to hold all note components
 		a.	In LNStatic create 4 List<string> notenames, hyperlinks, bookmark, and keywords
 	2.	*Code displaying note names

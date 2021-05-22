@@ -226,6 +226,12 @@ namespace NewLSP
            
         }
 
-        
+        private void miCloseApplication_Click(object sender, RoutedEventArgs e)
+        {
+            // Save the KeyWords Dictionary file
+            KeyWordsStaticMembers.SaveDictionary();
+            Application curApp = Application.Current;
+            curApp.Shutdown();
+        }
     }
 }

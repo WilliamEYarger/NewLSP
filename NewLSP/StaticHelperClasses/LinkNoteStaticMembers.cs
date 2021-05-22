@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using NewLSP.DataModels;
 
@@ -173,7 +174,7 @@ namespace NewLSP.StaticHelperClasses
 
         public static void AddItemToHyperlinkDictionary(int cntr, LinkNoteModel.HyperlinkObject thisHyperlinkObject)
         {
-            // TODO - $exception	{"An item with the same key has already been added."}	System.ArgumentException
+            
 
             HyperlinkDictionary.Add(cntr, thisHyperlinkObject);
         }
@@ -304,6 +305,82 @@ namespace NewLSP.StaticHelperClasses
         }
 
         #endregion ReadInNotesFile
+
+
+        #region SaveNoteReference()
+        /// <summary>
+        /// This Method saves a note reference and can be called by either
+        ///     1)  Clicking the miSaveNote menu item or by 
+        ///     2)  clicking the KeyWordControl's btnSubmit 
+        /// </summary>
+        public static void SaveNoteReference(string NoteReferenceStr)
+        {
+           // Find out how many files are in the C:\Users\Owner\OneDrive\Documents\Learning\Religion\ReligionReferences\NoteReferenceFiles folder
+            int fCount = Directory.GetFiles(CommonStaticMembers.NoteReferencesPath, "*", SearchOption.TopDirectoryOnly).Length;
+
+
+            //Use it to create the string NoteNumberCharsName
+            string NoteNumberCharsName = fCount.ToString();
+            // Use it to create the name for the next NoteReference.txt file
+            string ReferenceName = NoteNumberCharsName + ".txt";
+
+            string ReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + ReferenceName;
+
+            
+
+            //Write the NoteReferenceStr to this file
+            File.WriteAllText(ReferenceFilePath, NoteReferenceStr);
+
+            // Crete the path to store this DataNodes's Note           
+            string NotesFilePath = CommonStaticMembers.HomeFolderPath + "Notes\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
+
+            // Check to see if the SubjectName\Notes folder contains a file whose name is the DataNodeID.txt
+            if (File.Exists(NotesFilePath))
+            {
+                // The file already exists so append the new note reference to it
+                File.AppendAllText(NotesFilePath, NoteReferenceStr+"\r\n");
+            }
+            else
+            {
+                // The file doesn't exist so write the note reference to a new file
+                File.WriteAllText(NotesFilePath, NoteReferenceStr + "\r\n");
+            }
+
+            //SAVE THE Note NumberChars Name to the Dictionary file of all of its keywords
+
+            //  remove the terminal ';' from the NoteReferenceStr
+            string shortenedNoteReferenceStr = NoteReferenceStr.Substring(0, NoteReferenceStr.Length - 1);
+
+            //  Create a string [] from the hyperlinks 
+            string[] KeyWords = StringHelper.ReturnItemAtPos(shortenedNoteReferenceStr, '^', 3).Split(';');
+
+            //  Cycle through the Key words updating the Dictionary
+
+            foreach(string keyWord in KeyWords)
+            {
+                // Eliminate all generics
+                if (keyWord.IndexOf('#') != -1) break;
+
+                // replate spaces in keyWord
+                string newKeyWord = keyWord.Replace(' ', '_');
+
+                // get the value for the Dictionary item with newKeyWord as the Key
+                string delimitedNoteNamesString = KeyWordsStaticMembers.delimitedStringOfNoteNames(newKeyWord);
+
+                // append NoteNumberCharsName to the end of delimitedNoteNamesString
+                delimitedNoteNamesString = delimitedNoteNamesString + NoteNumberCharsName + ';';
+                   
+                //Return the updated value to the dictionary
+                KeyWordsStaticMembers.ChangeDictionaryValue(newKeyWord, delimitedNoteNamesString);
+                
+                
+            }
+
+
+
+        }
+        #endregion SaveNoteReference()
+
         #endregion  Public Methods
 
     }// End LinkNoteStaticMembers

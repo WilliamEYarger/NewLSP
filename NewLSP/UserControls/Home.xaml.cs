@@ -122,7 +122,7 @@ namespace NewLSP.UserControls
             CommonStaticMembers.NoteReferencesPath = NoteReferenceFilesPath;
 
             // Create CompositData folder
-            string CompositDataPath = ReferenceFolderPath + "\\CompositData";
+            string CompositDataPath = ReferenceFolderPath + "CompositData";
             if (!Directory.Exists(CompositDataPath))
             {
                 Directory.CreateDirectory(CompositDataPath);
@@ -132,16 +132,29 @@ namespace NewLSP.UserControls
             SubjectStaticMembers.CompositDataPath = CompositDataPath;
 
             // If it doesn't exist create the NotesDictionary file
-            string NotesDictionaryPath = CompositDataPath + "\\NotesDictionary.txt";
-            if (!File.Exists(NotesDictionaryPath))
+            string KeyWordsDictionaryPath = CompositDataPath + "\\KeyWordsDictionary.txt";
+            if (!File.Exists(KeyWordsDictionaryPath))
             {
-                var fileStream = File.Create(NotesDictionaryPath);
-                fileStream.Close();
-               
+                var fileStream = File.Create(KeyWordsDictionaryPath);
+                fileStream.Close();               
             }
 
-            // Set the NotesDictionaryPath 
-            SubjectStaticMembers.NotesDictionaryPath = NotesDictionaryPath;
+            // Set CommonStaticMembers.KeyWordsDictionaryPath
+            CommonStaticMembers.KeyWordsDictionaryPath = KeyWordsDictionaryPath;
+
+            // If it doesn't exist create the CompositDataPath + "\\ListOfKeyWords.txt";.txt  file
+            string ListOfKeyWordsPath = CompositDataPath + "\\ListOfKeyWords.txt";
+            if (!File.Exists(ListOfKeyWordsPath))
+            {
+                var fileStream = File.Create(ListOfKeyWordsPath);
+                fileStream.Close();
+
+            }
+
+            // Set the ListOfKeyWordsPath in KeyWordsStaticMembers
+            KeyWordsStaticMembers.ListOfKeyWordsPath = ListOfKeyWordsPath;
+
+
 
             if (MessageBox.Show("Create or Select Timeline?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {

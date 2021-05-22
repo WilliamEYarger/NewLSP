@@ -198,61 +198,58 @@ namespace NewLSP.UserControls
 
         #region Save Note MenuItem
 
+        /// <summary>
+        /// This method Saves a Note when the program is in the Create mode.
+        /// It can be called by the Link_Note.xaml's "miSaveNote" menu item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void miSaveNote_Click(object sender, RoutedEventArgs e)
         {
-            // Make sure that all required data fields are present
-           if((tbxLinkName.Text == "") || (tbxHyperlink.Text=="") || (tbxKeyWords.Text == ""))
+            if (KeyWordsStaticMembers.ListAccess)
             {
-                MessageBox.Show("You cannot save a Note unless there is a Name, a hyperlink and KeyWord(s)");
-                return;
+                // The program is in the Create mode
+                // Make sure that all required data fields are present
+                if ((tbxLinkName.Text == "") || (tbxHyperlink.Text == "") || (ucKeyWordControl.tbxAllKeyWords.Text == ""))
+                {
+                    MessageBox.Show("You cannot save a Note unless there is a Name, a hyperlink and KeyWord(s)");
+                    return;
+                }
+
+                // Make sure the Key words are delimited witb ;s
+                if (!ucKeyWordControl.tbxAllKeyWords.Text.Contains(";"))
+                {
+                    MessageBox.Show("Key words must be delimigted wint ';'s ");
+                    return;
+                }
+                // create a NoteReference string
+                string NoteReferenceStr = tbxLinkName.Text + "^" + tbxHyperlink.Text + "^" + tbxBookMark.Text + "^" + ucKeyWordControl.tbxAllKeyWords.Text;
+
+                LinkNoteStaticMembers.SaveNoteReference(NoteReferenceStr);
+
+
+
+                // Clear lbxOpenSelectedNote and tbxDisplayKeyWords
+                lbxOpenSelectedNote.Items.Clear();
+                tbxDisplayKeyWords.Text = "";
+
+                // Call ReadNotesIntoSelectNoteListBox()
+                ReadNotesIntoSelectNoteListBox();
+
+                PopulateNoteListBox();
+
+                //Clear Note entry fields
+                tbxLinkName.Text = "";
+                tbxHyperlink.Text = "";
+                ucKeyWordControl.tbxAllKeyWords.Text = "";
+                ucKeyWordControl.lbxKeyWords.Items.Clear();
+                ucKeyWordControl.tbxAllKeyWords.Text = "";
+                ucKeyWordControl.tbxInput.Text = "";
+
+
             }
-
-           // Make sure the Key words are delimited witb ;s
-            if (!tbxKeyWords.Text.Contains(";"))
-            {
-                MessageBox.Show("Key words must be delimigted wint ';'s ");
-                return;
-            }
-            // create a NoteReference string
-            string NoteReferenceStr = tbxLinkName.Text + "^" + tbxHyperlink.Text + "^" + tbxBookMark.Text + "^" + tbxKeyWords.Text;
-
-            //Get the path to the folder holding all note references
-            //CommonStaticMembers.NoteReferencesPath = SubjectStaticMembers.NoteReferenceFilesPath;
-
-
-            // Find out how many files are in the C:\Users\Owner\OneDrive\Documents\Learning\Religion\ReligionReferences\NoteReferenceFiles folder
-            int fCount = Directory.GetFiles(CommonStaticMembers.NoteReferencesPath, "*", SearchOption.TopDirectoryOnly).Length;
-
-            // Use it to create the name for the next NoteReference.txt file
-            string ReferenceName = fCount.ToString() + ".txt";
-            string ReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + ReferenceName;
-
-            //Write the NoteReferenceStr to this file
-            File.WriteAllText(ReferenceFilePath, NoteReferenceStr);
-          
-            // Crete the path to store this DataNodes's Note           
-            string NotesFilePath = CommonStaticMembers.HomeFolderPath + "Notes\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
-
-            // Check to see if the SubjectName\Notes folder contains a file whose name is the DataNodeID.txt
-            if (File.Exists(NotesFilePath))
-            {
-                // The file already exists so append the new note reference to it
-                File.AppendAllText(CommonStaticMembers.NoteReferencesPath, NoteReferenceStr);
-            }
-            else
-            {
-                // The file doesn't exist so write the note reference to a new file
-                File.WriteAllText(NotesFilePath, NoteReferenceStr);
-            }
-
-            // Clear lbxOpenSelectedNote and tbxDisplayKeyWords
-            lbxOpenSelectedNote.Items.Clear();
-            tbxDisplayKeyWords.Text = "";
-
-            // Call ReadNotesIntoSelectNoteListBox()
-            ReadNotesIntoSelectNoteListBox();
-
-            PopulateNoteListBox();
+            
+             
 
         }// End miSaveNote_Click
 
@@ -666,33 +663,16 @@ namespace NewLSP.UserControls
 
         private void ReadNotesIntoSelectNoteListBox()
         {
-            // New 202101427
+            
             // Call LNStatic to read in the file
             LinkNoteStaticMembers.ReadInNotesFile();
-
-
-
-            // Create the path to the DataNodeIDs Note file
-            
-            //Create path to the DataNodeIDs notes file
-            //string IDFileName = SubjectStaticMembers.DataNode.ID.ToString();
-            //string DataNodesNotesPath = CommonStaticMembers.DataNodesNotesPath + "\\"+IDFileName + ".txt";
-
-            //string[] lines = System.IO.File.ReadAllLines(DataNodesNotesPath);
-
-            // TODO - create a global to hold all note components
-            //Send this array to static to create 4 lists
-            //List<string> NamesList = LinkNoteStaticMembers.CreateNoteLists(lines);
+           
 
             // Clear lbxOpenSelectedNote and tbxDisplayKeyWords
             lbxOpenSelectedNote.Items.Clear();
             tbxDisplayKeyWords.Text = "";
 
-            //////Fill lbxOpenSelectedNote with NamesList
-            ////foreach (string Name in NamesList)
-            ////{
-            ////    lbxOpenSelectedNote.Items.Add(Name);
-            ////}
+            
         }
 
         #endregion Private Method to Read noteReference file into lbxOpenSelectedNote
@@ -712,6 +692,7 @@ namespace NewLSP.UserControls
         }
 
         #endregion PopulateNoteListBox
+
 
         #endregion  Private Methods
 
