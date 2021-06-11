@@ -155,7 +155,7 @@
                                      Margin="0 0 30 0"
                                      />
                             <TextBlock x:Name="tblkNote"
-                                       Text="This node has a Notes File"
+                                       Text="This node has a NoteRefID File"
                                 FontSize="15"/>
                                 
                         </StackPanel>

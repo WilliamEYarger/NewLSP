@@ -1,9 +1,46 @@
-﻿using Microsoft.WindowsAPICodePack.Dialogs;
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using Microsoft.WindowsAPICodePack.Dialogs;
 using NewLSP.StaticHelperClasses;
 using System.Windows;
 using System.Windows.Controls;
 using System.IO;
-using Microsoft.Win32.SafeHandles;
 
 namespace NewLSP.UserControls
 {
@@ -27,7 +64,7 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void btnOpenSubjectFolder_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Create or Open an existing Subject folder");
+            MessageBox.Show("Create or Open an existing -- S U B J E C T  -- folder");
             // Get or create the Name of the Subject folder
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
@@ -45,7 +82,7 @@ namespace NewLSP.UserControls
             var FolderName = StringHelper.ReturnItemAtPos(FolderPath, '\\', NumberOfSlashes - 1);
             lblTitle.Content = "This is the Subjects Tree for " + FolderName;
 
-            // Save the Path to  the selected subject
+            // Save the Path to  the selected subject ends with \\
             CommonStaticMembers.SubjectFolderPath = FolderPath;
 
             //Create a folder to hold the QAFiles and path
@@ -69,11 +106,11 @@ namespace NewLSP.UserControls
                 CommonStaticMembers.DataNodesHyperlinksPath = FolderPath + "Hyperlinks";
             }
 
-            // Create a folder to hold the subject notes and path
-            if (!Directory.Exists(FolderPath + "Notes"))
+            // Create a folder to hold the subject DataNodesNoteReferencesFiles and path
+            if (!Directory.Exists(FolderPath + "DataNodesNoteReferencesFiles"))
             {
-                Directory.CreateDirectory(FolderPath + "Notes");
-                CommonStaticMembers.DataNodesNotesPath = FolderPath + "Notes";
+                Directory.CreateDirectory(FolderPath + "DataNodesNoteReferencesFiles");
+                CommonStaticMembers.DataNodesNoteReferencesFilesPath = FolderPath + "DataNodesNoteReferencesFiles";
 
 
             }
@@ -93,36 +130,45 @@ namespace NewLSP.UserControls
             //Communicate the FolderPath to the ViewModel.SubjectNodeViewModel's OpenFile method
             SubjectStaticMembers.OpenFiles(FolderPath);
 
-
-            MessageBox.Show("Create of Open a Folder to hold References. Normally, this will be in a more generic"+
+            // Show a message telling the user to create or select a common references folder
+            MessageBox.Show("Create of Open a Folder to hold -- R E F E R E N C S --. Normally, this will be in a more generic"+
                 " folder and its name will reflect the Generic Interest. for example 'Religion References'");
 
-            // Get or create the Name of the Subject folder
+            /*
+             * Either select an existing Common References folder or create one
+             * using CommonOpenFileDialog and its FileName property to
+             * Create a ReferenceFolderPath
+             */
+
+
             CommonOpenFileDialog referenceDialog = new CommonOpenFileDialog();
             referenceDialog.IsFolderPicker = true;
             string ReferenceFolderPath = "";
             if (referenceDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
+                //The path to the Common Rererence Folder
                 ReferenceFolderPath = referenceDialog.FileName + '\\';
             }
 
             // Create "NoteReferenceFiles" and "CompositData" folders
 
-            // Create NoteReferenceFiles
-            //      Create path to + "\\NoteReferenceFiles"
+            // Create a path to the NoteReferenceFiles folder in the Common References folder
             string NoteReferenceFilesPath = ReferenceFolderPath + "NoteReferenceFiles";
+
+            //Check to see if this folder(Directory) exists and if not create it
             if (!Directory.Exists(NoteReferenceFilesPath))
             {
                 Directory.CreateDirectory(NoteReferenceFilesPath);
             }
-
-           
+                       
 
             // Set the NoteReferenceFilesPath
             CommonStaticMembers.NoteReferencesPath = NoteReferenceFilesPath;
 
-            // Create CompositData folder
+            // Create a pathe to the CompositData folder that will hold data about Key Words
             string CompositDataPath = ReferenceFolderPath + "CompositData";
+
+            //If this folder doesn't exist create it
             if (!Directory.Exists(CompositDataPath))
             {
                 Directory.CreateDirectory(CompositDataPath);
@@ -142,8 +188,10 @@ namespace NewLSP.UserControls
             // Set CommonStaticMembers.KeyWordsDictionaryPath
             CommonStaticMembers.KeyWordsDictionaryPath = KeyWordsDictionaryPath;
 
-            // If it doesn't exist create the CompositDataPath + "\\ListOfKeyWords.txt";.txt  file
+
+            
             string ListOfKeyWordsPath = CompositDataPath + "\\ListOfKeyWords.txt";
+
             if (!File.Exists(ListOfKeyWordsPath))
             {
                 var fileStream = File.Create(ListOfKeyWordsPath);
@@ -156,7 +204,7 @@ namespace NewLSP.UserControls
 
 
 
-            if (MessageBox.Show("Create or Select Timeline?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBox.Show("Create or Select -- T I M E L I N E -- or Click SubjectTreePage?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
@@ -176,7 +224,9 @@ namespace NewLSP.UserControls
             }
 
 
+            // Set the initial value of CurrentNoteIDInt
 
+            CommonStaticMembers.CurrentNoteIDInt = -1;
 
 
         }// End btnOpenSubjectFolder_Click
