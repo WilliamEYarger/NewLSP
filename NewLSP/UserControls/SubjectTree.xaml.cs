@@ -6,6 +6,7 @@ using NewLSP.StaticHelperClasses;
 using NewLSP.DataModels;
 using System.Collections.Generic;
 using System;
+using System.IO;
 
 namespace NewLSP.UserControls
 {
@@ -45,7 +46,15 @@ namespace NewLSP.UserControls
 
         #region Mouse Rigth Button Up to Select new parent
 
-
+        /// <summary>
+        /// This method is part of the move node procedure
+        /// After the user has selected a node to move, he
+        /// is instructed to selecte the new parent by 
+        /// Right Clicking the desired parent and that
+        /// calls this method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvSubjects_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (lvSubjects.SelectedIndex >= 0)
@@ -163,6 +172,8 @@ namespace NewLSP.UserControls
                 if (CommonStaticMembers.NodeHasNoteFile(NodeID))
                 {
                     spNote.Visibility = Visibility.Visible;
+                    // Fill the DictionaryOfNoteNamesIDs
+                    //CommonStaticMembers.FillDictionaryOfNoteNamesIDs();
                 }
                 else
                 {
@@ -376,8 +387,10 @@ namespace NewLSP.UserControls
         private void rbDataNode_Click(object sender, RoutedEventArgs e)
         {
             // Set the SubjectStaticMembers DataNode
-            SubjectStaticMembers.DataNode = SelectedNode;            
+            SubjectStaticMembers.DataNode = SelectedNode;
 
+            //Set the DataNodeNoteReferenceFilePath()
+            SubjectStaticMembers.SetDataNodeNoteReferenceFilePath();
             //blank the dataNodesQAFilePath
             SubjectStaticMembers.DataNodesQAFilePath = "";
 
@@ -391,13 +404,26 @@ namespace NewLSP.UserControls
             // clear the QAStaticMembers.QADictionary
             QAStaticMembers.QADictionary.Clear();
 
-            //Clear the Hyperlink dictionary
-            LinkNoteStaticMembers.HyperlinkDictionary.Clear();
+            ////Clear the Hyperlink dictionary
+            //LinkNoteStaticMembers.HyperlinkDictionary.Clear();
 
             // Set the Path to the DataNode's QAfile
             SubjectStaticMembers.SetDataNodesQAFilePath();
 
-        }
+            //// If the DataNode has a DataNodesNoteReference file then write its content to the SubjectStaticMembers.DataNode lbxOpenSelectedNote
+            //// Create Path to the DataNodesNoteReference file
+            //string DataNodesNoteReferenceFilePath = CommonStaticMembers.DataNodesNoteReferencesFilesPath + 
+            //    SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
+            //// See if this file exists and if so open it and read its data to the SubjectStaticMembers.DataNode
+            //if (File.Exists(DataNodesNoteReferenceFilePath))
+            //{
+            //    string [] DataNodesReferencesStringsArray = File.ReadAllLines(DataNodesNoteReferenceFilePath);
+            //    Link_Note.xaml.cs
+            //}
+
+
+        }// End rbDataNode_Click
+
         #endregion Radio Button create DataNode
 
 

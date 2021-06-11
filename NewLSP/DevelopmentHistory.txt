@@ -1,4 +1,202 @@
-﻿2021 05 22 Committed at 0753
+﻿2021 06 11 BACKUP of dev2
+1commit Message: ESTABLISHED NOTES: 1) In Main Subject folder created DataNodesNoteReferencesFiles folder to hold DataNode IntID.txt 
+references to Referene Notes (NoteName^Reference Note Alpha26Name ie e.txt); 2) Enabled user to create a Common referece folder
+to hold data applicable to more than 1 study folder 3) This Common reference folder contains : a. CompositData folder which contains::
+i) KeyWordsDictionary.txt whose lines contains and converted key word (spaces teplaced by _) ^ and a ';' delimited list of
+NoteReferenes containing that key word (i.e. Paul_the_Apostle^;A;C;); ii. ListOfKeyWords.txt file in which each line represents a key word, 
+which may contain spaces (i.e. Paul the Apostle); b. A NoteReferenceFiles folder which contains NoteReferencde files each of which has 
+an Alpha26 name (where A.txt is the first folder to be added and AA.txt is the 27th folder to be added), each of these files
+contains a  delimited string containing: The Note Name, The note hyperlink, +/-a bookmark and a ';' delimited list of KeyWords 
+(i.e. Paul the Apostle - Early Ministry^C:\Users\Owner\OneDrive\Documents\Learning\Religion\Christianity\Individuals\ApostolicAge\Paul the Apostle 
+- Early Ministry.docx^^Paul the Apostle;Damascus;Ananias of Damascus;Jerusalem;Peter the Apostle;James the Just;)
+
+2021 06 10
+	1.	Enable searching for all notes containing a KeyWord
+		a.	*Make sure that only 1 Keyword can be entered
+		b.	When Keyword ins entered get its KeyWordsDictionary value
+			containing all noted that reference that key word
+		c.	cycle thru all of these NoteReferenceNames creating
+			a display stirng (KeyWord ->205 space 6'^'+KeyWordAlpha26 name)
+			and add the display string to the selecte notes list box
+	2.	There may be an error in LN.xaml.cs lne 1046-1068
+	3.	There is an error in creating the KeyWordDictionary values in that there are two ';'s
+
+2021 06 09 
+	1.	*Create a New Subject Folder and test to see if all needed files are present
+	2.	*Create a new Subsubject as a DataNode and add a Note to it
+		a.	*DataNodesNoteReferencesFiles file created
+		b.	*NoteReferenceFiles file created
+		c.	*Dictionary created BUT NO REFERENCES TO THE NoteReferenceFile ARE MADE
+		d.	*List of KeyWords created
+	3.	*Delete all note files just created
+	4.	*Create code to update and save the KeyWordsDictionary
+	5.	*Test Showing a Note (Left click note name in listbox lbxOpenSelectedNote)
+CREATING A NEW NOTE AND EDITING AN EXISTING NOTE BOTH WORK!!!
+	6.	*Create code to  Right Click to display a Common references NoteRefeerence file's key words
+	7.	*Correct  there is a terminal ';' in the key words in the Common references Note Reference file
+		a.	*Yes there should be a terminal ' ;' but I have lost it somewhere in the earlier code
+			Check editing an existing note CORRECTED
+I CANNOT ADD A NEW NOTE TO A SUBJECT THAT ALREADY HAS A NOTE
+
+2021 06 05 NEW NOTES
+	0.	FILE NAME CHANGES
+		a.	*Make sere every Subect folder contains a DataNodesNoteReferencesFiles folder
+		b.	Make sure that every time a key word is added that the ListOfKeyWords.txt file is updated
+	1.	What is a note? A Note is a docx, txt, xls, jpg, http or some other type of address
+		containing data about a named subject.
+	2.	What is a NoteReference file? A Note reference file contains:
+		a.	a descriptive NoteName (eg Jerusalem Council - Wikipedia)
+		b.	an hyperlink (eg C:\Users\Owner\OneDrive\Documents\Learning\Religion\Christianity\Events\Jerusalem Council Wikipedia.docx)
+		c.	possible a BookMark (eg Issues and outcome)
+		d.	a ';' delimited list of KeyWords (eg Ecumenical Councils; Paul the Apostle; Simon Peter; James the Just;etc)
+			A Note Reference file is storred in a central designated combined references folder (eg 
+		C:\Users\Owner\OneDrive\Documents\Learning\Religion\ReligionReferences\NoteReferenceFiles
+		or C:\Users\Owner\OneDrive\Documents\_StudyFolder\S1References\NoteReferenceFiles
+			Its name is the Alpha equivalent of a base 26 number representing the current
+		number of files storred in the designated references folder. (For example, if the
+		folder C:\Users\Owner\OneDrive\Documents\_StudyFolder\S1References\NoteReferenceFiles has 0 files when
+		a new Reference file is created its name would be A.txt, if it had 26 files, its name would be AA.txt etc.)
+	3.	What is a DataNodesNoteReferences file? It is a .txt file whose name is the data nodes integer ID character converted
+		to a string (eg 4.txt). Each line of the file contains a NoteReference file name ( eg "Jerusalem Council - Wikipedia")
+		and an AlphaCharNumberBased name of a particular NoteReference file (eg AA.txt) delimited with a '^'. For example
+		if a DataNode (for example Eccumenical Councils {ID = 235})had references to notes about: 1) the Jerusalem Council of 50 CE,
+		2) St Paul, 3) St Peter, 4) St James the Just, 5) Christology, 6) Ethics and 7)Gentiles it might look something like this
+			Paul the Apostle^C
+			Simon Peter^A
+			James the Just^G
+			Christology ^AR	
+			Ethics^BC
+			Gentiles^K
+		The path of this file might be C:\Users\Owner\OneDrive\Documents\Learning\Religion\ReligionReferences\NoteReferenceFiles\235.txt
+	4.	What happens when the user designates a subject node as the DataNode? 
+		a.	The Subject's DataNodesNoteReferencesFiles folder is queried to see if there is file whose
+			name is the DataNodes ID to string number (eg 4.txt)
+		b.	If Yes the Note Symbol is highlighted
+	5.	What happens when the user selects the Links-Notes Page
+		a)	if there is a linked file in the DataNodesNoteReferencesFiles folder then:
+			1)	its content is read into the lbxOpenSelectedNote listbox when the page opens
+			2)	then Link_Note.xaml.cx variable private string CurrentNoteReferenceFileName is set to ""
+	6.	What happens when the user LeftClicks the lbxOpenSelectedNote list box
+		a.	The Selected Item text value is used to extract the NoteReference file name (ef T for T.txt in the
+			NoteReference file)
+		b.	The File is Opened and its content is copied to the various fields
+		c.	The Edit Radiobutton is checked
+		d.	The  NoteReference file name is copied to the  CurrentNoteReferenceFileName
+	7.	What happens when the User RightClicks the lbxOpenSelectedNote list box
+		a.	The Selected Item text value is used to extract the NoteReference file name (ef T for T.txt in the
+			NoteReference file)
+		b.	The File is Opened and its key words are copied to the tbxDisplayKeyWords
+	8.	What happens if the user clicks the Save Note Reference
+		a.	The format of all of the elements is checked to make sure they are correct and if it proceeds to
+		b.	Checks to see if CurrentNoteReferenceFileName == ""
+			1)	If True then the number of the files in the central designated combined references folder is
+				used to create a new Base26 AlphaChar name for the file to be saved and all
+				of the elements are written to that file
+			2)	If False (that means this is an existing note) then the KeyWords overwrite those
+				of the existing file
+		c.	The Note Name and the CurrentNoteReferenceFileName is Added to the lbxOpenSelectedNote list box
+
+
+ 
+2021 05 29 
+	1.	Creat new method for creating a note
+		a.	Use the File Dialog to open a note file, this can be
+			a docx, web, txt ...etc file
+			1)	Place its path or url in the tbxHyperlink
+		b.	Create a Name and a Bookmark, if needed
+		c.	Add KeyWords
+	2.	When saving a note
+		a.	Create the NoteReferenceFile
+			1)	Get its IDName from the number of entries in the NoteReferenesFiles folder
+			2)	Create the Note. It fields are: IDName^NoteName^Hyperlink^BookMark^KeyWords(';' delimited)
+			3)	Save the NotereferenceFile to the  NoteReferenesFiles folder
+		b.	Look to see if a NoteNamesIDs file exists (Its name is the DataNodesID intchar + .txt)
+			1)	If not, creaet if and appende the NoteName and the NoteReferenceFile ID Char (ie Arianism^D)
+			2)	Is so, appende the NoteName and the NoteReferenceFile ID Char (ie Arianism^5)
+
+2021 05 28
+	Currently Notes are a collections of NoteReferences, so that the data are
+	duplicated in a NoteReference and a Note. My new concept is that
+	a Note ought to be a list of note Names and IntegerChar refering to the NoteReference Name i.e. 
+		Wikipedia - Jerusalem Council^4
+		Jerusalem Council^0
+	1.	*Change the folder Notes to NoteNamesIDs
+	2.	When a DataNode is selected
+		a.	a DictionaryOfNoteNamesIDs<string,string> will be created where the Key is the IDIntChar
+			and the value is the NoteName^IDIntChar
+	2.	When a user creates a new Note to be added to the	
+		DataNode's NoteNamesIDs file file
+		a.	The NoteReference file will contain: IDIntChar^NoteName^Hyperlink^BookMark^';'DelimitedKeyWords
+		b.	The NoteNamesIDs for the DataNode will have a line of NoteName^IDIntChar appended to it
+	3.	When the ShowNotes is clicked
+		a.	All of the lines in the DictionaryOfNoteNamesIDs file will show
+	4.	When the user selects a line in the lbxOpenSelectedNote to open a note
+		a.	The IDIntChar will be extracted
+		b.	It will be used to Open the appropriate NoteReference file and
+			place its items in the correct fields and the Note will be opened
+	5.	When the user selects a line in the lbxOpenSelectedNote to show associated KeyWords
+		a.	The IDIntChar will be extracted
+		b.	It will be used to Open the appropriate NoteReference file and the
+			Key words will be displayed in tbxDisplayKeyWords
+
+2021 05 26
+	1.	Hyperlinks workd OK
+	2.	What do I want to happen when the user clicks a note name in the lbxOpenSelectedNote?
+		a.	List the Note name in the tbxLinkName
+		b.	List the hyperlink in the tbxHyperlink
+		c.	List the bookmark in the tbxBookMark
+		d.	Set rbtEdit IsChecked to true
+		e.	Enter the KeyWords in tbxAllKeyWords
+	3	What has to happen first? I need all of the values for the selected note
+	3.	?SelectedNoteReferenceValuesDictionary has not been defined
+		a.	What should it contain?
+				Create a Dictionary<int, string> SelectedNoteReferenceValues, in which
+                a)	The Key will be an integer from 0 to Number of referecnes containing that key-1 and
+                b)	The Value will be the '^' delimited string of the selected NoteReferenceFile
+
+
+2021 05 22 0758 DEVELOPEMNT OF DEV2
+	1.	Determine size of KeyWordControl and allocate space for it in Link_Note.xaml = 150x1200
+		a.	*In Link-Note.xaml create a border of size 150x1200 with width = 1 black
+		b.	*Copy all controls from KeyWordControl.xaml to a Grid in the border
+		c.	*Copy all methods from KeyWordControl.xaml.cs to Link_Note.xaml.cs
+	2.	*For the initial version of KeyWord search I will limit the user to 1 Key word
+		a.	*When a keyword is entered create and call a method to ReturnNoteNameList, which will:
+			1)	*Create a Dictionary<int,string> SelectedNoteReferenceValues, in which 
+				a)	*The Key will be an integer from 0 to Number of referecnes containing that key-1 and
+				b)	*The Value will be the '^' delimited string of the selected NoteReferenceFile
+			2)	*the ReturnNoteNameList method will then return a List<string> of NoteReferenceNames from  the
+				NoteName fields (position 0 in the '^' delimited string of the selected NoteReferenceFile)
+				of the selected Note References 
+			3)	*The Link_note.xaml.cs  file will display this list in the lbxOpenSelectedNote list box
+	3.	*Create the code to display the associated KeyWords when a NoteName in the lbxOpenSelectedNote is Right Clicked	
+	4.	*Create a common  int variable CurrentNoteIDInt and set its base value to -1
+	5.	Get the NoteName ID of the selected note
+		a.	*In KeyWordsStaticMembers create a Dictionary<int,int> DictionaryOfNoteRefSPosAndNoteIDs where the Key is the sequential value
+			from 0 to the Number of Notes containing that key -1; and the value is the NoteNameID converted 
+			to an int
+		b.	*Fill it is when the NoteNames of a KeyWord is processed
+	6	Create the code to open the Note when the Note name is left clicked
+		a.	When a NoteName is LeftClicked
+			1)	Clear all fields in the KeyWord section
+			2)	Set the rbtAdd to clicked 
+			3)	When a NoteName has been selected for opening change the
+				value of  CurrentNoteIDInt to the value of the NoteName (ie. 7.txt  =  7)
+			4)	Copy the note name, the hyperlink, the bookmark, and the key words to their appropriate fields
+				in the upper screen
+			5)	Copy any book mark to the clip board and open the hyperlink
+	7.	Alter the SaveNote menu item's code to depend on the value of CurrentNoteIDInt
+		a.	If it is -1, then this is a new note and the note is saved to the value of the number of files in the
+			NoteReferenceFiles folder
+		b.	Otherwise this is a edited note and save all of the values to the Note whose name is
+			CurrentNoteIDInt.txt
+	8.	Because the tbxAllKeyWords has 3 uses: Creting a note, searching for a KeyWord and Editing a keyWord
+		I will need 3 radion buttons
+		a.	Add rbEdit "Edit"
+
+
+
+2021 05 22 Committed at 0753
 	COMMIT AND REVISE LOGIC
 	There is a problem with the current version in that apparently a user control  
 	contained  inside another user control can't call on its controls.

@@ -83,7 +83,7 @@ namespace NewLSP.StaticHelperClasses
 
         /// <summary>
         ///  Holds the path to the folder that will contain the
-        ///  Dictionary.txt  and a Timelin file,
+        ///  KeyWords Dictionary.txt,  and a Timelin file,
         /// </summary>
         public static string CompositDataPath
         {
@@ -202,9 +202,9 @@ namespace NewLSP.StaticHelperClasses
             // Set DataNode Hyperlinks Path
             CommonStaticMembers.DataNodesHyperlinksPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks";
 
-            // Set the Path to the DataNodesNotesPath
+            // Set the Path to the DataNodesNoteReferencesFilesPath
 
-            CommonStaticMembers.DataNodesNotesPath = CommonStaticMembers.HomeFolderPath + "Notes";
+            CommonStaticMembers.DataNodesNoteReferencesFilesPath = CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles\\";
 
 
 
@@ -483,7 +483,7 @@ namespace NewLSP.StaticHelperClasses
 
         /// <summary>
         /// Called by STxc .rbDataNode_Click
-        /// which tens sets the DataNodesQAFilePath to the 
+        /// which then sets the DataNodesQAFilePath to the 
         /// QAFiles folder's DataNode's ID.txt file
         /// </summary>
         public static void SetDataNodesQAFilePath()
@@ -500,6 +500,20 @@ namespace NewLSP.StaticHelperClasses
 
 
         #endregion SetDataNodesQAFilePath
+
+        #region GetSetDataNodeNoteReferenceFilePath
+        static string DataNodeNoteReferenceFilePath;
+        public static void SetDataNodeNoteReferenceFilePath()
+        {
+            DataNodeNoteReferenceFilePath = CommonStaticMembers.SubjectFolderPath + "DataNodesNoteReferencesFiles\\" + DataNode.ID.ToString() + ".txt";
+        }
+
+        public static string GetDataNodeNoteReferenceFilePath()
+        {
+            return DataNodeNoteReferenceFilePath;
+        }
+
+        #endregion GetSetDataNodeNoteReferenceFilePath
 
         public static SubjectNodes ReturnNodeAtPos(string NodeLevelName)
         {

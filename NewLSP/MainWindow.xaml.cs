@@ -3,9 +3,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using NewLSP.StaticHelperClasses;
-using NewLSP.StaticHelperClasses;
-using NewLSP.UserControls;
-using NewLSP.DataModels;
 
 namespace NewLSP
 {
@@ -187,7 +184,7 @@ namespace NewLSP
         private void miLinkNotes_Click(object sender, RoutedEventArgs e)
         {
             bool HasHyperlink = false;
-            bool HasNotes = false;
+            bool HadDataNodeReferenceFile = false;
             SetActiveUserControl(ucLinkNote);
 
             if (SubjectStaticMembers.DataNode != null)
@@ -203,19 +200,25 @@ namespace NewLSP
                    // LinkNoteStaticMembers.SetHyperlinkStringsList();
                 }
 
-                
+                //      c. Test to see if this data node has a DataNodeReference file and if so set  HadDataNodeReferenceFile to true
+                string DataNodesReferenceFilePath = CommonStaticMembers.DataNodesNoteReferencesFilesPath + SubjectStaticMembers.DataNode.ID.ToString() +
+                    ".txt";
+                if (File.Exists(DataNodesReferenceFilePath))
+                {
+                    HadDataNodeReferenceFile = true;
+                }
 
-                if(HasHyperlink && !HasNotes)
+                if (HasHyperlink && !HadDataNodeReferenceFile)
                 {
                     MessageBox.Show("This node has a hyperlink file call Files -> Open Hyperlink");
                     
                 }
-                else if(!HasHyperlink && HasNotes)
+                else if(!HasHyperlink && HadDataNodeReferenceFile)
                 {
-                    MessageBox.Show("This node has a Notes file call Files -> Open Notes");
+                    MessageBox.Show("This node has a DataNodeReference file call Files -> Open Notes");
                    
                 }
-                else if (HasHyperlink && HasNotes)
+                else if (HasHyperlink && HadDataNodeReferenceFile)
                 {
                     MessageBox.Show("This node has a Notes file call Files -> Open Notes \r\n" +
                         "and a hyperlink file call Files -> Open Hyperlink");

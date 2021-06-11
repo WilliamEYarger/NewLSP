@@ -63,6 +63,7 @@ namespace NewLSP.UserControls
         }
         #endregion Radio button Search
 
+        #region tbxInput_KeyUp
         /// <summary>
         /// Take the characters typed into lbxKeyWords and show all terms in KeyWordList that start with these characters
         /// If the User Hits the Enter Key
@@ -95,13 +96,13 @@ namespace NewLSP.UserControls
                 if (!KeyWordsStaticMembers.ListAccess)
                 {
                     // If lbxKeyWords is empty in the Search statge send a message that you can only accepts existing keywords
-                    if(lbxKeyWords.Items.Count == 0)
+                    if (lbxKeyWords.Items.Count == 0)
                     {
                         MessageBox.Show("When You are in the Search mod you can only search for existing Keywords");
 
                         // return to UI
                         return;
-                    }                    
+                    }
                 }
 
 
@@ -170,12 +171,14 @@ namespace NewLSP.UserControls
             }
 
             // Code to clear tbxInput if backspace results in empty text
-            if(e.Key == Key.Back)
+            if (e.Key == Key.Back)
             {
                 if (tbxInput.Text == "") lbxKeyWords.Items.Clear();
             }
         }
+        #endregion tbxInput_KeyUp
 
+        #region bxKeyWords_MouseLeftButtonUp
         private void lbxKeyWords_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             string KeyWord = lbxKeyWords.SelectedItem.ToString();
@@ -183,20 +186,10 @@ namespace NewLSP.UserControls
             tbxInput.Text = "";
             lbxKeyWords.Items.Clear();
         }
+        #endregion bxKeyWords_MouseLeftButtonUp
 
 
-        /// <summary>
-        /// Called when the user is in Search mode and clicks the Submit button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void btnSubmit_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // Send list of keywords to KeySordsStatic to create dictionary
-        //    KeyWordsStaticMembers.ProcessKeyWordsList(tbxAllKeyWords.Text);
-
-          
-        //}
+       
 
         #region tbxAllKeyWords_TextChanged
         /// <summary>
@@ -258,10 +251,6 @@ namespace NewLSP.UserControls
                         string NoteID = KVP.Key;
                         string Value = KVP.Value;
                         string NoteName = StringHelper.ReturnItemAtPos(Value, '^', 0);
-                        // TODO - THERE IS AN ERROR HERE IN THAT A UC CONTAINED IN ANOTHER CANNOT CALL ON THE LATTER'S CONTROLS
-                        //ucLinkNote.lbxOpenSelectedNote.
-                        //Link_Note.lbxOpenSelectedNote
-
 
                     }
 
@@ -322,7 +311,7 @@ namespace NewLSP.UserControls
             lblKeyWordsAction.Content = "Revert to the previous Key Combination or Word";
             btnRevert.Content = "Revert";
 
-            //TODO - Call RevertToPreviousKeyCombinationOrWord
+           
 
         }// End btnRevert_Click
 

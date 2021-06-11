@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NewLSP.StaticHelperClasses
 {
@@ -14,7 +11,9 @@ namespace NewLSP.StaticHelperClasses
 
         #region KeyWordList
         private static List<string> _KeyWordList = new List<string>();
-
+        /// <summary>
+        /// This is the current list of key words
+        /// </summary>
         public static List<string> KeyWordList
         {
             get { return _KeyWordList; }
@@ -25,7 +24,11 @@ namespace NewLSP.StaticHelperClasses
         #region KeyWordsDictionary
 
         private static Dictionary<string, string> _KeyWordsDictionary = new Dictionary<string, string>();
-
+        /// <summary>
+        /// The KeyWordDictionary uses a modified KeyWord (where all ' ' have been
+        /// replaces with '_' as a Key.
+        /// The Value is 
+        /// </summary>
         public static Dictionary<string, string> KeyWordsDictionary
         {
             get { return _KeyWordsDictionary; }
@@ -42,6 +45,7 @@ namespace NewLSP.StaticHelperClasses
         /// <summary>
         /// Indicates whether the user is in the Create note reference mode = true
         /// or Search for note references containing listed Key words = false
+        /// If true, the user can have access to add new key words to the list of key words
         /// </summary>
         private static bool _ListAccess = true;
 
@@ -64,9 +68,7 @@ namespace NewLSP.StaticHelperClasses
         /// of number characters. each Number char (i.e. ^'3'^'25'^ 
         /// is the name of a \NoteReferenceFiles which contains
         /// A Numeric character string which references a NoteReferenceFiles .txt file
-        /// 25
-        /// Docetism-Wikipeida^
-        /// https://en.wikipedia.org/wiki/Docetism
+        ///     i.e. 25.txt = Docetism_Wikipeida^25
         /// ^
         /// ^Docetism;#Definition;Ignatius of Antioch;1 John;
         /// 1) A Numeric character string which references (25 meant that the NoteReferenceFiles has a file names 25.txt)
@@ -98,7 +100,9 @@ namespace NewLSP.StaticHelperClasses
 
         #region ListOfKeyWordsPath
         private static string _ListOfKeyWordsPath;
-
+        /// <summary>
+        /// This is the path to the list of all of the current KeyWords
+        /// </summary>
         public static string ListOfKeyWordsPath
         {
             get { return _ListOfKeyWordsPath; }
@@ -128,6 +132,24 @@ namespace NewLSP.StaticHelperClasses
         #endregion ListOfKeyWordsPath
 
 
+        #region SelectedNoteReferenceValuesDictionary
+        // Create the Dictionary
+        public static Dictionary<int, string> SelectedNoteReferenceValuesDictionary = new Dictionary<int, string>();
+        #endregion SelectedNoteReferenceValuesDictionary
+
+
+        #region Property DictionaryOfNoteRefSPosAndNoteIDs
+
+        private static Dictionary<int,int> _DictionaryOfNoteRefSPosAndNoteIDs = new Dictionary<int, int>();
+
+        public static Dictionary<int,int> DictionaryOfNoteRefSPosAndNoteID
+        {
+            get { return _DictionaryOfNoteRefSPosAndNoteIDs ; }
+            set { _DictionaryOfNoteRefSPosAndNoteIDs  = value; }
+        }
+
+
+        #endregion  DictionaryOfNoteRefSPosAndNoteIDs
 
         #endregion Properties
 
@@ -180,6 +202,13 @@ namespace NewLSP.StaticHelperClasses
 
 
         #region ChangeDictionaryValue()
+        /// <summary>
+        /// This method receives a convertedKeyWord(' ' -> '_') and
+        /// a ';' delimited string of NoteAlphaChars26Name s
+        /// it then replaces the old value with the new value (a new NoteReference now contains this key word)
+        /// </summary>
+        /// <param name="keyWord"></param>
+        /// <param name="delimitedNoteNamesString"></param>
         internal static void ChangeDictionaryValue(string keyWord, string delimitedNoteNamesString)
         {
             KeyWordsDictionary[keyWord] = delimitedNoteNamesString;
@@ -211,11 +240,16 @@ namespace NewLSP.StaticHelperClasses
 
 
         #region Return delimitedStringOfNoteNames()
-
-        public static string delimitedStringOfNoteNames(string NoteName)
+        /// <summary>
+        /// This method receives a converted KeyWord (all spaces have been replaced c '_'
+        /// and it returns all of the ';' delimited
+        /// </summary>
+        /// <param name="NoteName"></param>
+        /// <returns></returns>
+        public static string delimitedStringOfNoteNames(string ConvertedKeyWord)
         {
 
-            return KeyWordsDictionary[NoteName];
+            return KeyWordsDictionary[ConvertedKeyWord];
         }
 
 
@@ -283,7 +317,121 @@ namespace NewLSP.StaticHelperClasses
             }
 
         }//End ProcessKeyWordsList
+
+
         #endregion ProcessKeyWordsList pubic method
+
+
+        #region ReturnNoteNameList
+        /// <summary>
+        /// 
+        /// This is called when in Search mode and the text in the list of all Key words text box is changed
+        /// 0.  It creats a List<string> NoteNamesList  of NoteReferenceNames-CurrentNote26Name 
+        /// 1.  It converte the KeyWord to a dictionary compatable form
+        /// 2.  It gets  the value associated with that key word
+        /// 3.  It adjust the value removing the leading and terminel ';' and then 
+        ///     splits the value on '^' to get a string [] of NoteReferenceFile CurrentNote26Name
+        /// 4.  It cycles thru the array getting the text of each NoteReferenceFile with these names
+        ///     getting the name and creates a display string using it and the CurrentNote26Name key and 
+        ///     add it to the NoteNamesList
+        /// </summary>
+        /// <param name="searchKeyWord" is a single KeyWord to use as the Key to the KeyWordDictionar></param>
+        /// <returns></returns>
+        internal static List<string> ReturnNoteNameList(string searchKeyWord)
+        {
+            //In searchKeyword convert ' ' to '_'
+            searchKeyWord = searchKeyWord.Replace(' ', '_');
+
+
+
+            // Create the return List
+            List<string> NoteNamesList = new List<string>();
+
+            // Get the Value from the KeyWordsDictionary for the searchKeyWord KeyWord
+            string CurrentNote26NameString = KeyWordsDictionary[searchKeyWord];
+
+            //Remove the initial and terminal ';' from this string
+            CurrentNote26NameString = CurrentNote26NameString.Substring(1);
+            CurrentNote26NameString = CurrentNote26NameString.Substring(0, CurrentNote26NameString.Length - 1);
+
+            // Create a string [] from CurrentNote26NameString 
+            string[] currentNote26NamesArray = CurrentNote26NameString.Split(';');
+            string CommonNoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath;
+            string NoteReferenceFileText = "";
+            foreach (string currentNote26Name in currentNote26NamesArray)
+            {
+                // get the value associated with this currentNote26Name
+               if(File.Exists(CommonNoteReferenceFilePath+"\\"+ currentNote26Name + ".txt"))
+                {
+                    NoteReferenceFileText = File.ReadAllText(CommonNoteReferenceFilePath + "\\"+currentNote26Name + ".txt");
+                }
+
+                // Get the NoteName
+                string NoteName = StringHelper.ReturnItemAtPos(NoteReferenceFileText, '^', 0);
+                int lengthOfSpaces = 250 - NoteName.Length;
+                string spacesStr = new string(' ', lengthOfSpaces);
+                string DisplayString = NoteName + spacesStr + '^' + currentNote26Name;
+                NoteNamesList.Add(DisplayString);
+            }
+
+            
+
+            // return NoteNamesList
+            return NoteNamesList;
+        }
+
+
+        /// <summary>
+        /// This method is called when the user right clicks a NoteName in the lbxOpenSelectedNote
+        /// 
+        /// </summary>
+        /// <param name="noteSelectedIndex" = the Key to the SelectedNoteReferenceValuesDictionary></param>
+        /// <returns></returns>
+        internal static string ReturnAssociatedKeyWords(int DictionaryKey)
+        {           
+
+            // Get the value in the SelectedNoteReferenceValuesDictionary assoicated with DictionaryKey
+            var Value = SelectedNoteReferenceValuesDictionary[DictionaryKey];
+
+            var AssociatedKeyWordsString = StringHelper.ReturnItemAtPos(Value, '^',3);
+
+            // return the list
+            return AssociatedKeyWordsString;
+        }
+
+        #endregion ReturnNoteNameList
+
+
+        #region GetValueAssociatedWithSelectedNote
+
+
+        /// <summary>
+        /// This method is called when the user left clicks a
+        /// Note name in the lbxOpenSelectedNote
+        /// It supplies the value of all of the parameters for this note
+        /// </summary>
+        /// <param name="noteSelectedIndex"></param>
+        /// <returns></returns>
+        internal static string GetValueAssociatedWithSelectedNote(int noteSelectedIndex)
+        {
+            
+            return SelectedNoteReferenceValuesDictionary[noteSelectedIndex];
+        }
+
+
+
+        #endregion GetValueAssociatedWithSelectedNote
+
+
+        #region GetSelectedNoteIDInt Method
+        internal static int GetSelectedNoteIDInt(int noteSelectedIndex)
+        {
+            int SelectedNoteIDInt = DictionaryOfNoteRefSPosAndNoteID[noteSelectedIndex];
+            return SelectedNoteIDInt;
+        }
+        #endregion GetSelectedNoteIDInt Method
+
+
 
         #endregion  Public Methods
 
