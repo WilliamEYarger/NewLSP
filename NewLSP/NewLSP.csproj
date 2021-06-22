@@ -167,6 +167,8 @@
   <ItemGroup>
     <Resource Include="DevelopmentHistory.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="To Do Items.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

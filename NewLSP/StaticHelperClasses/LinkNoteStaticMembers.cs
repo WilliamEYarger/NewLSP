@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NewLSP.DataModels;
 
 namespace NewLSP.StaticHelperClasses
@@ -13,7 +14,10 @@ namespace NewLSP.StaticHelperClasses
         #region Hyperlink
 
         private static string _Hyperlink;
-
+        /// <summary>
+        /// This is the path to a hyperlinked file chosen by the user as 
+        /// a hyperlink file using the OpenFildDialog
+        /// </summary>
         public static string Hyperlink
         {
             get { return _Hyperlink; }
@@ -25,7 +29,10 @@ namespace NewLSP.StaticHelperClasses
 
         #region FileType
         private static string _FileType;
-
+        /// <summary>
+        /// This gets and sets the file type of multiple different file formats
+        /// chosed by the user, ie web, docx, jpg etc
+        /// </summary>
         public static string FileType
         {
             get { return _FileType; }
@@ -36,25 +43,15 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion FileType
 
-        #region Pulbic Bool OnStartUp
-
-        public static bool OnStartUp = true;
-
-        //private static bool  _OnStartUp = true;
-
-        //public static bool OnStartUp
-        //{
-        //    get { return _OnStartUp ; }
-        //    set { _OnStartUp = value; }
-        //}
-
-        #endregion Pulbic Bool OnStartUp
-
 
         #region BookMarks
 
         private static List<string> _BookMarks;
-
+        /// <summary>
+        /// This stores any book mark to a docx file specified by the user,
+        /// if the user opens that docx file this bookmark is copied to the
+        /// ScratchPad and can be recalled to use in th GoTo bookmark menu
+        /// </summary>
         public static List<string> BookMarks
         {
             get { return _BookMarks; }
@@ -80,14 +77,21 @@ namespace NewLSP.StaticHelperClasses
         #endregion HyperlinkDictionary
 
         #region HyperlinkUrls
-
+        /// <summary>
+        /// This is a list of hyperlinks to files of web sites chosen by the user
+        /// to be associated with a givin DataNode
+        /// </summary>
         public static List<string> HyperlinkUrls = new List<string>();
 
         #endregion HyperlinkUrls
 
 
         #region HyperlinkStringsList
-
+        /// <summary>
+        /// a delimites string containing the elements of
+        /// a hyperlink objects added to the list<string> HyperlinkStringsList
+        /// Called by LinkNote.xaml.cs miSaveHyperlink_Clic
+        /// </summary>
         public static List<string> HyperlinkStringsList = new List<string>();
         #endregion HyperlinkStringsList
 
@@ -196,6 +200,33 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion NewDataNodesNoteReferenceFileName
 
+        #region DataNodesNoteReferenceString
+
+        private static string _DataNodesNoteReferenceString;
+
+        public static string DataNodesNoteReferenceString
+        {
+            get { return _DataNodesNoteReferenceString; }
+            set { _DataNodesNoteReferenceString = value; }
+        }
+
+
+        #endregion  DataNodesNoteReferenceString
+
+
+        #region EditingBoolean
+        private static bool _EditingBoolean = false;
+
+        public static bool EditingBoolean
+        {
+            get { return _EditingBoolean ; }
+            set { _EditingBoolean  = value; }
+        }
+
+
+        #endregion EditingBoolean
+
+
         #endregion Properties
 
 
@@ -207,7 +238,7 @@ namespace NewLSP.StaticHelperClasses
 
         /// <summary>
         /// Adds a delimites string containing the elements of
-        /// a hyperlink object to the list<string></string> HyperlinkStringsList
+        /// a hyperlink object to the list<string> HyperlinkStringsList
         /// Called by LinkNote.xaml.cs miSaveHyperlink_Clic
         /// </summary>
         /// <param name="delimitedHyperlink"></param>
@@ -282,7 +313,6 @@ namespace NewLSP.StaticHelperClasses
             }// End foreach (string line in DataNodeHyperlinkArray
 
         }// End SetHyperlinkStringsList
-
 
         #endregion Get Hyperlink
 
@@ -372,125 +402,97 @@ namespace NewLSP.StaticHelperClasses
         #endregion ReadInNotesFile
 
 
-        #region SaveNoteReference()
+        #region SaveAndUpdateNoteReferenceAndKeywords()
         /// <summary>
         /// This Method saves a note reference called Clicking the miSaveNote menu item
-        /// There a two tasks this method must perfor
-        ///     1.  It must save or update the NoteReference to the CommonReferences folder
-        ///         To determine whether to create a new NoteReference it first examines 
-        ///         the global CommonStaticMembers.CurrentNote26Name formerly (CommonStaticMembers.CurrentNoteIDInt)
-        ///         a.  if the CommonStaticMembers.CurrentNote26Name = "" then a new NoteReference file needs to 
-        ///             be creates
-        ///         b.  Else, this is an existing note and only the KeyWords field needs to be updated
-        ///     2.  It must create a note references link link for the DataNode's DataNodesNoteReferencesFiles
-        ///         This line is composed of the NoteName plus enough spaced to make its length = 250
-        ///         +^+The NoteReferences' C26 name
-        ///  If CommonStaticMembers.CurrentNoteIDInt != -=1 then use CommonStaticMembers.CurrentNoteIDInt to save the note
-        ///  The NoteReferenceStr contains the NoteName^Hyperlink^BookMark^';' delimited Keywords
+        /// The TASKS if must perform are to:
+        ///     1. *Save the NoteReferenceStr to the NoteReference file
+        ///     2.  *Cycle through the ';' delimited keywords
+        ///         a.  Eliminating those that  begin with '#'
+        ///         b.  converting ' ' to '_' in the remaining
+        ///         c.  Cycle through the list of Remaining key words
+        ///             1)  Checking to the the that keyword's dictionary value contains the 
+        ///                 CurrentNote26Name, and if not appending it and then saving the
+        ///                 revused value to the KeyWordDictionary object 
+        ///            2)  When all Keywords have been processed writing th KeyWordDictionary to its file
+        ///     3.  *Create a DataNodesNoteReferenceString
+
         /// </summary>
-        public static void SaveNoteReference(string NoteReferenceStr)
+        public static void SaveAndUpdateNoteReferenceAndKeywords(string NoteReferenceStr)
         {
-            //  TASK1 Save or Update the CommonReferences folder'a NoteReference
-
-            //      Determine if this is a new or an existing NoteReference file
-            if(CommonStaticMembers.CurrentNote26Name == "")
+            //TASK1 Save the NoteReferenceStr to the NoteReference file and Add a link to the DataNode's DataNodeNoteReferenceFile
+            //      Determine if it is an edited file
+            if(EditingBoolean && (CommonStaticMembers.CurrentNote26Name != ""))
             {
-                // This is a NEW NoteReference file so save the entire NoteReferenceStr
-                //  Get then next available CommonStaticMembers.CurrentNote26Name
-                int fCount = Directory.GetFiles(CommonStaticMembers.NoteReferencesPath, "*", SearchOption.TopDirectoryOnly).Length;
-
-                // Convert fCount to a base 26 character string(ie containing only ABC..Z)s
-                CurrentNote26Name = ConvertToBase26(fCount);
-
-               // Use it to create the name for the next NoteReference.txt file
-                string ReferenceName = CurrentNote26Name + ".txt";
-
-                // Save this new CurrentNote26Name
-                CommonStaticMembers.CurrentNote26Name = CurrentNote26Name;
-
-                //Construct path to this new reference file
-                string ReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + ReferenceName;
-
-                //Write the NoteReferenceStr to this file
-                File.WriteAllText(ReferenceFilePath, NoteReferenceStr);
-
-                // TOTO - 20210609 Make sure to include a call to a method to update the keywords dictionary here
-
-                // Update the KeyWordsDictionary
-                //  1.  Get the delimited Keywors string
-                string delimitedKeyWordString = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 3);
-                UpdateKeyWordDictionary(delimitedKeyWordString);
-
-            }
-            else
-            {
-                // This is an existing NoteReference file so only update its KeyWords
-
-                // Get the current text is this NoteReference file
-                // Create the path to the current Common References's NoteReferenceFile file
+                // This is an edited note reference 
+                //  Get path to the Common NoteReferenceFiles
                 string NoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + CommonStaticMembers.CurrentNote26Name + ".txt";
-                if (File.Exists(NoteReferenceFilePath))
+                File.WriteAllText(NoteReferenceFilePath, NoteReferenceStr);
+
+                //Add a link to the DataNode's DataNodeNoteReferenceFile
+                //      Get the DataNodes DataNodeNoteReferenceFile
+                string DataNodesID = CommonStaticMembers.CurrentNoteIDInt.ToString();
+                string DataNodesReferenceNotesPath = CommonStaticMembers.DataNodesNoteReferencesFilesPath+ DataNodesID+".txt";
+
+                //      Test to see if the file exists and if so read all lines
+                string[] DataNodesCurrentReferencesArray = null;
+                if (File.Exists(DataNodesReferenceNotesPath))
                 {
-                    //Read in the text
-                    string CurrentDelimitedNoteReferenceString = File.ReadAllText(NoteReferenceFilePath);
+                    DataNodesCurrentReferencesArray = File.ReadAllLines(DataNodesReferenceNotesPath);
 
-                    // split the string on '^' into a string array
-                    string[] ReferenceComponentsArray = CurrentDelimitedNoteReferenceString.Split('^');
+                    //      Construct the DataNode's reference string
+                    string thisNoteName = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 0);
+                    string DataNodesReferenceStr = thisNoteName + '^' + CommonStaticMembers.CurrentNote26Name;
 
-                    // Get the OldDelimitedKeyWordsString
-                    string OldDelimitedKeyWordsString = ReferenceComponentsArray[3];
-                  
+                    //      create a bool to indicate wether this refernces is already in the DataNodes referencew
+                    bool ReverencePresent = false;
 
-                    //Get the updated string of KeyWords from NoteReferenceStr
-                    string NewDelimitedKeyWordsString = StringHelper.ReturnItemAtPos(NoteReferenceStr,'^', 3);
-
-                    // Create an array from  NewDelimitedKeyWordsString
-                    //  1.  Delete the terminal ';' from the list
-                    NewDelimitedKeyWordsString = NewDelimitedKeyWordsString.Substring(0, NewDelimitedKeyWordsString.Length - 1);
-                    //  2.  Create an array from this shortened string
-                    string[] NewDelimitedKeyWordsArray = NewDelimitedKeyWordsString.Split(';');
-
-
-                    //Extract new KeyWords from the currend list of KeyWords
-                    //  1.  Create a delimited string of NewKeyWordSw to hold them
-                    string NewKeyWordsString = "";
-
-                    //  2.  Cycle thru NewDelimitedKeyWordsString extracting KeyWords not found in OldDelimitedKeyWordsString
-                    foreach(string keyWord in NewDelimitedKeyWordsArray)
+                    //      Cycle through DataNodesCurrentReferencesArray seein if DataNodesReferenceStr is present and if it isn't add it
+                    foreach (string line in DataNodesCurrentReferencesArray)
                     {
-                        if(OldDelimitedKeyWordsString.IndexOf(keyWord+';') == -1)
+                        if (line.IndexOf(DataNodesReferenceStr) == 0)
                         {
-                            NewKeyWordsString = NewKeyWordsString + keyWord + ';';
+                            ReverencePresent = true;
+                            break;
                         }
                     }
 
-                    // Replace the current key words with the updated list of key words
-                    ReferenceComponentsArray[3] = NewDelimitedKeyWordsString +';';
-
-                    //Reassemble the NoteReferenceFile stirng
-                    string NoteReferenceFileString = ReferenceComponentsArray[0] + '^' + ReferenceComponentsArray[1] +
-                        '^' + ReferenceComponentsArray[2] + '^' + ReferenceComponentsArray[3];
-
-                    //Write this update string to the NoteReferences file
-                    File.WriteAllText(NoteReferenceFilePath, NoteReferenceFileString);
-
-                    // Send NewKeyWordsString to UpdateKeyWordDictionary();
-                    UpdateKeyWordDictionary(NewKeyWordsString);
-
-                    return;
+                    //      If refeerence is not present add it
+                    if (!ReverencePresent)
+                    {
+                        List<string> ListOfDataNodesReferences = DataNodesCurrentReferencesArray.ToList();
+                        ListOfDataNodesReferences.Add(DataNodesReferenceStr);
+                        File.WriteAllLines(DataNodesReferenceNotesPath, ListOfDataNodesReferences);
+                    }
                 }
-            }// End TASK 1
+                else
+                {
+                    //      Construct the DataNode's reference string
+                    string thisNoteName = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 0);
+                    string DataNodesReferenceStr = thisNoteName + '^' + CommonStaticMembers.CurrentNote26Name;
+                    File.WriteAllText(DataNodesReferenceNotesPath, DataNodesReferenceStr);
 
-            // TASK 2 create a new line for the DataNode's DataNodesNoteReferencesFiles showing the NoteName^CurrentNote26Name
+                }
+               
 
-            // Get the NoteFileName
-            string NoteFileName = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 0);
-             
-            // Get the CommonReferences CommonStaticMembers.CurrentNote26Name I MAY NOT NEED THIS
-            CurrentNote26Name = CommonStaticMembers.CurrentNote26Name;
 
-            // Create the string to add to the DataNode's DataNodesReferenceFile
-            NewDataNodesNoteReferenceFileName = NoteFileName + '^' + CurrentNote26Name+"\r\n";
+                ProcessKeyWords(NoteReferenceStr);
+                return;
+            }
+            else
+            {
+                SaveNoteReference(NoteReferenceStr);
+            }
+            
+
+            //TASK Create a DataNodesNoteReferenceString and save it to the DataNode's Reference File
+            ProcessKeyWords(NoteReferenceStr);
+
+            //Create a DataNodesNoteReferenceString
+            
+            string NoteName = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 0);
+            DataNodesNoteReferenceString = NoteName + '^' + CommonStaticMembers.CurrentNote26Name + "\r\n";
+          
 
             //Get the DataNode's name
             string DataNodeNoteReferenceFilePath = SubjectStaticMembers.GetDataNodeNoteReferenceFilePath();
@@ -498,69 +500,164 @@ namespace NewLSP.StaticHelperClasses
            
             if (File.Exists(DataNodeNoteReferenceFilePath))
             {
-                File.AppendAllText(DataNodeNoteReferenceFilePath, NewDataNodesNoteReferenceFileName);
+                File.AppendAllText(DataNodeNoteReferenceFilePath, DataNodesNoteReferenceString);
             }
             else
             {
                 // Create a new DataNodesReferenceFile
                 FileStream fs = File.Create(DataNodeNoteReferenceFilePath);
                 fs.Close();
-                File.AppendAllText(DataNodeNoteReferenceFilePath, NewDataNodesNoteReferenceFileName);
+                File.AppendAllText(DataNodeNoteReferenceFilePath, DataNodesNoteReferenceString);
             }
 
 
-
-            // //SAVE THE Note NumberChars Name to the Dictionary file of all of its keywords
-
-            // //  remove the terminal ';' from the NoteReferenceStr
-            // string shortenedNoteReferenceStr = NoteReferenceStr.Substring(0, NoteReferenceStr.Length - 1);
-
-            // //  Create a string [] from the hyperlinks 
-            // string[] KeyWords = StringHelper.ReturnItemAtPos(shortenedNoteReferenceStr, '^', 3).Split(';');
-
-            // // Get the Note name so it can be displayes in the  lbxOpenSelectedNote list box
-            // string NewNoteName = StringHelper.ReturnItemAtPos(shortenedNoteReferenceStr, '^', 0);
-
-            // //  Cycle through the Key words updating the Dictionary
-
-            // foreach (string keyWord in KeyWords)
-            // {
-            //     // Eliminate all generics
-            //     if (keyWord.IndexOf('#') != -1) break;
-
-            //     // replace spaces in keyWord
-            //     string newKeyWord = keyWord.Replace(' ', '_');
-
-            //     // get the value for the Dictionary item with newKeyWord as the Key
-            //     string delimitedNoteNamesString = KeyWordsStaticMembers.delimitedStringOfNoteNames(newKeyWord);
-
-            //     // append CurrentNote26Name to the end of delimitedNoteNamesString
-            //     delimitedNoteNamesString = delimitedNoteNamesString + CurrentNote26Name + ';';
-
-            //     //Return the updated value to the dictionary
-            //     KeyWordsStaticMembers.ChangeDictionaryValue(newKeyWord, delimitedNoteNamesString);
+        }// End SaveAndUpdateNoteReferenceAndKeywords(
 
 
-            // }// End for each keyWord in KewWords
-
-            // // Append the new Note Name and its associated NoteAlphaChars26Name to the lbxOpenSelectedNote list box
-            // // Create a blank filler string to insert between the Note name and the ^CurrentNote26Name
-            // string fillerStr = new String(' ', 200);
-            // string newNoteReferenceStr = NewNoteName + fillerStr + '^' + CurrentNote26Name;
+        #endregion SaveAndUpdateNoteReferenceAndKeywords()
 
 
-        }// End SaveNoteReference(
+        #region ProcessKeyWords
+        /// <summary>
+        /// This privagte method receives the NoteReferenceStr
+        /// Determines new key words and updated all the new
+        /// and any old keyWord values that do not already
+        /// contain the Reference Note's CurrentNote26Name
+        /// </summary>
+        /// <param name="NoteReferenceStr"></param>
+        private static void ProcessKeyWords(string NoteReferenceStr)
+        {
+            // Make a copy of the KeyWordDictionary
+            Dictionary<string, string> thisKeyWordDictionary = KeyWordsStaticMembers.KeyWordsDictionary;
 
 
-        #endregion SaveNoteReference()
+            //  Get the delimited string of key words
+            string delimitedStringOfKeyWords = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 3);
+            //  Remove the terminal ';'
+            delimitedStringOfKeyWords = delimitedStringOfKeyWords.Substring(0, delimitedStringOfKeyWords.Length - 1);
+
+            // Create an array of KeyWords in this Note
+            string[] KeyWordsArray = delimitedStringOfKeyWords.Split(';');
+
+            // Eliminate all generics from the KeyWordsArray
+            List<string> RealKeyWords = new List<string>();
+            foreach (string keyWord in KeyWordsArray)
+            {
+                if (keyWord.IndexOf('#') == -1)
+                {
+                    RealKeyWords.Add(keyWord);
+                }
+            }
+
+                // Cycle Through this array
+                foreach (string keyWord in RealKeyWords)
+            {
+               
+
+                // Replace all spaces with '_'
+                string thisKeyWord = keyWord.Replace(' ', '_');
+
+                // Determine if this keyWord is already in the dictionary
+                if (thisKeyWordDictionary.ContainsKey(thisKeyWord))
+                {
+                    // determine if the value contains the current CommonStaticMembers.CurrentNote26Name
+                    string CurrentNote26Name = CommonStaticMembers.CurrentNote26Name;
+                    string KeyWordValue = thisKeyWordDictionary[thisKeyWord];
+                    string searchTerm = ';' + CurrentNote26Name + ';';
+                    // Determine if this NoteReference26Name has already been linked the this Key word
+                    int posOfCurrentNote26Name = KeyWordValue.IndexOf(searchTerm);
+                    if (posOfCurrentNote26Name == -1)
+                    {
+                        // add this CurrentNote26Name to the value
+                        KeyWordValue = KeyWordValue + CurrentNote26Name + ';';
+
+                        // return this updated value to the dictionary
+                        thisKeyWordDictionary[thisKeyWord] = KeyWordValue;
+
+                    }
+                }// End this key word was already in the dictionary
+                else
+                {
+                    // this is a new KeyWord
+                    thisKeyWordDictionary.Add(thisKeyWord, ';' + CurrentNote26Name + ';');
+                }
+
+            }// End Cycle Through this array of KeyWords
+
+            // Updated the  KeyWordDictionary
+            KeyWordsStaticMembers.KeyWordsDictionary = thisKeyWordDictionary;
+
+            // Save the KeyWordDictionary
+
+            KeyWordsStaticMembers.SaveDictionary();
+
+        }
+        #endregion ProcessKeyWords
+
+
+
+        //#region SaveDataNodesNoteReferenceString
+
+        //internal static void SaveDataNodesNoteReferenceString(string DataNodesNoteReferenceString)
+        //{
+        //    string DataNodesReferenceFilePath = CommonStaticMembers.DataNodesNoteReferencesFilesPath;
+        //    if (File.Exists(DataNodesReferenceFilePath))
+        //    {
+        //        File.AppendAllText(DataNodesReferenceFilePath, DataNodesNoteReferenceString);
+        //    }
+        //    else
+        //    {
+        //        // Create a new DataNodesReferenceFile
+        //        FileStream fs = File.Create(DataNodesReferenceFilePath);
+        //        fs.Close();
+        //        File.AppendAllText(DataNodesReferenceFilePath, DataNodesNoteReferenceString);
+        //    }
+        //}
+        //#endregion SaveDataNodesNoteReferenceString
+
+
 
         #endregion  Public Methods
 
         #region Private Methods
 
+        #region SaveNoteReference
+
+        private static void SaveNoteReference(string NoteReferenceStr)
+        {
+            if (CommonStaticMembers.CurrentNote26Name == "")
+            {
+                //  Get the next available CommonStaticMembers.CurrentNote26Name
+                int fCount = Directory.GetFiles(CommonStaticMembers.NoteReferencesPath, "*", SearchOption.TopDirectoryOnly).Length;
+
+                // Convert fCount to a base 26 character string(ie containing only ABC..Z)s
+                CommonStaticMembers.CurrentNote26Name = ConvertToBase26(fCount);
+            }
+
+            // Use it to create the name for the next NoteReference.txt file
+            string ReferenceName = CommonStaticMembers.CurrentNote26Name + ".txt";
+
+            //Construct path to this new reference file
+            string ReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + ReferenceName;
+
+            //Write the NoteReferenceStr to this file
+            File.WriteAllText(ReferenceFilePath, NoteReferenceStr);
+
+
+        }// End SaveNoteReference
+
+        #endregion SaveNoteReference
+
+
+        #region Get CurrentNote26Name 
+
+
+
+        #endregion Get CurrentNote26Name
+
 
         #region ConvertToBase26
-        private static string ConvertToBase26(int fCount)
+        public static string ConvertToBase26(int fCount)
         {
             // create a string of all of the Capitals
             string AlphaCapsString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

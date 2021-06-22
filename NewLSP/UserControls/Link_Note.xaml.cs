@@ -31,7 +31,8 @@ namespace NewLSP.UserControls
 
         /// <summary>
         /// This method gets a file path string by calling the
-        /// ReturnFilePath() private method
+        /// ReturnFilePath() private method which uses the OpenFileDialog to get the path 
+        /// to a file that the user wants to save as a hyperlink for a DataNode
         /// It then posts the hyperlink to tbxHyperlink.Txt
         /// It then gets the file type and posts it to LinkNoteStaticMembers.FileType
         /// </summary>
@@ -217,6 +218,21 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miSaveNote_Click(object sender, RoutedEventArgs e)
         {
+
+            // TODO - 20210622 When calling up a search NoteReferenceFile and hitting SaveNote add that Note the the DataNode's NoteReference file
+            // Test to see if in Editing mode
+            if (LinkNoteStaticMembers.EditingBoolean)
+            {
+                // create a NoteReference string
+                string NoteReferenceStr = tbxLinkName.Text + "^" + tbxHyperlink.Text + "^" + tbxBookMark.Text + "^" + tbxAllKeyWords.Text;
+
+
+                // Call the static method to save both old and new note files
+                LinkNoteStaticMembers.SaveAndUpdateNoteReferenceAndKeywords(NoteReferenceStr);
+                return;
+            }
+
+            // Make sure that all required items for the NoteReferenceStr are present
             if (KeyWordsStaticMembers.ListAccess)
             {
                 // CREATE A NEW NOTE
@@ -233,73 +249,46 @@ namespace NewLSP.UserControls
                     MessageBox.Show("Key words must be delimited wint ';'s ");
                     return;
                 }
-                // Get the old KeyWords String so that you can check to see if there are updates
-                string NoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + CommonStaticMembers.CurrentNote26Name + ".txt";
 
-                //get the data in the reference file
-                if (File.Exists(NoteReferenceFilePath))
-                {
-                    string CurrentNoteReferenceFileData = File.ReadAllText(NoteReferenceFilePath);
-                    // get the components
-                    string[] CurrentNoteReferenceFileDataArray = CurrentNoteReferenceFileData.Split('^');
-                    // get the current keywords
-                    string OldtKeyWordsString = CurrentNoteReferenceFileDataArray[3];
-                    //Check to see if the OldtKeyWordsString =  tbxAllKeyWords.Text
-                    if(tbxAllKeyWords.Text != OldtKeyWordsString)
-                    {
-                        List<string> NewKeyWords = new List<string>();
-                        //Create an array from the new KeyWords
-                        string [] NewKeyWordStringArray = tbxAllKeyWords.Text.Substring(0, tbxAllKeyWords.Text.Length - 1).Split(';');
-                        foreach(string KeyWord in NewKeyWordStringArray)
-                        {
-                            if(OldtKeyWordsString.IndexOf(KeyWord+';') < 0)
-                            {
-                                // Convert the KeyWord
-                                string ConvertedKeyWord = KeyWord.Replace(' ', '_');
-                                NewKeyWords.Add(ConvertedKeyWord);
-                            }
-                        }
+                // NEW 20210620
 
-                        //Add the current Common References NoteReference file name to the KeyWorddictionary
-                        string CurrentNoteReferenceFileName = CommonStaticMembers.CurrentNote26Name;
-                        // Append this to the KeyWordDictionary
-                        Dictionary<string, string> CurrentKeyWordDictionary = KeyWordsStaticMembers.KeyWordsDictionary;
-                        //get the Line for the KeyWords in NewKeyWords
-                        foreach(string KeyWord in NewKeyWords)
-                        {
-                            string thisKeyWordLine = CurrentKeyWordDictionary[KeyWord];
-                            thisKeyWordLine = thisKeyWordLine + CommonStaticMembers.CurrentNote26Name + ';';
-                            CurrentKeyWordDictionary[KeyWord] = thisKeyWordLine;
-                        }
-
-                        //Update the dictiorhyar
-                        KeyWordsStaticMembers.KeyWordsDictionary = CurrentKeyWordDictionary;
-                    }
-                }
                 // create a NoteReference string
                 string NoteReferenceStr = tbxLinkName.Text + "^" + tbxHyperlink.Text + "^" + tbxBookMark.Text + "^" + tbxAllKeyWords.Text;
+                
 
-                // Save the new Note
-                LinkNoteStaticMembers.SaveNoteReference(NoteReferenceStr);
+                // Call the static method to save both old and new note files
+                LinkNoteStaticMembers.SaveAndUpdateNoteReferenceAndKeywords(NoteReferenceStr);
 
-                // Prepare the string to save in the DataNode's DataNodesNoteReferencesFiles
+                // Get the DataNodesNoteReferenceString and append it to the lbxOpenSelectedNote listBox
+                string DataNodesNoteReferenceString = LinkNoteStaticMembers.DataNodesNoteReferenceString;
+
+               
+
+
+                //LinkNoteStaticMembers.SaveDataNodesNoteReferenceString(DataNodesNoteReferenceString);
+
+                string NoteName = StringHelper.ReturnItemAtPos(DataNodesNoteReferenceString, '^', 0);
+                string NoteCurrentNote26Name = StringHelper.ReturnItemAtPos(DataNodesNoteReferenceString, '^', 1);
+
+                // Delete the terminal  \r\n"
+                NoteCurrentNote26Name = NoteCurrentNote26Name.Replace("\r\n", "");
+
+                ////Test to see if there is a CommonStaticMembers.CurrentNote26Name and if not create one
+
 
                 //  1.  Create a string of ' ' to make the NodeName length = 250
                 int NumberOfSpaces = 250 - tbxLinkName.Text.Length;
                 //  2.  create a string with this many spacdes
                 string spacesStr = new String(' ', NumberOfSpaces);
                 //  3.  Create the DataNodesReferenceFileLine 
-                ////string DataNodesReferenceFileLine = tbxLinkName.Text + spacesStr + '^' + 
+                string displayString = NoteName + spacesStr + '^' + NoteCurrentNote26Name;
 
-
-                // Clear lbxOpenSelectedNote and tbxDisplayKeyWords
-                //lbxOpenSelectedNote.Items.Clear();
-                tbxDisplayKeyWords.Text = "";
-
-                // Call ReadNotesIntoSelectNoteListBox()
-                ReadNotesIntoSelectNoteListBox();
-
-                PopulateNoteListBox();
+                // If not editing add this note to the listbox
+                if(LinkNoteStaticMembers.EditingBoolean == false)
+                {
+                    // Add dispalySgtring to the lbxOpenSelectedNote
+                    lbxOpenSelectedNote.Items.Add(displayString);
+                }
 
                 //Clear Note entry fields
                 tbxLinkName.Text = "";
@@ -308,7 +297,9 @@ namespace NewLSP.UserControls
                 lbxKeyWords.Items.Clear();
                 tbxAllKeyWords.Text = "";
                 tbxInput.Text = "";
-
+                // Set Editing to false and uncheck the rbtEdit
+                LinkNoteStaticMembers.EditingBoolean = false;
+                rbtEdit.IsChecked = false;
             }
             
              
@@ -429,6 +420,16 @@ namespace NewLSP.UserControls
             lbxLinks.Items.Clear();
             tbxHyperlink.Text = "";
             cmbxFileType.SelectedIndex = -1;
+            tbxLinkName.Text = "";
+            tbxAllKeyWords.Text = "";
+            lbxKeyWords.Items.Clear();
+            lbxOpenSelectedNote.Items.Clear();
+            tbxDisplayKeyWords.Text = "";
+            rbtAdd.IsChecked = false;
+            rbtSearch.IsChecked = false;
+            rbtEdit.IsChecked = false;
+            LinkNoteStaticMembers.EditingBoolean = false;
+
             LinkNoteStaticMembers.HyperlinkDictionary.Clear();
         }
 
@@ -702,9 +703,10 @@ namespace NewLSP.UserControls
                 CurrentNoteReferenceFileDataArray = thisNoteReferencesData.Split('^');
             }
 
+            //Set the Editing Boolean to true
+            LinkNoteStaticMembers.EditingBoolean = true;
 
-            //get the selected items index number
-            //int NoteSelectedIndex = lbxOpenSelectedNote.SelectedIndex;
+
 
             // get the values in  ListOfNoteNames, ListOfNoteHyperlinks, ListOfNoteBookMarks and ListOfNoteKeyWords
             // associated with NoteSelectedIndex
@@ -727,14 +729,19 @@ namespace NewLSP.UserControls
             tbxHyperlink.Text = NoteHyperlink;
             tbxAllKeyWords.Text = NoteKeyWords;
 
-            
+            //If there is no book mark change it from 
+
+            if(NoteBookmark != null)
+            {
+                Clipboard.SetText(NoteBookmark);
+            }
+            else
+            {
+                NoteBookmark = "";
+            }
 
             
 
-            
-
-            //copy the bookmark to the clipboard
-            Clipboard.SetText(NoteBookmark);
 
             //open the hyperlink
             System.Diagnostics.Process.Start(NoteHyperlink);
@@ -861,6 +868,10 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void rbtSearch_Click(object sender, RoutedEventArgs e)
         {
+            // TODO  There is an error because this is a general reference that can be used by
+            // several different projects, but the string of Note references in the Dictionar value
+            // are linked to an individual porject
+
             tbxAllKeyWords.Text = "";
             KeyWordsStaticMembers.ListAccess = false;
         }
@@ -900,6 +911,7 @@ namespace NewLSP.UserControls
             //If the user hits the Enter key
             if (e.Key == Key.Enter)
             {
+                if (rbtEdit.IsChecked == true) KeyWordsStaticMembers.ListAccess = true;
                 //ListAccess is the abilits to access the current list of keywords
                 if (!KeyWordsStaticMembers.ListAccess)
                 {
@@ -1113,7 +1125,11 @@ namespace NewLSP.UserControls
 
         private void rbtEdit_Click(object sender, RoutedEventArgs e)
         {
+            LinkNoteStaticMembers.EditingBoolean = true;
 
+            KeyWordsStaticMembers.ListAccess = true;
         }
+
+
     }// End class
 }// End Name space

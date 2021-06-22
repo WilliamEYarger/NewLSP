@@ -108,7 +108,7 @@
                           Name="miOpenHyperLink"
                           Click="miOpenHyperLink_Click"/>
 
-                <MenuItem Header="Show Notes"
+                <MenuItem Header="Open Notes"
                           Name="miShowNote"
                           Click="miShowNote_Click"/>
 

@@ -1,4 +1,22 @@
-﻿2021 06 11 BACKUP of dev2
+﻿2021 06 22
+	1.	When calling up a search NoteReferenceFile and hitting SaveNote add that 
+		Note the the DataNode's NoteReference file
+COMMITT MESSAGE: Fixed errors in processing and using notes and added summary comments to many members
+
+2021 06 21
+	1.	*Test adding multiple notes to a single subject
+	2.	There is a problem that when you edit a note a new note reference is added to 
+		both the list box and the DataNodeReference file
+		It also adds a new file to the NoteReferenceFile with the updated key words
+
+2021 06 20
+	1.	The problem in using KeyWords with the Maccolough book may be that there were KeyWords in the
+		list of key words that hav no dictionary equivalent entry in the dictionary
+	2.	The PROBLEM is that Note Reference Alpha26Names are not being added to the KeyWordDictionary when a note is saved
+
+
+
+2021 06 11 BACKUP of dev2
 1commit Message: ESTABLISHED NOTES: 1) In Main Subject folder created DataNodesNoteReferencesFiles folder to hold DataNode IntID.txt 
 references to Referene Notes (NoteName^Reference Note Alpha26Name ie e.txt); 2) Enabled user to create a Common referece folder
 to hold data applicable to more than 1 study folder 3) This Common reference folder contains : a. CompositData folder which contains::

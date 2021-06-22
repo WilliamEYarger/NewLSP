@@ -410,17 +410,13 @@ namespace NewLSP.UserControls
             // Set the Path to the DataNode's QAfile
             SubjectStaticMembers.SetDataNodesQAFilePath();
 
-            //// If the DataNode has a DataNodesNoteReference file then write its content to the SubjectStaticMembers.DataNode lbxOpenSelectedNote
-            //// Create Path to the DataNodesNoteReference file
-            //string DataNodesNoteReferenceFilePath = CommonStaticMembers.DataNodesNoteReferencesFilesPath + 
-            //    SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
-            //// See if this file exists and if so open it and read its data to the SubjectStaticMembers.DataNode
-            //if (File.Exists(DataNodesNoteReferenceFilePath))
-            //{
-            //    string [] DataNodesReferencesStringsArray = File.ReadAllLines(DataNodesNoteReferenceFilePath);
-            //    Link_Note.xaml.cs
-            //}
+            // Notify the user that the Data node has been set and uncheck it
+            MessageBox.Show("The Data Node has been set");
+            rbDataNode.IsChecked = false;
 
+
+            //Set the CurrentNoteIDInt
+            CommonStaticMembers.CurrentNoteIDInt = SubjectStaticMembers.DataNode.ID;
 
         }// End rbDataNode_Click
 

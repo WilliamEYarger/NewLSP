@@ -1,7 +1,6 @@
 ﻿
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+
 
 namespace NewLSP.StaticHelperClasses
 {
@@ -36,7 +35,13 @@ namespace NewLSP.StaticHelperClasses
         #region  HomeFolderPath;
 
         private static string _HomeFolderPath;
-
+        /// <summary>
+        /// Holds the path to the main subject folder
+        /// This folder holds all data relative to a given subject
+        /// except for NoteReferenceFiles and KeyWords in the
+        /// NoteReferenceFiles which can be shared between multiple 
+        /// folders
+        /// </summary>
         public static string HomeFolderPath
         {
             get { return _HomeFolderPath; }
@@ -82,12 +87,12 @@ namespace NewLSP.StaticHelperClasses
         private static string _DataNodesNotesPath;
         /// <summary>
         /// This is the path to the folder that holds the 
-        /// NoteRefereces that have been assigned to any DataNode
+        /// NoteRefereces file names and CurrentNote26Names that have been assigned to any DataNode
         /// Each file is names from the designated DataNode's ID 
         /// and each line in each file contains a NoteName a '^' delimiter
-        /// and a String of capital alpha characters representing the
+        /// and CurrentNote26Name (a String of capital alpha characters representing the
         /// number of files in the Common References' NoteReferenceFiles
-        /// converted to base 26
+        /// converted to base 26)
         /// </summary>
         public static string DataNodesNoteReferencesFilesPath
         {
@@ -130,7 +135,8 @@ namespace NewLSP.StaticHelperClasses
         /// The KeyWordsDictionary contains a
         /// list of KeyWord strings (where all spaces have been replaced by '_'
         /// followed by a ^ delimiter and then a 
-        /// list of ';' delimited AlphaChar25Number names of all of the files containing that key word
+        /// list of ';' delimited CurrentNote26Name names of all of the NoteReference
+        /// files containing that key word
         /// MAKE SURE THAT EACH ALPHACHAR NAME IS SURROUNDED ON BOTH SIDES BY ';'
         /// 
         /// </summary>
@@ -150,7 +156,11 @@ namespace NewLSP.StaticHelperClasses
         #region Booleans
 
         #region HasNote boolean
-
+        /// <summary>
+        /// Returns true if a designated DataNode has one or more DataNodesNoteReferencesFiles
+        /// </summary>
+        /// <param name="nodeID"></param>
+        /// <returns></returns>
         internal static bool NodeHasNoteFile(int nodeID)
         {
 
@@ -189,21 +199,13 @@ namespace NewLSP.StaticHelperClasses
         #endregion CurrentNoteIDInt Property
 
 
-
-        #region DictionaryOfNoteNamesIDs Property
-
-
-        private static Dictionary<int, string> _DictionaryOfNoteNamesIDs = new Dictionary<int, string>();
-
-        public static Dictionary<int, string> DictionaryOfNoteNamesIDs
-        {
-            get { return _DictionaryOfNoteNamesIDs; }
-            set { _DictionaryOfNoteNamesIDs = value; }
-        }
-
-
+        #region CurrentNote26Name
         /// <summary>
         /// This string represents the CurrentNote26Name name
+        /// which is defined at NoteReference file creation
+        /// from the number of files in the NoteReferenceFiles folder
+        /// of a Common Referencdes folder converted to a 
+        /// base 26 Alpha character
         /// </summary>
 
         private static string _CurrentNote26Name = "";
@@ -211,35 +213,13 @@ namespace NewLSP.StaticHelperClasses
         public static string CurrentNote26Name
         {
             get { return _CurrentNote26Name; }
-            set { _CurrentNote26Name  = value; }
+            set { _CurrentNote26Name = value; }
         }
-
-
-        //public static string CurrentNote26Name { get; internal set; }
-
-
-        #endregion  DictionaryOfNoteNamesIDs Property
-
+        #endregion CurrentNote26Name
 
         #endregion Properties
 
-        #region Public Methods
-
-        #region DictionaryOfNoteNamesIDsClear
-
-
-
-        internal static void FillDictionaryOfNoteNamesIDs()
-        {
-            // Clear any previous values
-            DictionaryOfNoteNamesIDs.Clear();
-
-            //
-
-        }
-        #endregion DictionaryOfNoteNamesIDsClear
-
-        #endregion Public Methods
+       
 
 
     }//End  class CommonStaticMembers
