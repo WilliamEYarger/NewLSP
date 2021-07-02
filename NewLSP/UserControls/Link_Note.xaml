@@ -151,11 +151,11 @@
                 <ComboBoxItem Tag="Paint">Paint</ComboBoxItem>
             </ComboBox>
             <TextBlock Text="    Name  "/>
-            <TextBox x:Name="tbxLinkName" Width="780"
+            <TextBox x:Name="tbxLinkName" Width="780" TextChanged="tbxLinkName_TextChanged"
                      
                      />
             <TextBlock Text="  BookMark "/>
-            <TextBox x:Name="tbxBookMark" Width="100"/>
+            <TextBox x:Name="tbxBookMark" Width="100" TextChanged="tbxBookMark_TextChanged"/>
 
         </StackPanel>
 
@@ -165,7 +165,8 @@
                      Margin=" 0 5">
             <TextBlock Text="Hyperlink     "/>
             <TextBox x:Name="tbxHyperlink"
-                     Width="1000"/>
+                     
+                     Width="1000" TextChanged="tbxHyperlink_TextChanged"/>
         </StackPanel>
         
         <!--Row 3 the KeyWords border row-->

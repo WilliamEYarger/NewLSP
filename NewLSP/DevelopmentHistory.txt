@@ -1,4 +1,12 @@
-﻿2021 06 22
+﻿2021 06 23 ERRORS TO Fix
+	1.	Fixed errors in adding a new hyperlink to an existing set of hyperlinks
+2021 06 22 1137 
+``	1.	Pushed old dev3a
+	2.	Merged old dev3a into Master
+	3.	Deleated old dev, dev2 and dev3
+	4.	Createn new dev (this file) from master
+
+2021 06 22
 	1.	When calling up a search NoteReferenceFile and hitting SaveNote add that 
 		Note the the DataNode's NoteReference file
 COMMITT MESSAGE: Fixed errors in processing and using notes and added summary comments to many members
@@ -578,7 +586,10 @@ COMMIT MESSAGE:
 			b.	*In static create a Dictionary<int, HyperlinkObject> where the int is
 				the sequence number of the link in the Hyperlink file and the HyperlinkObject
 				has three properties: Link, FileType and Bookmark  Create this object in the LinkNoteDataModel
-
+2021 07 02
+Commit Message: 
+In Link_Note.xaml added TextChanged methods to tbxLinkName and tbxBookMark so that 
+when the text of either is changed a string  property in LinkNoteStaticMembers is set to the new value
 
 
 2021 03 02

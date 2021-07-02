@@ -218,8 +218,6 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miSaveNote_Click(object sender, RoutedEventArgs e)
         {
-
-            // TODO - 20210622 When calling up a search NoteReferenceFile and hitting SaveNote add that Note the the DataNode's NoteReference file
             // Test to see if in Editing mode
             if (LinkNoteStaticMembers.EditingBoolean)
             {
@@ -297,6 +295,7 @@ namespace NewLSP.UserControls
                 lbxKeyWords.Items.Clear();
                 tbxAllKeyWords.Text = "";
                 tbxInput.Text = "";
+                tbxBookMark.Text = "";
                 // Set Editing to false and uncheck the rbtEdit
                 LinkNoteStaticMembers.EditingBoolean = false;
                 rbtEdit.IsChecked = false;
@@ -425,6 +424,7 @@ namespace NewLSP.UserControls
             lbxKeyWords.Items.Clear();
             lbxOpenSelectedNote.Items.Clear();
             tbxDisplayKeyWords.Text = "";
+            tbxBookMark.Text = "";
             rbtAdd.IsChecked = false;
             rbtSearch.IsChecked = false;
             rbtEdit.IsChecked = false;
@@ -868,10 +868,6 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void rbtSearch_Click(object sender, RoutedEventArgs e)
         {
-            // TODO  There is an error because this is a general reference that can be used by
-            // several different projects, but the string of Note references in the Dictionar value
-            // are linked to an individual porject
-
             tbxAllKeyWords.Text = "";
             KeyWordsStaticMembers.ListAccess = false;
         }
@@ -1130,6 +1126,19 @@ namespace NewLSP.UserControls
             KeyWordsStaticMembers.ListAccess = true;
         }
 
+        private void tbxHyperlink_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LinkNoteStaticMembers.Hyperlink = tbxHyperlink.Text;
+        }
 
+        private void tbxBookMark_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LinkNoteStaticMembers.BookMarks.Add(tbxBookMark.Text);
+        }
+
+        private void tbxLinkName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LinkNoteStaticMembers.HyperlinkName = tbxLinkName.Text;
+        }
     }// End class
 }// End Name space

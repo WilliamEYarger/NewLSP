@@ -46,7 +46,7 @@ namespace NewLSP.StaticHelperClasses
 
         #region BookMarks
 
-        private static List<string> _BookMarks;
+        private static List<string> _BookMarks = new List<string>();
         /// <summary>
         /// This stores any book mark to a docx file specified by the user,
         /// if the user opens that docx file this bookmark is copied to the
@@ -62,6 +62,19 @@ namespace NewLSP.StaticHelperClasses
 
 
         #endregion  BookMarks
+
+        #region HyperlinkName
+
+        private static string _HyperlinkName;
+
+        public static string HyperlinkName
+        {
+            get { return _HyperlinkName; }
+            set { _HyperlinkName = value; }
+        }
+
+
+        #endregion HyperlinkName
 
         #region HyperlinkDictionary
 
@@ -595,28 +608,6 @@ namespace NewLSP.StaticHelperClasses
         #endregion ProcessKeyWords
 
 
-
-        //#region SaveDataNodesNoteReferenceString
-
-        //internal static void SaveDataNodesNoteReferenceString(string DataNodesNoteReferenceString)
-        //{
-        //    string DataNodesReferenceFilePath = CommonStaticMembers.DataNodesNoteReferencesFilesPath;
-        //    if (File.Exists(DataNodesReferenceFilePath))
-        //    {
-        //        File.AppendAllText(DataNodesReferenceFilePath, DataNodesNoteReferenceString);
-        //    }
-        //    else
-        //    {
-        //        // Create a new DataNodesReferenceFile
-        //        FileStream fs = File.Create(DataNodesReferenceFilePath);
-        //        fs.Close();
-        //        File.AppendAllText(DataNodesReferenceFilePath, DataNodesNoteReferenceString);
-        //    }
-        //}
-        //#endregion SaveDataNodesNoteReferenceString
-
-
-
         #endregion  Public Methods
 
         #region Private Methods
@@ -648,12 +639,6 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion SaveNoteReference
 
-
-        #region Get CurrentNote26Name 
-
-
-
-        #endregion Get CurrentNote26Name
 
 
         #region ConvertToBase26
