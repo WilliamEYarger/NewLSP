@@ -64,7 +64,8 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void btnOpenSubjectFolder_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Create or Open an existing -- S U B J E C T  -- folder");
+            //Create a lable so that the user can return here if needed
+            SubjectFolder:  MessageBox.Show("Create or Open an existing -- S U B J E C T  -- folder");
             // Get or create the Name of the Subject folder
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
@@ -88,6 +89,17 @@ namespace NewLSP.UserControls
             //Create a folder to hold the QAFiles and path
             if (!Directory.Exists(FolderPath + "QAFiles"))
             {
+                // Tell the user he is creating a new subject folder and allow him to escape if necessary
+                if (MessageBox.Show("Do you want to create a new Subject folder?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    FolderPath = "";
+                    CommonStaticMembers.SubjectFolderPath = FolderPath;
+                    goto SubjectFolder;
+                }
+                
+
+
+
                 Directory.CreateDirectory(FolderPath + "QAFiles");
                 CommonStaticMembers.DataNodesQAFilePath = FolderPath + "QAFiles";
             }
@@ -130,8 +142,9 @@ namespace NewLSP.UserControls
             //Communicate the FolderPath to the ViewModel.SubjectNodeViewModel's OpenFile method
             SubjectStaticMembers.OpenFiles(FolderPath);
 
-            // Show a message telling the user to create or select a common references folder
-            MessageBox.Show("Create of Open a Folder to hold -- R E F E R E N C S --. Normally, this will be in a more generic"+
+            // Show a message telling the user to create or select a common references folder and
+            //      create a lable allowing the user to return here if desirec
+            References:  MessageBox.Show("Create of Open a Folder to hold -- R E F E R E N C S --. Normally, this will be in a more generic"+
                 " folder and its name will reflect the Generic Interest. for example 'Religion References'");
 
             /*
@@ -158,6 +171,13 @@ namespace NewLSP.UserControls
             //Check to see if this folder(Directory) exists and if not create it
             if (!Directory.Exists(NoteReferenceFilesPath))
             {
+                // Tell the user he is creating a new references folder and allow him to escape if necessary
+                if (MessageBox.Show("Do you want to create a new References folder?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    ReferenceFolderPath = "";
+                    goto References;
+                }
+
                 Directory.CreateDirectory(NoteReferenceFilesPath);
             }
                        

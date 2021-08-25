@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NewLSP.DataModels;
@@ -647,26 +648,40 @@ namespace NewLSP.StaticHelperClasses
             // create a string of all of the Capitals
             string AlphaCapsString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-           // create the string to return fCount converted into a ABC...Z number
-            string NumBase26 = "";
-
-            // Calculate the first interation 
-            int modulus = fCount % 26;
-            int dividend = fCount / 26;
-            string currentModulusChar = AlphaCapsString.Substring(modulus, 1);
-            NumBase26 = currentModulusChar;
-
-            //repeat until the divident is = 0
-            while(dividend != 0)
+           // create the string to return fCount converted into a ABC...Z number where A=0 ad Z=25
+            string N26 = "";
+            var C = fCount;
+            string L = "";
+            int D = 0;
+            int M = 0;
+            int R = 0;
+            // Determine how many characters this N26 number will have
+            if (C / 26 == 0)
             {
-                modulus = fCount % 26;
-                dividend = fCount / 26;
-                currentModulusChar = AlphaCapsString.Substring(modulus, 1);
-                NumBase26 = NumBase26 + currentModulusChar;
+                N26 = AlphaCapsString.Substring(C, 1);
             }
+            else if (C / (26*26) == 0)
+            {
+                D = C / 26;
+                N26 = AlphaCapsString.Substring(D, 1);
+                M = C % 26;
+                N26 = N26 + AlphaCapsString.Substring(M, 1);
+            }
+            else if (C/ (26*26*26) == 0)
+            {
+                D = C / (26 * 26);
+                N26 = AlphaCapsString.Substring(D, 1);
+                C = C % (26 * 26); 
+                D = C / 26;
+                N26 = N26 + AlphaCapsString.Substring(D, 1);
+                M = C % 26;
+                N26 = N26 + AlphaCapsString.Substring(M, 1);
+
+            }
+           
 
 
-            return NumBase26;
+            return N26;
 
 
         }

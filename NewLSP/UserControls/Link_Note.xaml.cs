@@ -1000,7 +1000,14 @@ namespace NewLSP.UserControls
 
         private void lbxKeyWords_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            string KeyWord = lbxKeyWords.SelectedItem.ToString();
+            string KeyWord = "";
+            try { KeyWord = lbxKeyWords.SelectedItem.ToString(); }
+            catch(Exception ex)
+            {
+                MessageBox.Show("You cannot have an empty keyword");
+                return;
+            }
+            
             tbxAllKeyWords.Text = tbxAllKeyWords.Text + KeyWord + ';';
             tbxInput.Text = "";
             lbxKeyWords.Items.Clear();

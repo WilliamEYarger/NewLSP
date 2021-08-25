@@ -1,4 +1,12 @@
-﻿2021 06 23 ERRORS TO Fix
+﻿20210825 COMMIT MESSAGE
+	Corrected error in calculating alpha-number base 26
+
+
+2021 07 08
+	TASK 1: Notify user when they are creating a new subject or references folder and allow them to back out
+
+
+2021 06 23 ERRORS TO Fix
 	1.	Fixed errors in adding a new hyperlink to an existing set of hyperlinks
 2021 06 22 1137 
 ``	1.	Pushed old dev3a

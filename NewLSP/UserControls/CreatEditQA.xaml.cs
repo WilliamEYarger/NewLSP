@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using Microsoft.Win32;
 using NewLSP.StaticHelperClasses;
 using NewLSP.DataModels;
+using System;
 
 namespace NewLSP.UserControls
 {
@@ -258,9 +259,18 @@ namespace NewLSP.UserControls
                     thisQuestion = thisQuestion +line+ "~";
                 }
             }
+            // Prepare the first question 
             // delete the terminal tilds
-            thisQuestion = thisQuestion.Substring(0, thisQuestion.Length - 1);
-
+            try
+            {
+                thisQuestion = thisQuestion.Substring(0, thisQuestion.Length - 1);
+            }
+            
+            catch (Exception ex)
+            {
+                MessageBox.Show("You cannot process and empty question!");
+                return;
+            }
 
             string thisAnswer = tbxAnswer.Text;
             thisAnswer = thisAnswer.Replace("\r\n", "~");
