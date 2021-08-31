@@ -1,4 +1,8 @@
-﻿20210831 Commit Message
+﻿202108311220 
+1. Merged Dev 2 into dev
+2. after committing this message will push dev
+
+202108311200 Commit Message
 Working ion Dev2
 1. Removed Information Tab and all calls to it.
 2. Allowed Screen Resize
