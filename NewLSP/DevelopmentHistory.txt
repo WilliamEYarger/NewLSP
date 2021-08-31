@@ -1,4 +1,13 @@
-﻿20210825 COMMIT MESSAGE
+﻿20210831 Commit Message
+Working ion Dev2
+1. Removed Information Tab and all calls to it.
+2. Allowed Screen Resize
+3. Corrected error in algorythm for calculating Base26 Alpha number creation
+4. Committed Dev2 and merged Dev2 into dev
+
+202108251126 Dev2. The purpose of this branch is to remove the Instructions tab and associated code
+
+20210825 COMMIT MESSAGE
 	Corrected error in calculating alpha-number base 26
 
 

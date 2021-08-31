@@ -223,28 +223,10 @@ namespace NewLSP.UserControls
             KeyWordsStaticMembers.ListOfKeyWordsPath = ListOfKeyWordsPath;
 
 
-
-            if (MessageBox.Show("Create or Select -- T I M E L I N E -- or Click SubjectTreePage?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-            {
-                return;
-            }
-            else
-            {
-                MessageBox.Show("Pause here and create the Excel work sheet");
-                CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog();
-
-                string TimelineFilePath = "";
-                if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
-                {
-                    TimelineFilePath = openFileDialog.FileName ;
-                }
-
-                // Set the TimelineFilePath
-                SubjectStaticMembers.TimelineFilePath = TimelineFilePath;
-            }
-
-
             // Set the initial value of CurrentNoteIDInt
+
+            MessageBox.Show("Click SubjectTreePage and then Click SHOW DISPLAY LIST to see all of the Base subjects for this project");
+            // TODO - StartHere
 
             CommonStaticMembers.CurrentNoteIDInt = -1;
 
@@ -260,6 +242,9 @@ namespace NewLSP.UserControls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        
+
+        // 202108251129 inactivated this section
         private void btnSetInstructionsFolder_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Either select a previously chosen Instructions folder, " +

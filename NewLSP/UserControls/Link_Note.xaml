@@ -285,9 +285,9 @@
             <Grid x:Name ="NotesGrid">
                 <Grid.ColumnDefinitions>
                     <!--The column for the Key words label and textbox-->
-                    <ColumnDefinition Width="200"/>
-                    <!--The column for the Note Names-->
                     <ColumnDefinition Width="*"/>
+                    <!--The column for the Note Names-->
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <!--In column 0 create a grid with 2 rows-->
                 <Grid Grid.Column="0">
@@ -302,8 +302,8 @@
                         <TextBox x:Name="tbxDisplayKeyWords"
                                  Grid.Row="1"
                                  IsReadOnly="True"
-                                 TextWrapping="Wrap"
                                  AcceptsReturn="True"
+                                 HorizontalScrollBarVisibility="Auto"
                                  VerticalScrollBarVisibility="Auto"/>
                     </Grid>
                 </Grid>  <!--end keyword column-->

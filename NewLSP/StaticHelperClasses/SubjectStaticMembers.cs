@@ -106,18 +106,18 @@ namespace NewLSP.StaticHelperClasses
         #endregion Property NotesDictionaryPath
 
 
-        #region Property TimelineFilePath
+        //#region Property TimelineFilePath
 
-        private static string _TimelineFilePath;
+        //private static string _TimelineFilePath;
 
-        public static string TimelineFilePath
-        {
-            get { return _TimelineFilePath; }
-            set { _TimelineFilePath = value; }
-        }
+        //public static string TimelineFilePath
+        //{
+        //    get { return _TimelineFilePath; }
+        //    set { _TimelineFilePath = value; }
+        //}
 
 
-        #endregion Property TimelineFilePath
+        //#endregion Property TimelineFilePath
 
         #endregion Properties
 

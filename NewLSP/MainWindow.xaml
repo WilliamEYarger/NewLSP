@@ -7,8 +7,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         Title="New Learning Study Project"
-        Height="800" Width="1200"        
-        WindowStartupLocation="CenterScreen">
+        Height="800" Width="1200" >
     <Window.Resources>
         <Style TargetType="MenuItem">
             <Setter Property="FontSize"  Value="20"  />
@@ -46,9 +45,9 @@
             <MenuItem  Name="miLinkNotes"  Header="Links-Notes Page" 
                        Click="miLinkNotes_Click"/>
             
-            <MenuItem x:Name="miInstructions"
+            <!--<MenuItem x:Name="miInstructions"
                       Header="InstructionsPage"
-                      Click="miInstructions_Click"/>
+                      Click="miInstructions_Click"/>-->
             <MenuItem Name="miCloseApplication"
                       Header="Close Application"
                       Click="miCloseApplication_Click"/>
@@ -59,7 +58,7 @@
             <local:SubjectTree x:Name="ucSubjectTree" Visibility="Collapsed"/>
             <local:CreatEditQA x:Name="ucCreatEditQA" Visibility="Collapsed"/>
             <local:TestReview x:Name="ucTestReview" Visibility="Collapsed"/>
-            <local:Instrutions x:Name="ucInstructions" Visibility="Collapsed"/>
+            <!--<local:Instrutions x:Name="ucInstructions" Visibility="Collapsed"/>-->
             <local:Link_Note  x:Name="ucLinkNote" Visibility="Collapsed"/>
         </Grid>
     </Grid>
