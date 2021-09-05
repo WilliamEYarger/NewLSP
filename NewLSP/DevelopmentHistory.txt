@@ -1,4 +1,7 @@
-﻿202108311220 
+﻿20210905 commit Message
+Changed the maim window size to maximize to occupy the full area of the screen
+
+202108311220 
 1. Merged Dev 2 into dev
 2. after committing this message will push dev
 

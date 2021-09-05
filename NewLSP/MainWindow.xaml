@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NewLSP.UserControls"
-        mc:Ignorable="d"
-        WindowStyle="None"
+        mc:Ignorable="d"       
         Title="New Learning Study Project"
-        Height="800" Width="1200" >
+        WindowState="Maximized"
+        WindowStyle="None">
     <Window.Resources>
         <Style TargetType="MenuItem">
             <Setter Property="FontSize"  Value="20"  />
