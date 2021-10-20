@@ -197,7 +197,9 @@ namespace NewLSP
                 if (File.Exists(DataNodesHyperlinkPath))
                 {
                     HasHyperlink = true;
-                   // LinkNoteStaticMembers.SetHyperlinkStringsList();
+                    // Added- 20211020 The following was activated to try and populate the list of hyperlinks this works
+                    LinkNoteStaticMembers.SetHyperlinkStringsList();
+                   // End todo of activation 20211020
                 }
 
                 //      c. Test to see if this data node has a DataNodeReference file and if so set  HadDataNodeReferenceFile to true

@@ -1,4 +1,13 @@
-﻿20210905 commit Message
+﻿20211020 0750
+Commit Message
+	Correct error in adding a new  hyerlink to the list of previously existing hyperlinks
+1.	There was an error in trying to add a new hyperlink to a subject node that already
+	had a hyperlink. this was solved by activating the call to miLinkNotes_Click.if (SubjectStaticMembers.DataNode != null).
+		// Added- 20211020 The following was activated to try and populate the list of hyperlinks this works
+        LinkNoteStaticMembers.SetHyperlinkStringsList();
+        // End todo of activation 20211020
+
+20210905 commit Message
 Changed the maim window size to maximize to occupy the full area of the screen
 
 202108311220 

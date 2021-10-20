@@ -391,6 +391,7 @@ namespace NewLSP.UserControls
 
             //Set the DataNodeNoteReferenceFilePath()
             SubjectStaticMembers.SetDataNodeNoteReferenceFilePath();
+
             //blank the dataNodesQAFilePath
             SubjectStaticMembers.DataNodesQAFilePath = "";
 
@@ -404,9 +405,7 @@ namespace NewLSP.UserControls
             // clear the QAStaticMembers.QADictionary
             QAStaticMembers.QADictionary.Clear();
 
-            ////Clear the Hyperlink dictionary
-            //LinkNoteStaticMembers.HyperlinkDictionary.Clear();
-
+           
             // Set the Path to the DataNode's QAfile
             SubjectStaticMembers.SetDataNodesQAFilePath();
 
