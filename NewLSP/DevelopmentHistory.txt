@@ -1,4 +1,9 @@
-﻿20211020 0750
+﻿20211116
+	When a new subject was being created the NodeDataStrings.txt file was not being created
+	See Commit Note Commit Note 20211116 in Home.xaml.cs
+	Commit Message: Enable creating a new NodeDataStrings file when starting a new project.
+
+20211020 0750
 Commit Message
 	Correct error in adding a new  hyerlink to the list of previously existing hyperlinks
 1.	There was an error in trying to add a new hyperlink to a subject node that already

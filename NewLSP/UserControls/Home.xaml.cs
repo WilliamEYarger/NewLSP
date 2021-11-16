@@ -41,6 +41,7 @@ using NewLSP.StaticHelperClasses;
 using System.Windows;
 using System.Windows.Controls;
 using System.IO;
+using NewLSP.DataModels;
 
 namespace NewLSP.UserControls
 {
@@ -96,7 +97,52 @@ namespace NewLSP.UserControls
                     CommonStaticMembers.SubjectFolderPath = FolderPath;
                     goto SubjectFolder;
                 }
-                
+
+
+                /*
+                                 Commit Note 20211116
+                Problem: The Root node is not being created when a new Subject folder is created
+
+                Issues :
+                    1.	// Assign the CurrentItemCount to the Root node's ID and write it to the ItemCount.txt file	g());
+                    2.	//Set up the properties of the new RootNode
+                    3.	//Create the string to write to the NodeDataStrings.txt file  (ɀ- ɀRootɀ*ɀ0ɀ6ɀfalse)
+                    4.	 //Add this rootnode to the SubjectNodeDictionary
+                    5.	 // Create the DisplayString for the root node
+                    6.  // Assign the CurrentItemCount to the Root node's ID and write it to the ItemCount.txt file
+                    7.  // Write the item count to SubjectStaticMembers.ItemCount
+                 */
+
+
+                string ItemCount = "1";
+                File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
+
+                // Write the item count to SubjectStaticMembers.ItemCount
+                SubjectStaticMembers.ItemCount = ItemCount;
+                //Set up the properties of the new RootNode
+                //Create a new RootNode
+                SubjectNodes RootNode = new SubjectNodes(0);
+                RootNode.ID = 0;
+                RootNode.CI = "- ";
+                RootNode.NodeLevelName = "*";
+                string LeadingChars = "";
+                RootNode.LeadingChars = LeadingChars;
+                RootNode.NOC = 0;
+                RootNode.TitleText = "Root";
+                RootNode.HasData = false;
+
+                //Add this rootnode to the SubjectNodeDictionary
+                SubjectStaticMembers.AddNodeToDictionary(RootNode);
+
+                // Create the DisplayString for the root node
+                string RootDisplayString = $"{RootNode.LeadingChars}{RootNode.CI}{RootNode.TitleText}";
+
+                //Add this root node to the DisplayList
+                SubjectStaticMembers.DisplayList.Add(RootDisplayString);
+
+                // Add the root Node's NodeLevelName to the DisplaySubjectNodesList
+                SubjectStaticMembers.SubjectNodesLevelNameList.Add(RootNode.NodeLevelName);
+
 
 
 

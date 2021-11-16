@@ -135,6 +135,12 @@ namespace NewLSP.StaticHelperClasses
         #region Field List of Display strings (DisplayList)
 
         //Create an List of strings for the ListView display and array of SubjectNodes to match it
+        /// <summary>
+        /// The DisplayList is what shows up in the Subjects Tree, Each item has only 3 components
+        ///     1. The leading blanks to indicate the Item level
+        ///     2. The Has Chidred indication (+/-)
+        ///     3. The Name yoy assigned to the node
+        /// </summary>
         public static List<string> DisplayList = new List<string>();
         #endregion DisplayList
 
@@ -226,40 +232,8 @@ namespace NewLSP.StaticHelperClasses
             // Test to see if this file exist and if not create it
             if (!File.Exists(SubjectsNodeDataStringsPath))
             {
-                
-                //Create a new RootNode
-                SubjectNodes RootNode = new SubjectNodes(0);
+                //Do Nothing as of 2021 11 16 this section was transfered to the Home.xaml.cs
 
-                // Assign the CurrentItemCount to the Root node's ID
-                RootNode.ID = 0;
-                ItemCount = "1";
-
-                //Write the new ItemCount to the ItemCount.txt file
-                File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
-
-
-                //Set up the properties of the new RootNode
-                RootNode.CI = "- ";
-                RootNode.NodeLevelName = "*";
-                int LengthNodeLevelName = RootNode.NodeLevelName.Length;
-                string LeadingChars = new string(' ', LengthNodeLevelName);
-                RootNode.LeadingChars = LeadingChars;
-                RootNode.NOC = 0;
-                RootNode.TitleText = "Root";
-                RootNode.HasData = false;
-
-                //Add this rootnode to the SubjectNodeDictionary
-                AddNodeToDictionary(RootNode);
-                ////SubjectNodeDictionary.Add(RootNode.NodeLevelName, RootNode);
-
-                // Create the DisplayString for the root node
-                string RootDisplayString = $"{RootNode.LeadingChars}{RootNode.CI}{RootNode.TitleText}";
-
-                //Add this root node to the DisplayList
-                DisplayList.Add(RootDisplayString);
-
-                // Add the root Node's NodeLevelName to the DisplaySubjectNodesList
-                SubjectNodesLevelNameList.Add(RootNode.NodeLevelName);
             }
             else
             {

@@ -449,10 +449,13 @@ namespace NewLSP.UserControls
             tbxYourAnswer.Text = "";
             btnShowCorrect.IsEnabled = true;
             //Retrieve the first item in the QANUmbersString until its length =0
+            // The QANUmbersString is a string of question numbeers, beginning with 0 that are delimited with ^
             while (TestReviewStaticMembers.QANUmbersString.Length != 0)
+
             {
                 string CurrentQANumberString = TestReviewStaticMembers.QANUmbersString;
                 // get  the 0th item from the QANumberString
+                // thisKey is the current qa pair number
                 string thisKey = StringHelper.ReturnItemAtPos(CurrentQANumberString, '^', 0);
                 //string thisKey = StringHelper.GetAndRemoveNthItem(ref CurrentQANumberString, '^', 0);
                 TestReviewStaticMembers.QANUmbersString = CurrentQANumberString;
