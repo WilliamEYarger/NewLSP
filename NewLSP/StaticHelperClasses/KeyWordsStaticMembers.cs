@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+
 
 namespace NewLSP.StaticHelperClasses
 {
@@ -19,6 +21,20 @@ namespace NewLSP.StaticHelperClasses
             set { _KeyWordList = value; }
         }
         #endregion KeyWordList
+
+       
+        #region SortedKeyWordList
+        private static List<string> _SortedKeyWordList = new List<string>();
+        /// <summary>
+        /// This is the current list of key words in thier unconverted fors (may contain spaces)
+        /// </summary>
+        public static List<string> SortedKeyWordList
+        {
+            get { return _SortedKeyWordList; }
+            set { _SortedKeyWordList = value; }
+        }
+        #endregion SortedKeyWordList
+        
 
         #region KeyWordsDictionary
 
@@ -91,6 +107,7 @@ namespace NewLSP.StaticHelperClasses
 
         #region ListOfKeyWordsPath
         private static string _ListOfKeyWordsPath;
+
         /// <summary>
         /// This is the path to the list of all of the orriginal current KeyWords
         /// which can contain spaces
@@ -121,7 +138,47 @@ namespace NewLSP.StaticHelperClasses
 
             }
         }
+
+
         #endregion ListOfKeyWordsPath
+
+        #region List of Sorted KeyWords
+
+        private static string _ListOfSortedKeyWordsPath;
+
+
+        /// <summary>
+        /// This is the path to the list of all of the orriginal current KeyWords
+        /// which can contain spaces
+        /// </summary>
+        /// 
+
+        public static string ListOfSortedKeyWordsPath
+        {
+            get { return _ListOfSortedKeyWordsPath; }
+
+            set
+            {
+                _ListOfSortedKeyWordsPath = value;
+                //If file doesn't exist, create it
+                if (!File.Exists(_ListOfSortedKeyWordsPath))
+                {
+                    var fileStream = File.Create(_ListOfSortedKeyWordsPath);
+                    fileStream.Close();
+                }
+
+                // read Keywords into KeyWordsList
+                string[] SortedKeyWordsArray = File.ReadAllLines(_ListOfSortedKeyWordsPath);
+
+                foreach (string line in SortedKeyWordsArray)
+                {
+                    SortedKeyWordList.Add(line);
+                }
+            }
+           
+
+        }
+        #endregion List of Sorted KeyWords
 
 
         #endregion Properties
@@ -155,6 +212,40 @@ namespace NewLSP.StaticHelperClasses
             File.AppendAllText(ListOfKeyWordsPath, newKeyWord+"\r\n");
         }
         #endregion AppendNewKeyWord
+
+        #region Append new Sorted Key Word
+
+        /// <summary>
+        /// This method received a new KeyWord 
+        /// It first reads in the keywords in the SortedListOfKeyWords.txt file
+        /// It adds the new keyWord and then resorts the list
+        /// it then writes the updated list to the file
+        /// </summary>
+        /// <param name="keyWord"></param>
+        internal static void AppendNewSortedKeyWord(string keyWord)
+        {
+            
+            string ListOfSortedKeyWordsPath = KeyWordsStaticMembers.ListOfSortedKeyWordsPath;
+
+            // check check to see if the file exists and if so read in all lines
+            if (File.Exists(ListOfSortedKeyWordsPath))
+            {
+                string[] ArrayOfSortedKeyWords = File.ReadAllLines(ListOfSortedKeyWordsPath);
+
+                List<string> ListOfSortedKeyWords = new List<string>(ArrayOfSortedKeyWords);
+                ListOfSortedKeyWords.Add(keyWord);
+
+                ListOfSortedKeyWords.Sort();
+
+                //conveert the list back to an array
+                ArrayOfSortedKeyWords = ListOfSortedKeyWords.ToArray();
+
+                File.WriteAllLines(ListOfSortedKeyWordsPath, ArrayOfSortedKeyWords);
+            }
+
+        }
+
+        #endregion Append new Sorted Key Word
 
 
         #region AppendNewKeyWordDictionaryItemString()
@@ -297,6 +388,7 @@ namespace NewLSP.StaticHelperClasses
             // return NoteNamesList
             return NoteNamesList;
         }// End ReturnNoteNameList(
+
 
         #endregion ReturnNoteNameList
 

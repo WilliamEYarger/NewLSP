@@ -685,7 +685,7 @@ namespace NewLSP.UserControls
         private void lbxOpenSelectedNote_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             string currnetItem = lbxOpenSelectedNote.SelectedItem.ToString();
-            //Get the CurrentNote26Name
+            //Get the CurrentNote26Name of a NoteReferenceFiles text file
             string thisNoteReferenceName = StringHelper.ReturnItemAtPos(currnetItem, '^', 1);
 
             // Update the CommonStaticMembers.CurrentNote26Name
@@ -891,7 +891,8 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void tbxInput_KeyUp(object sender, KeyEventArgs e)
         {
-            //Clear the current content of lbxKeyWords
+            // lbxKeyWords contains all of the keywords that start with the characters typed into the text box tbxInput
+            //Clear the current content of lbxKeyWords 
             lbxKeyWords.Items.Clear();
 
             // Cycle through KeyWordList selecting all that begin with the characters in tbxInput
@@ -908,13 +909,18 @@ namespace NewLSP.UserControls
             if (e.Key == Key.Enter)
             {
                 if (rbtEdit.IsChecked == true) KeyWordsStaticMembers.ListAccess = true;
+
+                // !! CHECH TO SEE IF ANY SEARCH WORDS ARE PRESENT IN THE CURRENT LIST OF KEY WORDS !! //
+                // If ListAccess is false, that means you are in the search mode 
+                // If you are in the search mode and you type characters which do not occur at the start of 
+                // any words in the listof KeyWords yoy get the following message
                 //ListAccess is the abilits to access the current list of keywords
                 if (!KeyWordsStaticMembers.ListAccess)
                 {
                     // If lbxKeyWords is empty in the Search statge send a message that you can only accepts existing keywords
                     if (lbxKeyWords.Items.Count == 0)
                     {
-                        MessageBox.Show("When You are in the Search mod you can only search for existing Keywords");
+                        MessageBox.Show("When You are in the Search mode you can only search for existing Keywords");
 
                         // return to UI
                         return;
@@ -924,6 +930,7 @@ namespace NewLSP.UserControls
 
                 string KeyWord = "";
 
+                // !! IF THERE ARE KEYWORDS IN THE KEY WORD LIST BOX AND YOU HIT RETURN THE WORD AT POSITION 0 IS SELECTED 11 //
                 //Determine if there are Keywords showing in lbxKeyWords and if so select #0 and return
                 if (lbxKeyWords.Items.Count != 0)
                 {
@@ -952,26 +959,36 @@ namespace NewLSP.UserControls
                     return;
                 }
 
-
+                // !! IF THERE ARE NO WORDS IN THE KEYWORD LIST BOX AND YOU HIT RETURN THIS CONVERTS THE TEXT IN THE INPUT TEXT BOX INTO A NEW KEY WORD !! //
                 // Create a new KeyWord from the current text in tbxInput
                 KeyWord = tbxInput.Text;
+
+                // Remove any leading or trailing spaces
                 KeyWord = KeyWord.Trim();
 
-                // Add this KeyWord to tbxAllKeyWords
+                // Add this KeyWord to tbxAllKeyWords with a ';' seperator
                 tbxAllKeyWords.Text = tbxAllKeyWords.Text + KeyWord + ';';
 
-                // If this is a generic(ie it begins with #)  return  without adding it to the KeyWordList
+
+                //!! DETECE COMMENTS AND DONT ADD THEM TO THE KEYWORD LIST 11 //
+                // If this is a generic comment(ie it begins with #)  return  without adding it to the KeyWordList
                 if (KeyWord.IndexOf("#") != -1)
                 {
                     tbxInput.Text = "";
                     return;
                 }
 
+
+                // !! UPDATE THE KEYWORD FILES !! //
                 // Update the active KeyWordList
                 KeyWordsStaticMembers.KeyWordList.Add(tbxInput.Text);
                 // Append this new Keyword to the Keyword txt Fild
                 KeyWordsStaticMembers.AppendNewKeyWord(KeyWord);
-                                
+
+                //Added 20211202
+                KeyWordsStaticMembers.AppendNewSortedKeyWord(KeyWord);
+                //End added 20211202
+
 
                 // Convert Keyword to Dictionary Item by replacing all spaces with '_'
                 string thisKeyWord = tbxInput.Text;

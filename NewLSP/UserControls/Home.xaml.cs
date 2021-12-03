@@ -42,6 +42,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.IO;
 using NewLSP.DataModels;
+using System.Collections.Generic;
+using System;
 
 namespace NewLSP.UserControls
 {
@@ -74,6 +76,7 @@ namespace NewLSP.UserControls
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 FolderPath = dialog.FileName + '\\';
+                CommonStaticMembers.HomeFolderPath = FolderPath;
             }
 
             // Get the number of '\\'s in FolderPath
@@ -83,6 +86,120 @@ namespace NewLSP.UserControls
             // Get the Subjects Name from the item a position NumberOfSlashes -1
             var FolderName = StringHelper.ReturnItemAtPos(FolderPath, '\\', NumberOfSlashes - 1);
             lblTitle.Content = "This is the Subjects Tree for " + FolderName;
+
+            // ADDED 20211203
+            //Use the FolderName to name the Subject, and its main data files
+            string SubjectName = FolderName;
+
+            // Create path to this subjects data file
+            string SubjectsNodeDataStringsPath = CommonStaticMembers.HomeFolderPath + "NodeDataStrings.txt";
+            CommonStaticMembers.SubjectsNodeDataStringsPath = SubjectsNodeDataStringsPath;
+
+            // Test to see if this file exist and if not create it
+            if (!File.Exists(SubjectsNodeDataStringsPath))
+            {
+                //Create a new RootNode
+                SubjectNodes RootNode = new SubjectNodes(0);
+
+                // Assign the CurrentItemCount to the Root node's ID
+                RootNode.ID = 0;
+                string ItemCount = "1";
+
+                //Write the new ItemCount to the ItemCount.txt file
+                File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
+
+                //Set up the properties of the new RootNode
+                RootNode.CI = "- ";
+                RootNode.NodeLevelName = "*";
+                int LengthNodeLevelName = RootNode.NodeLevelName.Length;
+                string LeadingChars = new string(' ', LengthNodeLevelName);
+                RootNode.LeadingChars = LeadingChars;
+                RootNode.NOC = 0;
+                RootNode.TitleText = "Root";
+                RootNode.HasData = false;
+
+
+                // Create Root Node Data String and write it to the NodeDataStrings.txt file
+                // LeadingChars	CI	NodeName	NodeLevelName	ID	NOC	HasDataString
+
+                char D = '\u0240';
+                string RootNodeDataString = RootNode.LeadingChars + D + RootNode.CI + D + RootNode.TitleText + D + RootNode.NodeLevelName + D +
+                    RootNode.ID + D + RootNode.NOC + D + RootNode.HasData;
+
+                // Write RootNodeDataString to the NodeDataStrings.txt file
+                File.WriteAllText(SubjectsNodeDataStringsPath, RootNodeDataString);
+
+                //Add this rootnode to the SubjectNodeDictionary
+                SubjectStaticMembers.SubjectNodeDictionary.Add(RootNode.NodeLevelName, RootNode);
+
+                // Create the DisplayString for the root node
+                string RootDisplayString = $"{RootNode.LeadingChars}{RootNode.CI}{RootNode.TitleText}";
+
+                //Add this root node to the DisplayList
+                SubjectStaticMembers.DisplayList.Add(RootDisplayString);
+
+                // Add the root Node's NodeLevelName to the DisplaySubjectNodesList
+                SubjectStaticMembers.SubjectNodesLevelNameList.Add(RootNode.NodeLevelName);
+
+
+            }
+
+            else
+            {
+                SubjectNodes RootNode = new SubjectNodes();
+
+                // Read in the current item count
+                string ItemCount = File.ReadAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt");
+                SubjectStaticMembers.ItemCount = ItemCount;
+
+
+
+
+                // Instantiate the Dictionary
+                SubjectStaticMembers.SubjectNodeDictionary = new Dictionary<string, SubjectNodes>();
+
+                // Instantiate a new node
+                SubjectNodes ThisNode = new SubjectNodes();
+                // Create the delimiter
+                char D = '\u0240';
+
+
+                //Read in SubjectsNodeDataStringsPath 
+                //string[] SubjectNodeDataStringArray = File.ReadAllLines(SubjectsNodeDataStringsPath);
+                string[] SubjectNodeDataStringArray = File.ReadAllLines(SubjectsNodeDataStringsPath);
+
+                foreach (string line in SubjectNodeDataStringArray)
+                {
+                    // get the properties of a SubjectNode
+                    string[] ItemsInLine = line.Split(D);
+                    ThisNode.LeadingChars = ItemsInLine[0];
+                    ThisNode.CI = ItemsInLine[1];
+                    ThisNode.TitleText = ItemsInLine[2];
+                    ThisNode.NodeLevelName = ItemsInLine[3];
+                    string IDString = ItemsInLine[4];
+                    ThisNode.ID = Int32.Parse(IDString);
+                    string NOCString = ItemsInLine[5];
+                    ThisNode.NOC = Int32.Parse(NOCString);
+                    string HasDataString = ItemsInLine[6];
+                    if (HasDataString == "false")
+                    {
+                        ThisNode.HasData = false;
+                    }
+                    else
+                    {
+                        ThisNode.HasData = true;
+                    }
+
+
+                    SubjectStaticMembers.SubjectNodeDictionary.Add(ThisNode.NodeLevelName, ThisNode);
+                    ThisNode = new SubjectNodes();
+
+                }// End foreach
+                SubjectStaticMembers.DisplayParentsAndChildren("*");
+
+            }// End if else file subject file exists
+
+            //END ADED 20211203
 
             // Save the Path to  the selected subject ends with \\
             CommonStaticMembers.SubjectFolderPath = FolderPath;
@@ -97,21 +214,6 @@ namespace NewLSP.UserControls
                     CommonStaticMembers.SubjectFolderPath = FolderPath;
                     goto SubjectFolder;
                 }
-
-
-                /*
-                                 Commit Note 20211116
-                Problem: The Root node is not being created when a new Subject folder is created
-
-                Issues :
-                    1.	// Assign the CurrentItemCount to the Root node's ID and write it to the ItemCount.txt file	g());
-                    2.	//Set up the properties of the new RootNode
-                    3.	//Create the string to write to the NodeDataStrings.txt file  (ɀ- ɀRootɀ*ɀ0ɀ6ɀfalse)
-                    4.	 //Add this rootnode to the SubjectNodeDictionary
-                    5.	 // Create the DisplayString for the root node
-                    6.  // Assign the CurrentItemCount to the Root node's ID and write it to the ItemCount.txt file
-                    7.  // Write the item count to SubjectStaticMembers.ItemCount
-                 */
 
 
                 string ItemCount = "1";
@@ -267,6 +369,25 @@ namespace NewLSP.UserControls
 
             // Set the ListOfKeyWordsPath in KeyWordsStaticMembers
             KeyWordsStaticMembers.ListOfKeyWordsPath = ListOfKeyWordsPath;
+
+
+            /* Start Added 20211202 */
+
+            // Create a Sorted KeyWord List
+            string ListOfSortedKeyWordsPath = CompositDataPath + "\\SortedListOfKeyWords.txt";
+
+            // Insure that the file doesn't already exist
+            if (!File.Exists(ListOfSortedKeyWordsPath))
+            {
+                var fileStream = File.Create(ListOfSortedKeyWordsPath);
+                fileStream.Close();
+
+            }
+
+            // Set the SortedListOfKeyWordsPath in KeyWordsStaticMembers
+            KeyWordsStaticMembers.ListOfSortedKeyWordsPath = ListOfSortedKeyWordsPath;
+
+           /* Stop Added 20211202 */
 
 
             // Set the initial value of CurrentNoteIDInt

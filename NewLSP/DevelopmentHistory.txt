@@ -1,4 +1,27 @@
-﻿20211116
+﻿20211203 When finished go back to 20211202  Update to 20211125 tasks 
+	There Was a Major error discovered. When the open files methods were moved to the Home.xaml.cs file
+	the method for creating a new 
+
+	Commit Message 
+	Corrected error of failing to create a new NodeDataStrings.txt file on creating a new subject
+
+
+20211202  Update to 20211125 tasks 
+	1. save a sorted version of the Key World List in a file
+		a*.	Create a sorted KeyWordList when a new References composite folder is created
+		b.	when a new Key word is created add it to the Sorted Key Word List
+
+
+20211125
+	TASKS FOR THIS VERSION
+	1.	save a sorted version of the Key World List in a file
+	2.	Expand the tbxAllKeyWords Textbox and add auto vertical scroll bar
+	3.  Expand the width of the tbxDisplayKeyWords text box
+	4.	Add a radio group to allow the user to either show all key words and comments or to 
+		select only the searched Key word and its comments
+
+
+20211116
 	When a new subject was being created the NodeDataStrings.txt file was not being created
 	See Commit Note Commit Note 20211116 in Home.xaml.cs
 	Commit Message: Enable creating a new NodeDataStrings file when starting a new project.

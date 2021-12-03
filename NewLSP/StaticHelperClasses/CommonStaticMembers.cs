@@ -10,6 +10,20 @@ namespace NewLSP.StaticHelperClasses
 
         #region Paths
 
+        #region SubjectsNodeDataStringsPath
+        // This is the path to the NodeDataString text file SubjectsNodeDataStringsPath
+
+
+        private static  string _SubjectsNodeDataStringsPath;
+
+        public static string SubjectsNodeDataStringsPath
+        {
+            get { return _SubjectsNodeDataStringsPath; }
+            set { _SubjectsNodeDataStringsPath = value; }
+        }
+
+
+        #endregion SubjectsNodeDataStringsPath
 
         #region NoteReferencesPath
 

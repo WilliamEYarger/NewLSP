@@ -136,12 +136,15 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void lvSubjects_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            // Selected Index = is the 0 based line number of what ever is currently being displayed on the 'tblkSubjectName' textblock
             if (lvSubjects.SelectedIndex >= 0)
             {
                 // Get the NodeLevelName for this node from the SubjectNodesLevelNameList
+                // There are currently 6 possible levels ranging from '*', '1'...'5' where '*' is the root level
                 string NodeLevelName = SubjectStaticMembers.SubjectNodesLevelNameList[lvSubjects.SelectedIndex];
 
                 // Use the NodeLevelName to get the correct node fromthe dictionary of SubjectNodeDictionary
+                // The Key to the dictionary is 
                 SelectedNode = SubjectStaticMembers.SubjectNodeDictionary[NodeLevelName];
 
                 //Determine if this node has a QA file
@@ -191,6 +194,11 @@ namespace NewLSP.UserControls
         #region Radio Button Methods
 
         #region Radio button New Chile
+        /// <summary>
+        /// This method is called whenever the user clicks the create a new child node radio button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rbNewChild_Checked(object sender, RoutedEventArgs e)
         {
             var rbNewChild = sender as RadioButton;
