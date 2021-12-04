@@ -1,42 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using NewLSP.StaticHelperClasses;
 using System.Windows;
 using System.Windows.Controls;
@@ -76,7 +38,7 @@ namespace NewLSP.UserControls
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 FolderPath = dialog.FileName + '\\';
-                CommonStaticMembers.HomeFolderPath = FolderPath;
+                CommonStaticMembers.HomeFolderPath = FolderPath;                               
             }
 
             // Get the number of '\\'s in FolderPath
@@ -98,62 +60,26 @@ namespace NewLSP.UserControls
             // Test to see if this file exist and if not create it
             if (!File.Exists(SubjectsNodeDataStringsPath))
             {
-                //Create a new RootNode
-                SubjectNodes RootNode = new SubjectNodes(0);
 
-                // Assign the CurrentItemCount to the Root node's ID
-                RootNode.ID = 0;
-                string ItemCount = "1";
+                // Tell the user he is creating a new subject folder and allow him to escape if necessary
+                if (MessageBox.Show("Do you want to create a new Subject folder?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    FolderPath = "";
+                    CommonStaticMembers.SubjectFolderPath = FolderPath;
+                    goto SubjectFolder;
+                }
 
-                //Write the new ItemCount to the ItemCount.txt file
-                File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
+                //Call the create new NodeDataStrings.txt file and add a Root node to it
+                CreateNewSubjectFolderFilesAndfolders();
+            }// End Test to see if this file exist and if not create it
 
-                //Set up the properties of the new RootNode
-                RootNode.CI = "- ";
-                RootNode.NodeLevelName = "*";
-                int LengthNodeLevelName = RootNode.NodeLevelName.Length;
-                string LeadingChars = new string(' ', LengthNodeLevelName);
-                RootNode.LeadingChars = LeadingChars;
-                RootNode.NOC = 0;
-                RootNode.TitleText = "Root";
-                RootNode.HasData = false;
-
-
-                // Create Root Node Data String and write it to the NodeDataStrings.txt file
-                // LeadingChars	CI	NodeName	NodeLevelName	ID	NOC	HasDataString
-
-                char D = '\u0240';
-                string RootNodeDataString = RootNode.LeadingChars + D + RootNode.CI + D + RootNode.TitleText + D + RootNode.NodeLevelName + D +
-                    RootNode.ID + D + RootNode.NOC + D + RootNode.HasData;
-
-                // Write RootNodeDataString to the NodeDataStrings.txt file
-                File.WriteAllText(SubjectsNodeDataStringsPath, RootNodeDataString);
-
-                //Add this rootnode to the SubjectNodeDictionary
-                SubjectStaticMembers.SubjectNodeDictionary.Add(RootNode.NodeLevelName, RootNode);
-
-                // Create the DisplayString for the root node
-                string RootDisplayString = $"{RootNode.LeadingChars}{RootNode.CI}{RootNode.TitleText}";
-
-                //Add this root node to the DisplayList
-                SubjectStaticMembers.DisplayList.Add(RootDisplayString);
-
-                // Add the root Node's NodeLevelName to the DisplaySubjectNodesList
-                SubjectStaticMembers.SubjectNodesLevelNameList.Add(RootNode.NodeLevelName);
-
-
-            }
-
-            else
+            else //open and read existing ItemCount.txt and NodeDataStrings.txt
             {
                 SubjectNodes RootNode = new SubjectNodes();
 
                 // Read in the current item count
                 string ItemCount = File.ReadAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt");
                 SubjectStaticMembers.ItemCount = ItemCount;
-
-
-
 
                 // Instantiate the Dictionary
                 SubjectStaticMembers.SubjectNodeDictionary = new Dictionary<string, SubjectNodes>();
@@ -163,9 +89,7 @@ namespace NewLSP.UserControls
                 // Create the delimiter
                 char D = '\u0240';
 
-
                 //Read in SubjectsNodeDataStringsPath 
-                //string[] SubjectNodeDataStringArray = File.ReadAllLines(SubjectsNodeDataStringsPath);
                 string[] SubjectNodeDataStringArray = File.ReadAllLines(SubjectsNodeDataStringsPath);
 
                 foreach (string line in SubjectNodeDataStringArray)
@@ -189,102 +113,16 @@ namespace NewLSP.UserControls
                     {
                         ThisNode.HasData = true;
                     }
-
-
-                    SubjectStaticMembers.SubjectNodeDictionary.Add(ThisNode.NodeLevelName, ThisNode);
+                   
                     ThisNode = new SubjectNodes();
 
-                }// End foreach
+                }// End open and read existing ItemCount.txt and NodeDataStrings.txt
+
                 SubjectStaticMembers.DisplayParentsAndChildren("*");
 
             }// End if else file subject file exists
 
-            //END ADED 20211203
-
-            // Save the Path to  the selected subject ends with \\
-            CommonStaticMembers.SubjectFolderPath = FolderPath;
-
-            //Create a folder to hold the QAFiles and path
-            if (!Directory.Exists(FolderPath + "QAFiles"))
-            {
-                // Tell the user he is creating a new subject folder and allow him to escape if necessary
-                if (MessageBox.Show("Do you want to create a new Subject folder?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                {
-                    FolderPath = "";
-                    CommonStaticMembers.SubjectFolderPath = FolderPath;
-                    goto SubjectFolder;
-                }
-
-
-                string ItemCount = "1";
-                File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
-
-                // Write the item count to SubjectStaticMembers.ItemCount
-                SubjectStaticMembers.ItemCount = ItemCount;
-                //Set up the properties of the new RootNode
-                //Create a new RootNode
-                SubjectNodes RootNode = new SubjectNodes(0);
-                RootNode.ID = 0;
-                RootNode.CI = "- ";
-                RootNode.NodeLevelName = "*";
-                string LeadingChars = "";
-                RootNode.LeadingChars = LeadingChars;
-                RootNode.NOC = 0;
-                RootNode.TitleText = "Root";
-                RootNode.HasData = false;
-
-                //Add this rootnode to the SubjectNodeDictionary
-                SubjectStaticMembers.AddNodeToDictionary(RootNode);
-
-                // Create the DisplayString for the root node
-                string RootDisplayString = $"{RootNode.LeadingChars}{RootNode.CI}{RootNode.TitleText}";
-
-                //Add this root node to the DisplayList
-                SubjectStaticMembers.DisplayList.Add(RootDisplayString);
-
-                // Add the root Node's NodeLevelName to the DisplaySubjectNodesList
-                SubjectStaticMembers.SubjectNodesLevelNameList.Add(RootNode.NodeLevelName);
-
-
-
-
-                Directory.CreateDirectory(FolderPath + "QAFiles");
-                CommonStaticMembers.DataNodesQAFilePath = FolderPath + "QAFiles";
-            }
-
-            //Create a folder to hold the QAResults and path
-            if (!Directory.Exists(FolderPath + "QAResults"))
-            {
-                Directory.CreateDirectory(FolderPath + "QAResults");
-                CommonStaticMembers.DataNodesQAResultsFilePath = FolderPath + "QAResults";
-            }
-
-            //Create a folder to hold the hyperlinks files and path
-            if (!Directory.Exists(FolderPath + "Hyperlinks"))
-            {
-                Directory.CreateDirectory(FolderPath + "Hyperlinks");
-                CommonStaticMembers.DataNodesHyperlinksPath = FolderPath + "Hyperlinks";
-            }
-
-            // Create a folder to hold the subject DataNodesNoteReferencesFiles and path
-            if (!Directory.Exists(FolderPath + "DataNodesNoteReferencesFiles"))
-            {
-                Directory.CreateDirectory(FolderPath + "DataNodesNoteReferencesFiles");
-                CommonStaticMembers.DataNodesNoteReferencesFilesPath = FolderPath + "DataNodesNoteReferencesFiles";
-
-
-            }
-
-
-            //Create a text file to hold the Itemcount and path
-            if (!File.Exists(FolderPath+ "ItemCount.txt"))
-            {
-                //File.Create(FolderPath + "ItemCount.txt");
-                File.WriteAllText(FolderPath + "ItemCount.txt", "0");
-
-                CommonStaticMembers.ItemCountPath = FolderPath + "ItemCount.txt";
-            }
-
+           
             btnOpenSubjectFolder.IsEnabled = false;
 
             //Communicate the FolderPath to the ViewModel.SubjectNodeViewModel's OpenFile method
@@ -428,7 +266,142 @@ namespace NewLSP.UserControls
             InstructionsStaticMembers.InstructionsFolderPath = InstructionsFolderPath;
         }
 
-        
+
+        /// <summary>
+        /// This private method is called when the user wants to create a new folder
+        /// </summary>
+        private void CreateNewSubjectFolderFilesAndfolders()
+        {
+
+            CreateNewNodeDataStringsFile();
+            CreateItemCountTextFile();
+            CreateQAFilesFolder();
+            CreateQAResultFolder();
+            CreateHyperlinksFolder();
+            CreateDataNodesNoteReferencesFilesFolder();
+        }
+
+        /// <summary>
+        /// Creates a new NodeDataString.txt file and populates it with a Root node
+        /// Called by CreateNewSubjectFolderFilesAndfolders()
+        /// </summary>
+        private void CreateNewNodeDataStringsFile()
+        {
+            // Create path to this subjects data file
+            CommonStaticMembers.SubjectsNodeDataStringsPath = CommonStaticMembers.HomeFolderPath + "NodeDataStrings.txt";
+
+            //Create a new RootNode
+            SubjectNodes RootNode = new SubjectNodes(0);
+
+            // Assign the CurrentItemCount to the Root node's ID
+            RootNode.ID = 0;
+            string ItemCount = "1";
+
+            //Write the new ItemCount to the ItemCount.txt file
+            File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
+
+            //Set up the properties of the new RootNode
+            RootNode.CI = "- ";
+            RootNode.NodeLevelName = "*";
+            int LengthNodeLevelName = RootNode.NodeLevelName.Length;
+            string LeadingChars = new string(' ', LengthNodeLevelName);
+            RootNode.LeadingChars = LeadingChars;
+            RootNode.NOC = 0;
+            RootNode.TitleText = "Root";
+            RootNode.HasData = false;
+
+
+            // Create Root Node Data String and write it to the NodeDataStrings.txt file
+
+            char D = '\u0240';
+            string RootNodeDataString = RootNode.LeadingChars + D + RootNode.CI + D + RootNode.TitleText + D + RootNode.NodeLevelName + D +
+                RootNode.ID + D + RootNode.NOC + D + RootNode.HasData;
+
+            // Write RootNodeDataString to the NodeDataStrings.txt file
+            File.WriteAllText(CommonStaticMembers.SubjectsNodeDataStringsPath, RootNodeDataString);
+
+            //Add this rootnode to the SubjectNodeDictionary
+            SubjectStaticMembers.SubjectNodeDictionary.Add(RootNode.NodeLevelName, RootNode);
+
+            // Create the DisplayString for the root node
+            string RootDisplayString = $"{RootNode.LeadingChars}{RootNode.CI}{RootNode.TitleText}";
+
+            //Add this root node to the DisplayList
+            SubjectStaticMembers.DisplayList.Add(RootDisplayString);
+
+            // Add the root Node's NodeLevelName to the DisplaySubjectNodesList
+            SubjectStaticMembers.SubjectNodesLevelNameList.Add(RootNode.NodeLevelName);
+
+        }
+
+        /// <summary>
+        /// Creates the ItemCpunt.txt file
+        /// Called by CreateNewSubjectFolderFilesAndfolders()
+        /// </summary>
+        private void CreateItemCountTextFile()
+        {
+            string ItemCount = "1";
+            File.WriteAllText(CommonStaticMembers.HomeFolderPath + "ItemCount.txt", ItemCount.ToString());
+            // Write the item count to SubjectStaticMembers.ItemCount
+            SubjectStaticMembers.ItemCount = ItemCount;           
+
+            CommonStaticMembers.ItemCountPath = CommonStaticMembers.HomeFolderPath + "ItemCount.txt";
+        }
+
+        private void CreateQAFilesFolder()
+        {
+            //Create a folder to hold the QAResults and path
+            if (!Directory.Exists(CommonStaticMembers.HomeFolderPath + "QAFiles"))
+            {
+                Directory.CreateDirectory(CommonStaticMembers.HomeFolderPath + "QAFiles");
+                CommonStaticMembers.DataNodesQAResultsFilePath = CommonStaticMembers.HomeFolderPath + "QAFiles";               
+            }
+        }
+
+        /// <summary>
+        /// Creates the QAReslts folder 
+        /// Is called by CreateNewSubjectFolderFilesAndfolders()
+        /// </summary>
+        private void CreateQAResultFolder()
+        {
+            //Create a folder to hold the QAResults and path
+            if (!Directory.Exists(CommonStaticMembers.HomeFolderPath + "QAResults"))
+            {
+                Directory.CreateDirectory(CommonStaticMembers.HomeFolderPath + "QAResults");
+                CommonStaticMembers.DataNodesQAResultsFilePath = CommonStaticMembers.HomeFolderPath + "QAResults";
+            }
+        }
+
+        /// <summary>
+        /// Creates the Hyperlinks folder
+        /// Is called by CreateNewSubjectFolderFilesAndfolders()
+        /// </summary>
+        private void CreateHyperlinksFolder()
+        {
+            //Create a folder to hold the hyperlinks files and path
+            if (!Directory.Exists(CommonStaticMembers.HomeFolderPath + "Hyperlinks"))
+            {
+                Directory.CreateDirectory(CommonStaticMembers.HomeFolderPath + "Hyperlinks");
+                CommonStaticMembers.DataNodesHyperlinksPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks";
+            }
+        }
+
+        /// <summary>
+        /// Creates the DataNodesReferencesFiles folder
+        /// Is called by CreateNewSubjectFolderFilesAndfolders()
+        /// </summary>
+        private void CreateDataNodesNoteReferencesFilesFolder()
+        {
+            // Create a folder to hold the subject DataNodesNoteReferencesFiles and path
+            if (!Directory.Exists(CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles"))
+            {
+                Directory.CreateDirectory(CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles");
+                CommonStaticMembers.DataNodesNoteReferencesFilesPath = CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles";
+            }
+        }
+
+
+
     }// End partial class Home 
 
 

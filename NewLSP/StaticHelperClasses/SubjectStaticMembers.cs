@@ -201,42 +201,26 @@ namespace NewLSP.StaticHelperClasses
         /// <param name="HomeFolderPat"></param>
         public static void OpenFiles(string ThisHomeFolderPath)
         {
-
-            // set HomeFolderPath
-            CommonStaticMembers.HomeFolderPath = ThisHomeFolderPath;
+            
 
             // Set DataNode Hyperlinks Path
+            
             CommonStaticMembers.DataNodesHyperlinksPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks";
 
             // Set the Path to the DataNodesNoteReferencesFilesPath
-
             CommonStaticMembers.DataNodesNoteReferencesFilesPath = CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles\\";
 
+            // The following can't be done here because no data node has been defined
+            // Set DataNodeNoteReferenceFilePath
+            //SubjectStaticMembers.SetDataNodeNoteReferenceFilePath();
 
 
-            // Get the name of the subject from the last item in the path 
-
-            // Get the number of '\\'s in FolderPath
-            int NumberOfSlashes = StringHelper.ReturnNumberOfDeliniters(CommonStaticMembers.HomeFolderPath, '\\');
-
-            // Get the Subjects Name from the item a position NumberOfSlashes -1
-            var FolderName = StringHelper.ReturnItemAtPos(CommonStaticMembers.HomeFolderPath, '\\', NumberOfSlashes - 1);
-
-            //Use the FolderName to name the Subject, and its main data files
-            SubjectName = FolderName;
-
-            // Create path to this subjects data file
+            //// Create path to this subjects data file
             SubjectsNodeDataStringsPath = CommonStaticMembers.HomeFolderPath + "NodeDataStrings.txt";
-            string SubjectNodesDataFilePath = SubjectsNodeDataStringsPath;
+            //string SubjectNodesDataFilePath = SubjectsNodeDataStringsPath;
 
-            // Test to see if this file exist and if not create it
-            if (!File.Exists(SubjectsNodeDataStringsPath))
-            {
-                //Do Nothing as of 2021 11 16 this section was transfered to the Home.xaml.cs
-
-            }
-            else
-            {
+            
+            
                 SubjectNodes RootNode = new SubjectNodes();
 
                 // Read in the current item count
@@ -255,10 +239,11 @@ namespace NewLSP.StaticHelperClasses
                 char D = '\u0240';
 
 
-                //Read in SubjectsNodeDataStringsPath 
-                //string[] SubjectNodeDataStringArray = File.ReadAllLines(SubjectsNodeDataStringsPath);
+                //Read in SubjectsNodeDataStringsPath  into a string array
                 string[] SubjectNodeDataStringArray = File.ReadAllLines(SubjectsNodeDataStringsPath);
 
+                //Create the SubjectNodeDictionary
+                // Parse each line in the SubjectNodeDataStringArray to add a dictionary item
                 foreach (string line in SubjectNodeDataStringArray)
                 {
                     // get the properties of a SubjectNode
@@ -288,7 +273,7 @@ namespace NewLSP.StaticHelperClasses
                 }// End foreach
                 DisplayParentsAndChildren("*");
 
-            }// End if else file subject file exists
+            
         }//End OpenFiles method
 
 
@@ -479,7 +464,10 @@ namespace NewLSP.StaticHelperClasses
         static string DataNodeNoteReferenceFilePath;
         public static void SetDataNodeNoteReferenceFilePath()
         {
-            DataNodeNoteReferenceFilePath = CommonStaticMembers.SubjectFolderPath + "DataNodesNoteReferencesFiles\\" + DataNode.ID.ToString() + ".txt";
+            SubjectNodes DateNode = new SubjectNodes();
+            DateNode = SubjectStaticMembers.DataNode;
+            int DataNodeId = DataNode.ID;
+            DataNodeNoteReferenceFilePath = CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles\\" + DataNodeId.ToString() + ".txt";
         }
 
         public static string GetDataNodeNoteReferenceFilePath()

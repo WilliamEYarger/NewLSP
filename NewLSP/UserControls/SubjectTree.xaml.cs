@@ -147,6 +147,10 @@ namespace NewLSP.UserControls
                 // The Key to the dictionary is 
                 SelectedNode = SubjectStaticMembers.SubjectNodeDictionary[NodeLevelName];
 
+                // 202112041342
+                SubjectStaticMembers.DataNode = SelectedNode;
+                // end addition of 202112041342
+
                 //Determine if this node has a QA file
                 int NodeID = SelectedNode.ID;
                 if (SubjectStaticMembers.NodeHasQAFile(NodeID))
@@ -396,9 +400,14 @@ namespace NewLSP.UserControls
         {
             // Set the SubjectStaticMembers DataNode
             SubjectStaticMembers.DataNode = SelectedNode;
+            int SubjectNodeId = SelectedNode.ID;
 
+            // TODO - 202112040731 comment out set 2nd line 
             //Set the DataNodeNoteReferenceFilePath()
-            SubjectStaticMembers.SetDataNodeNoteReferenceFilePath();
+            CommonStaticMembers.DataNodesNoteReferencesFilesPath = CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles\\" + SubjectNodeId.ToString() + ".txt";
+            
+
+            //DataNodeNoteReferenceFilePath = CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles\\" + DataNodeId.ToString() + ".txt";
 
             //blank the dataNodesQAFilePath
             SubjectStaticMembers.DataNodesQAFilePath = "";

@@ -509,19 +509,19 @@ namespace NewLSP.StaticHelperClasses
           
 
             //Get the DataNode's name
-            string DataNodeNoteReferenceFilePath = SubjectStaticMembers.GetDataNodeNoteReferenceFilePath();
+            //string DataNodeNoteReferenceFilePath = SubjectStaticMembers.GetDataNodeNoteReferenceFilePath();
             //Append this to the DataNodes DataNodesReferenceFile
            
-            if (File.Exists(DataNodeNoteReferenceFilePath))
+            if (File.Exists(CommonStaticMembers.DataNodesNoteReferencesFilesPath))
             {
-                File.AppendAllText(DataNodeNoteReferenceFilePath, DataNodesNoteReferenceString);
+                File.AppendAllText(CommonStaticMembers.DataNodesNoteReferencesFilesPath, DataNodesNoteReferenceString);
             }
             else
             {
                 // Create a new DataNodesReferenceFile
-                FileStream fs = File.Create(DataNodeNoteReferenceFilePath);
+                FileStream fs = File.Create(CommonStaticMembers.DataNodesNoteReferencesFilesPath);
                 fs.Close();
-                File.AppendAllText(DataNodeNoteReferenceFilePath, DataNodesNoteReferenceString);
+                File.AppendAllText(CommonStaticMembers.DataNodesNoteReferencesFilesPath, DataNodesNoteReferenceString);
             }
 
 

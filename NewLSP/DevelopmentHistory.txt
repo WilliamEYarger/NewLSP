@@ -1,4 +1,15 @@
-﻿20211203 When finished go back to 20211202  Update to 20211125 tasks 
+﻿20211204 Commit
+	Commitmessage: Set Hyperlinks path, set DataNodeNoteReferenceFilePath, 
+
+20211204
+	In Master
+	1. Set the hyperlinks path
+	2. DataNodeNoteReferenceFilePath is not defined  create it when a datanode is defined
+20211203:1601 Major Revision to Home.xaml.cs
+	1.	Simplify the Open files Method by putting all actions in new private methods
+
+
+20211203 When finished go back to 20211202  Update to 20211125 tasks 
 	There Was a Major error discovered. When the open files methods were moved to the Home.xaml.cs file
 	the method for creating a new 
 
