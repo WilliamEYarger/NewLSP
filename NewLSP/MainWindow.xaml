@@ -32,7 +32,7 @@
 
 
             <MenuItem x:Name="miQAPage" Header="QAPage">
-                
+
                 <MenuItem x:Name="CreateOrEdit"
                       Header="Create or Edit"
                       Click="CreateOrEdit_Click"/>
@@ -44,7 +44,7 @@
 
             <MenuItem  Name="miLinkNotes"  Header="Links-Notes Page" 
                        Click="miLinkNotes_Click"/>
-            
+
             <!--<MenuItem x:Name="miInstructions"
                       Header="InstructionsPage"
                       Click="miInstructions_Click"/>-->
@@ -54,12 +54,19 @@
         </Menu>
 
         <Grid Grid.Row="1">
-            <local:Home x:Name="ucHome" Visibility="Visible"></local:Home>
-            <local:SubjectTree x:Name="ucSubjectTree" Visibility="Collapsed"/>
-            <local:CreatEditQA x:Name="ucCreatEditQA" Visibility="Collapsed"/>
-            <local:TestReview x:Name="ucTestReview" Visibility="Collapsed"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="39*"/>
+                <ColumnDefinition Width="184*"/>
+            </Grid.ColumnDefinitions>
+            <local:Home x:Name="ucHome" Visibility="Visible" Grid.ColumnSpan="5" Margin="0,0,-0.4,0.4"></local:Home>
+            <local:SubjectTree x:Name="ucSubjectTree" Visibility="Collapsed" Grid.ColumnSpan="5" Margin="0,0,-0.4,0.4"/>
+            <local:CreatEditQA x:Name="ucCreatEditQA" Visibility="Collapsed" Grid.ColumnSpan="5" Margin="0,0,-0.4,0.4"/>
+            <local:TestReview x:Name="ucTestReview" Visibility="Collapsed" Grid.ColumnSpan="5" Margin="0,0,-0.4,0.4"/>
             <!--<local:Instrutions x:Name="ucInstructions" Visibility="Collapsed"/>-->
-            <local:Link_Note  x:Name="ucLinkNote" Visibility="Collapsed"/>
+            <local:Link_Note  x:Name="ucLinkNote" Visibility="Collapsed" Grid.ColumnSpan="5" Margin="0,0,-0.4,0.4"/>
         </Grid>
     </Grid>
 </Window>

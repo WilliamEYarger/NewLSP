@@ -41,7 +41,7 @@ namespace NewLSP.UserControls
         private void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             //Check to see if the QAResults directory exists and if not create it
-            string ResultsDirectoryPath = CommonStaticMembers.SubjectFolderPath+"QAResults";
+            string ResultsDirectoryPath = CommonStaticMembers.HomeFolderPath + "QAResults";
             if (!Directory.Exists(ResultsDirectoryPath))
             {
                 Directory.CreateDirectory(ResultsDirectoryPath);
@@ -483,5 +483,5 @@ namespace NewLSP.UserControls
 
         #endregion  Public Methods
 
-    }
-}
+    }//End TestReview User Control
+}// End NameSpace NewSP.UserControl

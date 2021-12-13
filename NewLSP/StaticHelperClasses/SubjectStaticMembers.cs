@@ -105,20 +105,6 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion Property NotesDictionaryPath
 
-
-        //#region Property TimelineFilePath
-
-        //private static string _TimelineFilePath;
-
-        //public static string TimelineFilePath
-        //{
-        //    get { return _TimelineFilePath; }
-        //    set { _TimelineFilePath = value; }
-        //}
-
-
-        //#endregion Property TimelineFilePath
-
         #endregion Properties
 
         #region Public Fields
@@ -356,8 +342,8 @@ namespace NewLSP.StaticHelperClasses
         #region Display a node's parents, the node and the nodes children (DisplayParentsAndChildren)
 
         /// <summary>
-        /// This method creates the List of display strings for the ListView
-        /// as well as a dictionary of Subject nodes whose
+        /// This method creates the List of display strings for the ListView 
+        /// as well as a dictionary of Subject nodes whose 
         /// </summary>
         /// <param name="ThisNode"></param>
         /// <returns></returns>
@@ -447,8 +433,7 @@ namespace NewLSP.StaticHelperClasses
         /// </summary>
         public static void SetDataNodesQAFilePath()
         {
-            //
-             DataNodesQAFilePath = CommonStaticMembers.SubjectFolderPath + "QAFiles\\" + DataNode.ID.ToString() + ".txt";
+             DataNodesQAFilePath = CommonStaticMembers.HomeFolderPath + "QAFiles\\" + DataNode.ID.ToString() + ".txt";
            
         }
 

@@ -1,4 +1,8 @@
-﻿20211204 Commit
+﻿20211213 COmMITED
+Commit Message: 1) Reopened previous version prior to deleting Instructions and corrected errors in creating a new subject
+
+
+20211204 Commit
 	Commitmessage: Set Hyperlinks path, set DataNodeNoteReferenceFilePath, 
 
 20211204

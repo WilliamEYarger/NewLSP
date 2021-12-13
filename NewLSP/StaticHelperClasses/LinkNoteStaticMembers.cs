@@ -374,7 +374,8 @@ namespace NewLSP.StaticHelperClasses
             //Create path to the DataNodeIDs notes file
             string IDFileName = SubjectStaticMembers.DataNode.ID.ToString();
             CommonStaticMembers.CurrentNoteIDInt = SubjectStaticMembers.DataNode.ID;
-            string DataNodesNotesPath = CommonStaticMembers.DataNodesNoteReferencesFilesPath  + IDFileName + ".txt";
+            //string DataNodesNotesPath = CommonStaticMembers.DataNodesNoteReferencesFilesPath  + IDFileName + ".txt";
+            string DataNodesNotesPath = CommonStaticMembers.DataNodesNoteReferencesFilesPath;
 
             // create a string array of all lines in the DataNodeReferences file
             string[] lines = System.IO.File.ReadAllLines(DataNodesNotesPath);

@@ -65,7 +65,7 @@ namespace NewLSP.UserControls
                 if (MessageBox.Show("Do you want to create a new Subject folder?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
                     FolderPath = "";
-                    CommonStaticMembers.SubjectFolderPath = FolderPath;
+                    CommonStaticMembers.HomeFolderPath = FolderPath;
                     goto SubjectFolder;
                 }
 
@@ -231,7 +231,6 @@ namespace NewLSP.UserControls
             // Set the initial value of CurrentNoteIDInt
 
             MessageBox.Show("Click SubjectTreePage and then Click SHOW DISPLAY LIST to see all of the Base subjects for this project");
-            // TODO - StartHere
 
             CommonStaticMembers.CurrentNoteIDInt = -1;
 

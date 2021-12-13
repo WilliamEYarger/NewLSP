@@ -29,7 +29,7 @@ namespace NewLSP.StaticHelperClasses
 
 
         /// <summary>
-        /// Holds the path the the DataNode's Note file
+        /// Holds the path the References folder NodeReferenceFile Folder
         /// </summary>
         private static string _NoteReferencesPath;
         /// <summary>

@@ -804,8 +804,6 @@ namespace NewLSP.UserControls
 
         private void ReadNotesIntoSelectNoteListBox()
         {
-            //List<string> ListOfNoteNameAndFileNames = LinkNoteStaticMembers.ListBoxOfSelectedNotesList;
-
             LinkNoteStaticMembers.ReadInNotesFile();
 
             // Clear lbxOpenSelectedNote and tbxDisplayKeyWords

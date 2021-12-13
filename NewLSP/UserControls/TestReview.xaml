@@ -25,7 +25,8 @@
             <Setter Property="Height" Value="40"/>
         </Style>
     </UserControl.Resources>
-    <Grid Background="White">
+    <!--< Main Grid>-->
+        <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -64,7 +65,8 @@
                           Click="UseForm_Click"/>
             </MenuItem>
         </Menu>
-        <StackPanel Orientation="Horizontal"
+        <!--<Horizontal Stack R1 ColSpan 2>-->
+            <StackPanel Orientation="Horizontal"
             Grid.Row="1" Grid.ColumnSpan="2"
                HorizontalAlignment="Center"    >
             <TextBlock Text="Questions and Answers for "
@@ -75,7 +77,8 @@
                 Text="CurrentSubject"
                 FontSize=" 18" FontWeight="Bold"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal"
+        <!--<Horozontal Stack Panel R2 ColSpan 2>-->
+            <StackPanel Orientation="Horizontal"
            Grid.Row="2" Grid.ColumnSpan="2"
            HorizontalAlignment="Center"
                     Margin="20 0 ">
@@ -86,7 +89,9 @@
                  FontSize=" 18" FontWeight="Bold"      
                        />
         </StackPanel>
-        <Border BorderThickness="5" BorderBrush="Black"
+
+        <!-- Grid R3 C0 Questions -->
+        <Border BorderThickness="5" BorderBrush="Black"     
            Grid.Row="3" Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -101,6 +106,8 @@
                          Grid.Row="1"/>
             </Grid>
         </Border>
+
+        <!-- Grid R3 C1 Answers -->
         <Border BorderThickness="5" BorderBrush="Black"
            Grid.Row="3" Grid.Column="1">
             <Grid>
@@ -117,6 +124,7 @@
                          Grid.Row="1"/>
             </Grid>
         </Border>
+        <!-- Grid R4 C0 Edits -->
         <Border BorderThickness="5" BorderBrush="Black"
            Grid.Row="4" Grid.Column="0">
             <Grid>
@@ -155,6 +163,8 @@
                         Click="btnSaveEdits_Click" />
             </Grid>
         </Border>
+
+        <!-- Grid R4 C1 Correct Answer -->
         <Border BorderThickness="5" BorderBrush="Black"
                 Grid.Column="1" Grid.Row="4">
             <Grid>

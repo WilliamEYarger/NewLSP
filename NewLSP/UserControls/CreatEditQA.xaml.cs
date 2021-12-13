@@ -159,9 +159,6 @@ namespace NewLSP.UserControls
         }
 
 
-
-
-
         #endregion Menu Items Click Methods
 
 
@@ -169,36 +166,11 @@ namespace NewLSP.UserControls
         {
            
             AddThisQAPairToTheDictionary();
-            
-
-            //// Change \r\n to ~
-            //string thisQuestion = tbxQuestion.Text;
-            //thisQuestion = thisQuestion.Replace("\r\n", "~");
-            //string thisAnswer = tbxAnswer.Text;
-            //thisAnswer = thisAnswer.Replace("\r\n", "~");
-            //QADataModelObject.Question = thisQuestion;
-            //QADataModelObject.Answer = thisAnswer;
-            //QADataModelObject.QuestionJpgUrl = QuestionJpgUrl;
-            //QADataModelObject.QuestionMp3Url = QuestionMp3Url;
-            //QADataModelObject.AnswerJpgUrl = AnswerJpgUrl;
-            //QADataModelObject.AnswerMp3Url = AnswerMp3Url;
-            //// Save the current  QADataModelObject
-            //QAStaticMembers.AddQAObjectToDictionary(QAStaticMembers.CurrentQANumberInt.ToString(), QADataModelObject);
-
-            //// Clear this object and create a new one
-            //QADataModelObject = null;
-            //QADataModelObject = new QADataModel();
-
-            //// Increment the current question number
-            //QAStaticMembers.CurrentQANumberInt++;
-
-
             //send the current quesntion number string to tbkCurrentQuestionNumber
             tbkCurrentQuestionNumber.Text = QAStaticMembers.CurrentQANumberInt.ToString();
 
 
             // Clear the controls data and data string
-
            
             tbxQuestion.Text = "";
             tbxAnswer.Text = "";
@@ -305,24 +277,6 @@ namespace NewLSP.UserControls
             // Increment the current question number
             QAStaticMembers.CurrentQANumberInt++;
 
-
-            
-           
-            //QADataModelObject.Question = thisQuestion;
-            //QADataModelObject.Answer = thisAnswer;
-            //QADataModelObject.QuestionJpgUrl = QuestionJpgUrl;
-            //QADataModelObject.QuestionMp3Url = QuestionMp3Url;
-            //QADataModelObject.AnswerJpgUrl = AnswerJpgUrl;
-            //QADataModelObject.AnswerMp3Url = AnswerMp3Url;
-            //// Save the current  QADataModelObject
-            //QAStaticMembers.AddQAObjectToDictionary(QAStaticMembers.CurrentQANumberInt.ToString(), QADataModelObject);
-
-            //// Clear this object and create a new one
-            //QADataModelObject = null;
-            //QADataModelObject = new QADataModel();
-
-            //// Increment the current question number
-            //QAStaticMembers.CurrentQANumberInt++;
         }
 
         #endregion AddThisQAPairToTheDictionary

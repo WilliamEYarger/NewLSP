@@ -18,7 +18,7 @@ namespace NewLSP
 
         private void miHome_Click(object sender, RoutedEventArgs e)
         {
-            SetActiveUserControl(ucHome);
+             SetActiveUserControl(ucHome);
         }
 
         private void miSubjectTree_Click(object sender, RoutedEventArgs e)
@@ -42,8 +42,6 @@ namespace NewLSP
 
             SetActiveUserControl(ucSubjectTree);
         }
-
-       
 
         private void miTest_Click(object sender, RoutedEventArgs e)
         {
@@ -84,58 +82,6 @@ namespace NewLSP
             MessageBox.Show("You must select a Test/Review action first. If you want to randomize the questions select QuestionOrder -> Randomize first" );
         }
 
-
-//        private void miInstructions_Click(object sender, RoutedEventArgs e)
-//        {
-
-//            if (QAStaticMembers.DictionaryChanged == true)
-//            {
-//                if (MessageBox.Show("There are unsaved changes to the QADictionary. Do you want to ignore them?", "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-//                {
-//                    // Close the window  
-//                }
-//                else
-//                {
-//                    return;
-//                }
-//            }
-
-//            if (InstructionsStaticMembers.InstructionsFolderPath == "")
-//            {
-//                MessageBox.Show("You cannot open this page until you have selected the instructions folder!" +
-//                    "Instructions for creating or opening the Instructions Page \r\n"+
-//                    "1.To select or create the folder which will hold the Instructions for using this program. \r\n" +
-
-//    "First click the “Create or Open Instructions Folder” button \r\n" +
-//"2.When the Open File Dialog opens single click on an existing instructions folder IF YOU HAVE \r\n" +
-// " PREVIOUSLY DESIGNATED IT and then click the Select Folder button at the bottom \r\n" +
-//"3.If You wish to create a new instructions folder, after clicking the “Create or Open the Subject \r\n" +
-//  "Folder” button \r\n" +
-
-//    "a.Locate the folder where this new instructions folder will be located \r\n" +
-
-//    "b.Right click the file dialog screen and click “New” -> “Folder” \r\n"+
-
-//    "c.When the New folder appear, click it once(The background will turn blue) and replace \r\n" +
-
-//        "New folder with _Instructions \r\n" +
-
-//    "d.Click the Select Folder button at the bottom. \r\n" +
-//"4.Only after you have created or selected a Subject folder will you be able to open the \r\n" +
-
-//    "InstructionsPage" );
-//                string[] readText = File.ReadAllLines(InstructionsStaticMembers.InstructionsFolderPath +
-//                    "Instructions for creating or opening the Instructions Page.txt");
-//                string InstructionsText = "";
-//                foreach (string line in readText)
-//                {
-//                    InstructionsText = InstructionsText + line + "\r\n";
-//                }
-//                MessageBox.Show(InstructionsText);
-//                return;
-//            }
-//            SetActiveUserControl(ucInstructions);
-//        }
 
         public void SetActiveUserControl(UserControl control)
         {
@@ -203,9 +149,10 @@ namespace NewLSP
                 }
 
                 //      c. Test to see if this data node has a DataNodeReference file and if so set  HadDataNodeReferenceFile to true
-                string DataNodesReferenceFilePath = CommonStaticMembers.DataNodesNoteReferencesFilesPath + SubjectStaticMembers.DataNode.ID.ToString() +
-                    ".txt";
-                if (File.Exists(DataNodesReferenceFilePath))
+                string DataNodesReferenceFilePath = CommonStaticMembers.DataNodesNoteReferencesFilesPath; 
+                
+                
+                if (File.Exists(CommonStaticMembers.DataNodesNoteReferencesFilesPath))
                 {
                     HadDataNodeReferenceFile = true;
                 }

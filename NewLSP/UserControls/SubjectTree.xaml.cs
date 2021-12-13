@@ -402,12 +402,10 @@ namespace NewLSP.UserControls
             SubjectStaticMembers.DataNode = SelectedNode;
             int SubjectNodeId = SelectedNode.ID;
 
-            // TODO - 202112040731 comment out set 2nd line 
+             
             //Set the DataNodeNoteReferenceFilePath()
             CommonStaticMembers.DataNodesNoteReferencesFilesPath = CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles\\" + SubjectNodeId.ToString() + ".txt";
             
-
-            //DataNodeNoteReferenceFilePath = CommonStaticMembers.HomeFolderPath + "DataNodesNoteReferencesFiles\\" + DataNodeId.ToString() + ".txt";
 
             //blank the dataNodesQAFilePath
             SubjectStaticMembers.DataNodesQAFilePath = "";
