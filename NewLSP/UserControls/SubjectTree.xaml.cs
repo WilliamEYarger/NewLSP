@@ -412,7 +412,11 @@ namespace NewLSP.UserControls
 
             //sets the int CurrentQANumberInt  and QAStaticMembers.CurrentQANumberInt to 0
             QAStaticMembers.CurrentQANumberInt = 0;
+            // TODO - instantiate the hyperlinks dictionary here
 
+            // It the hyperlinks dictionary is null instantiate it
+
+            ////if(LinkNoteStaticMembers.HyperlinkDictionary == nu)
 
             // Clear the hyperlink dictionary
             LinkNoteStaticMembers.HyperlinkDictionary.Clear();

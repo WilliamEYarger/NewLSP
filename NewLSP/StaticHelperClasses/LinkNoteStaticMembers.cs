@@ -40,8 +40,6 @@ namespace NewLSP.StaticHelperClasses
             set { _FileType = value; }
         }
 
-
-
         #endregion FileType
 
 
@@ -60,8 +58,6 @@ namespace NewLSP.StaticHelperClasses
         }
 
 
-
-
         #endregion  BookMarks
 
         #region HyperlinkName
@@ -74,28 +70,39 @@ namespace NewLSP.StaticHelperClasses
             set { _HyperlinkName = value; }
         }
 
-
         #endregion HyperlinkName
 
         #region HyperlinkDictionary
-
 
         /// <summary>
         /// This Dictionary uses the item's position in the lbxLinks ListBox
         /// as the Key and a HyperlinkObject as the value
         /// The HyperlinkObject contains: 1) the BookMark, 2) the Name,
         /// 3) the Url and 4) the FileType
-        /// </summary>
-        public static Dictionary<int, LinkNoteModel.HyperlinkObject> HyperlinkDictionary = new Dictionary<int, LinkNoteModel.HyperlinkObject>();
+        /// </summary>);
+
+        private static Dictionary<int, LinkNoteModel.HyperlinkObject> _HyperlinkDictionary = new Dictionary<int, LinkNoteModel.HyperlinkObject>();
+
+        public static Dictionary<int, LinkNoteModel.HyperlinkObject> HyperlinkDictionary
+        {
+            get 
+            { 
+                return _HyperlinkDictionary; 
+            }
+            set { _HyperlinkDictionary = value; }
+        }
+
 
         #endregion HyperlinkDictionary
 
         #region HyperlinkUrls
         /// <summary>
         /// This is a list of hyperlinks to files of web sites chosen by the user
-        /// to be associated with a givin DataNode
+        /// to be associated with a givin DataNode 
+        /// It is only called locally by the  SetHyperlinkStringsList( method
         /// </summary>
-        public static List<string> HyperlinkUrls = new List<string>();
+
+        private static List<string> HyperlinkUrls = new List<string>();
 
         #endregion HyperlinkUrls
 
@@ -106,19 +113,31 @@ namespace NewLSP.StaticHelperClasses
         /// a hyperlink objects added to the list<string> HyperlinkStringsList
         /// Called by LinkNote.xaml.cs miSaveHyperlink_Clic
         /// </summary>
-        public static List<string> HyperlinkStringsList = new List<string>();
+       
+        private static List<string> _HyperlinkStringsList = new List<string>();
+
+        public static List<string> HyperlinkStringsList
+        {
+            get { return  _HyperlinkStringsList; }
+            set { List<string> _HyperlinkStringsList = value; }
+        }
+
         #endregion HyperlinkStringsList
 
         #region ListOfNoteNames
 
         private static List<string> _ListOfNoteNames;
-
+        /// <summary>
+        /// This is created by the  local ReadInNotesFile( method
+        /// which is called by the LinkNOtes.xaml.cs ReadNotesIntoSelectNoteListBox((
+        ///     When the user clicks the miShowNote_Click( Show Notes menu item or by
+        ///     miDisplayNoteNames_Click( 
+        /// </summary>
         public static List<string> ListOfNoteNames
         {
             get { return _ListOfNoteNames; }
             set { _ListOfNoteNames = value; }
         }
-
 
         #endregion ListOfNoteNames
 
@@ -135,48 +154,8 @@ namespace NewLSP.StaticHelperClasses
             set { _ListOfNoteReferceFileNames = value; }
         }
 
-
         #endregion ListOfNoteReferceFileNames
 
-        #region ListOfNoteHyperlinks
-
-        private static List<string> _ListOfNoteHyperlinks;
-
-        public static List<string> ListOfNoteHyperlinks
-        {
-            get { return _ListOfNoteHyperlinks; }
-            set { _ListOfNoteHyperlinks = value; }
-        }
-
-
-        #endregion ListOfNoteHyperlinks
-
-
-        #region ListOfNoteBookMarks
-
-        private static List<string> _ListOfNoteBookMarks;
-
-        public static List<string> ListOfNoteBookMarks
-        {
-            get { return _ListOfNoteBookMarks; }
-            set { _ListOfNoteBookMarks = value; }
-        }
-
-
-        #endregion ListOfNoteBookMarks
-
-        #region ListOfNoteKeyWords
-
-        private static List<string> _ListOfNoteKeyWords;
-
-        public static List<string> ListOfNoteKeyWords
-        {
-            get { return _ListOfNoteKeyWords; }
-            set { _ListOfNoteKeyWords = value; }
-        }
-
-
-        #endregion ListOfNoteKeyWords
 
         #region CurrentNote26Name
         /// <summary>
@@ -184,14 +163,22 @@ namespace NewLSP.StaticHelperClasses
         /// is is created by taking the current number of files in the
         /// NoteReferenceFile folder  and converting it to a base 26 integer which 
         /// uses all Alpha Characters from A to Z where A = 0 and Z= 25 and AA = 26 etc
+        /// It is call by LinkNoteStaticMember methods:
+        /// SaveAndUpdateNoteReferenceAndKeywords( two times
         /// </summary>
         public static string CurrentNote26Name;
+
+        
+
 
         #endregion CurrentNote26Name
 
         #region ListBoxOfSelectedNotesList
         private static List<string> _ListBoxOfSelectedNotesList;
-
+        /// <summary>
+        /// This list contains the strings that will be displayed in the 
+        /// lbxOpenSelectedNote ListBox of Notes  
+        /// </summary>
         public static List<string> ListBoxOfSelectedNotesList
         {
             get { return _ListBoxOfSelectedNotesList; }
@@ -201,23 +188,13 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion ListBoxOfSelectedNotesList
 
-        #region NewDataNodesNoteReferenceFileName
-
-        private static string _NewDataNodesNoteReferenceFileName;
-
-        public static string NewDataNodesNoteReferenceFileName
-        {
-            get { return _NewDataNodesNoteReferenceFileName; }
-            set { _NewDataNodesNoteReferenceFileName = value; }
-        }
-
-
-        #endregion NewDataNodesNoteReferenceFileName
-
         #region DataNodesNoteReferenceString
 
         private static string _DataNodesNoteReferenceString;
-
+        /// <summary>
+        /// This is a string Where the Name of the Note appears in the lbxOpenSelectedNote 
+        /// ListBox while the NoteCurrentNote26Name (the DataNode's ID)  is spaced out of view
+        /// </summary>
         public static string DataNodesNoteReferenceString
         {
             get { return _DataNodesNoteReferenceString; }
@@ -227,23 +204,71 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion  DataNodesNoteReferenceString
 
-
         #region EditingBoolean
         private static bool _EditingBoolean = false;
-
+        /// <summary>
+        /// This is set true if the user checks the rbtEdit radio button 
+        /// calling rbtEdit_Click(;
+        /// It means that the data in the current Note or HyperLink can be edited
+        /// </summary>
         public static bool EditingBoolean
         {
             get { return _EditingBoolean ; }
             set { _EditingBoolean  = value; }
         }
 
-
         #endregion EditingBoolean
 
+        #region DelStrOfKeyWordsAndComments
+
+        /// <summary>
+        /// This string contains all of the KeyWords and '#' comments of a right Mouse button 
+        /// selected NoteRefeerenceFile 
+        /// It is called by Link_Note.xaml.cs.lbxOpenSelectedNote_PreviewMouseRightButtonUp( Method
+        /// </summary>
+        public static string DelStrOfKeyWordsAndComments { get; internal set; }
+
+        #endregion DelStrOfKeyWordsAndComments
+
+        #region ShowAllKeyWords boolean
+
+        private static bool _ShowAllKeywords;
+
+        /// <summary>
+        /// If this bool is true all keywords and comments will be displaed when the user right clicks
+        /// the Link_Note.xaml.cs.lbxOpenSelectedNote_PreviewMouseRightButtonUp( Method
+        /// If it is false, then only the selected KeyWord and its following '#' comments will be shown
+        /// </summary>
+        public static bool ShowAllKeywords
+        {
+            get { return _ShowAllKeywords; }
+            set { _ShowAllKeywords = value; }
+        }
+
+
+
+
+        #endregion ShowAllKeyWords boolean
+
+        #region SelectedKeyWord
+        /// <summary>
+        /// This string represents the KeyWord the user has selected to search for in all notes
+        /// </summary>
+        public static string SelectedKeyWord { get; internal set; }
+
+
+        /// <summary>
+        /// If the user clicks the Search radiobutton then KeyWordSearch is true
+        /// </summary>
+        public static bool KeyWordSearch { get; internal set; }
+
+        /// <summary>
+        /// This is the Key word chosen when the user is in the Search mode
+        /// </summary>
+        public static string SearchKeyWord { get; internal set; }
+        #endregion SelectedKeyWord
 
         #endregion Properties
-
-
 
         #region Public Methods
 
@@ -264,13 +289,17 @@ namespace NewLSP.StaticHelperClasses
 
         #endregion AddHyperlinkToList
 
-
         #region AddItemToHyperlinkDictionary
-
+        /// <summary>
+        /// When the user clicks the Open Hyperlink Menu item 
+        /// The 'cntr' parameter specifies the number of individual hyperlink references
+        /// each hyperlink is on a single line delinited by \r\n return characters
+        /// the meth0d then adds it to the HyperlinkDictionary
+        /// </summary>
+        /// <param name="cntr"></param>
+        /// <param name="thisHyperlinkObject"></param>
         public static void AddItemToHyperlinkDictionary(int cntr, LinkNoteModel.HyperlinkObject thisHyperlinkObject)
-        {
-            
-
+        {   
             HyperlinkDictionary.Add(cntr, thisHyperlinkObject);
         }
 
@@ -368,7 +397,12 @@ namespace NewLSP.StaticHelperClasses
 
         #region ReadInNotesFile
 
-
+        /// <summary>
+        /// Uses the DataNode.ID to create a path to the References DataNodesNoteReferencesFiles 
+        /// folder's DataNodeReference file text file
+        /// It Creates a list of each 
+        /// 
+        /// </summary>
         public static void ReadInNotesFile()
         {
             //Create path to the DataNodeIDs notes file
