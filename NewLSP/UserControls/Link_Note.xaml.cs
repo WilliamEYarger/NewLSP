@@ -260,11 +260,6 @@ namespace NewLSP.UserControls
                 // Get the DataNodesNoteReferenceString and append it to the lbxOpenSelectedNote listBox
                 string DataNodesNoteReferenceString = LinkNoteStaticMembers.DataNodesNoteReferenceString;
 
-               
-
-
-                //LinkNoteStaticMembers.SaveDataNodesNoteReferenceString(DataNodesNoteReferenceString);
-
                 string NoteName = StringHelper.ReturnItemAtPos(DataNodesNoteReferenceString, '^', 0);
                 string NoteCurrentNote26Name = StringHelper.ReturnItemAtPos(DataNodesNoteReferenceString, '^', 1);
 
@@ -330,7 +325,7 @@ namespace NewLSP.UserControls
 
                 LinkNoteStaticMembers.HyperlinkDictionary.Clear();
 
-
+               
 
                 lbxLinks.Items.Clear();
                 int HyperlinkCntr = 0;
@@ -429,6 +424,7 @@ namespace NewLSP.UserControls
             rbtSearch.IsChecked = false;
             rbtEdit.IsChecked = false;
             LinkNoteStaticMembers.EditingBoolean = false;
+            LinkNoteStaticMembers.SearchKeyWord = null;
 
             LinkNoteStaticMembers.HyperlinkDictionary.Clear();
         }
@@ -436,29 +432,11 @@ namespace NewLSP.UserControls
 
         #endregion ResetPage MenuItem
 
-        #region Instructions Menu
-
-        #region Create New Hyperlink Instructions Menu Item
-
-        private void miCreateNewHyperlinkInstructions_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
-        #endregion Create New Hyperlink Instructions Menu Item
-
-        #endregion Instructions Menu
-
-
         #endregion Menu Click Methods
 
-
         #region Private Methods
-
       
         #region FileType combobox changed method
-
 
         /// <summary>
         /// When the File type is changed this method
@@ -754,8 +732,8 @@ namespace NewLSP.UserControls
 
         #region Show Key Words of Right Selected Note Name
         /// <summary>
-        /// This method displays the Key words associated with the
-        /// Note name that the User clicks with the Right Mouse button
+        /// This method uses the selected Note name right clicked in the OpenSelectedNote list box 
+        /// to create a global string DelStrOfKeyWordsAndComments
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -764,7 +742,7 @@ namespace NewLSP.UserControls
             //get the selected items text string
             string SelectedItemsText = lbxOpenSelectedNote.SelectedItem.ToString();
 
-            // Get the Common references NoteReference file name from this string
+            // Get the Common references NoteReference file name from this string by calling the selected Note Reference file name which is off the visible page
             string NotereferenceFileName = StringHelper.ReturnItemAtPos(SelectedItemsText, '^', 1);
 
             // Use this value to set the CurrentNote26Name
@@ -773,25 +751,64 @@ namespace NewLSP.UserControls
             // Create a path to the NoteReferenceFile
             string NoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + NotereferenceFileName + ".txt";
 
-            // Read in the text in the NoteReferenceFile
-            string NoteReferenceFileText = File.ReadAllText(NoteReferenceFilePath);
+            // Read in the text in the NoteReferenceFile into a single ';' delimited string storred as DelStrOfKeyWordsAndComments
+            LinkNoteStaticMembers.DelStrOfKeyWordsAndComments = File.ReadAllText(NoteReferenceFilePath);
 
-            //Get the KeyWords section
-            string KeyWordsString = StringHelper.ReturnItemAtPos(NoteReferenceFileText, '^', 3);
+            // Create a string variable to hold the keywords and comments that will be displayed in the 
+            //  tbxDisplayKeyWords TextBox
+            string KeyWordsString = "";
+            string tbxDisplayKeyWordsTextStr = "";
 
-            //Delete the last ';'
-            KeyWordsString = KeyWordsString.Substring(0, KeyWordsString.Length - 1);
+            if (LinkNoteStaticMembers.ShowAllKeywords)
+            // The ShowAllKeywords radio button is clicked so show all keywords and comments
+            {
+                //Get the KeyWords section  
+                KeyWordsString = StringHelper.ReturnItemAtPos(LinkNoteStaticMembers.DelStrOfKeyWordsAndComments, '^', 3);
 
-            // replace all ';' with \r\n
-            KeyWordsString = KeyWordsString.Replace(";", "\r\n");
+                //Delete the last ';'
+                KeyWordsString = KeyWordsString.Substring(0, KeyWordsString.Length - 1);
 
-            // Display tbxDisplayKeyWords
-            tbxDisplayKeyWords.Text = KeyWordsString;
+                // replace all ';' with \r\n
+                KeyWordsString = KeyWordsString.Replace(";", "\r\n");
 
-            
+                // Display tbxDisplayKeyWords
+                tbxDisplayKeyWords.Text = KeyWordsString;
+            }
+            // the Show only selected Keywords radiobutton is checked so show only the selected KeyWord and its following '#' comments
+            {
+                KeyWordsString = StringHelper.ReturnItemAtPos(LinkNoteStaticMembers.DelStrOfKeyWordsAndComments, '^', 3);
 
+                // Get the SelectedKeyWord
+                string SearchKeyWord = LinkNoteStaticMembers.SearchKeyWord;
 
-        }
+                if(SearchKeyWord == null)
+                {
+                    MessageBox.Show("You must have designated a single search key word.");
+                    return;
+                }
+
+                // Find its position in the KeyWordsString
+                int posKeyWord = StringHelper.GetItemNumberOfThisSubstring(KeyWordsString, SearchKeyWord, ';');
+                if (posKeyWord != -1)
+                {
+                    // this is the position of the selected key word
+                    tbxDisplayKeyWordsTextStr = SearchKeyWord + "\r\n";
+                    // Set the position of the next item in the KeyWordsString
+                    int nextItemPos = posKeyWord + 1;
+                    string nextItem = StringHelper.ReturnItemAtPos(KeyWordsString, ';', nextItemPos);
+                    while (nextItem.Substring(0, 1) == "#")
+                    {
+                        tbxDisplayKeyWordsTextStr = tbxDisplayKeyWordsTextStr + nextItem + "\r\n";
+                        nextItemPos++;
+                        nextItem = StringHelper.ReturnItemAtPos(KeyWordsString, ';', nextItemPos);
+                        if (nextItem == "") break;
+                    }
+                    // Display tbxDisplayKeyWords
+                    tbxDisplayKeyWords.Text = tbxDisplayKeyWordsTextStr;
+
+                }
+            }
+        }// End lbxOpenSelectedNote_PreviewMouseRightButtonUp(
 
 
 
@@ -822,6 +839,9 @@ namespace NewLSP.UserControls
 
         #region PopulateNoteListBox
 
+        /// <summary>
+        /// Called by  miDisplayNoteNames_Click(
+        /// </summary>
         private void PopulateNoteListBox()
         {
             List<string> NoteNamesList = LinkNoteStaticMembers.ListOfNoteNames;
@@ -839,11 +859,16 @@ namespace NewLSP.UserControls
 
         #endregion  Private Methods
 
-        #region KeyWord Controls
+        #region Link_Note UserControl Methods
 
         
 
         #region RadioButton Add
+        /// <summary>
+        /// Called when the  user checks the Add Radio button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rbtAdd_Click(object sender, RoutedEventArgs e)
         {
             btnRevert.Visibility = Visibility.Hidden;
@@ -860,7 +885,8 @@ namespace NewLSP.UserControls
 
         /// <summary>
         /// Sets the ListAccess boolean to false because the program is 
-        /// in the Search mode and new KeyWords are not allowed
+        /// in the Search mode and new KeyWords are not allowed 
+        /// It also sets the properts KeyWordSearch boolean to true
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -868,9 +894,9 @@ namespace NewLSP.UserControls
         {
             tbxAllKeyWords.Text = "";
             KeyWordsStaticMembers.ListAccess = false;
+            LinkNoteStaticMembers.KeyWordSearch = true;
+           
         }
-
-
 
         #endregion Radio button Search
 
@@ -879,11 +905,11 @@ namespace NewLSP.UserControls
         /// <summary>
         /// Take the characters typed into lbxKeyWords and show all terms in KeyWordList that start with these characters
         /// If the User Hits the Enter Key
-        ///     a. If there are itemn in the list, in either mode return the top item in the list
+        ///     a. If there is data in the list of Keywords in the lbxKeyWords ListBox, 
+        ///        in either Add or Search mode then it returns the top item in the list
         ///     b. If there are no Items
         ///         1)  In search, Warn and return
         ///         2)  In Create, create a new KeyWord from the characters in the textbox
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -893,7 +919,13 @@ namespace NewLSP.UserControls
             //Clear the current content of lbxKeyWords 
             lbxKeyWords.Items.Clear();
 
-            // Cycle through KeyWordList selecting all that begin with the characters in tbxInput
+            /*  Create a List of KeyWords whose leading chars match the substring in the input textbox
+                Cycle through the list of all key words in the KeyWords dictionary
+                and list, selecting all that begin with the characters in tbxInput
+                and place them in the Listbox of matching key words so that the user
+                can either select the 0th entry by hitting return or one down in 
+                in the list by left clicking it
+            */
             foreach (string line in KeyWordsStaticMembers.KeyWordList)
             {
                 //In the current line begins with the characters in tbxInput add line to lbxKeyWords
@@ -903,7 +935,7 @@ namespace NewLSP.UserControls
                 }
             }
 
-            //If the user hits the Enter key
+            /* If the user hits the Enter key */
             if (e.Key == Key.Enter)
             {
                 if (rbtEdit.IsChecked == true) KeyWordsStaticMembers.ListAccess = true;
@@ -913,26 +945,23 @@ namespace NewLSP.UserControls
                 // If you are in the search mode and you type characters which do not occur at the start of 
                 // any words in the listof KeyWords yoy get the following message
                 //ListAccess is the abilits to access the current list of keywords
-                if (!KeyWordsStaticMembers.ListAccess)
-                {
+                if (!KeyWordsStaticMembers.ListAccess)                {
                     // If lbxKeyWords is empty in the Search statge send a message that you can only accepts existing keywords
                     if (lbxKeyWords.Items.Count == 0)
                     {
                         MessageBox.Show("When You are in the Search mode you can only search for existing Keywords");
-
                         // return to UI
                         return;
                     }
                 }
-
-
                 string KeyWord = "";
-
-                // !! IF THERE ARE KEYWORDS IN THE KEY WORD LIST BOX AND YOU HIT RETURN THE WORD AT POSITION 0 IS SELECTED 11 //
-                //Determine if there are Keywords showing in lbxKeyWords and if so select #0 and return
+                /* Determine if there are Keywords showing in lbxKeyWords then select #0,  
+                 * Set  LinkNoteStaticMembers.SelectedKeyWord to this value, 
+                 * Add the keyword to the tbxAllKeyWords.Text, 
+                 * and return */
                 if (lbxKeyWords.Items.Count != 0)
+                //There is data in the lbxKeyWords ListBox
                 {
-
                     // Create a list from the KeyWords in lbxKeyWords so that the 0th item can be chosen
                     List<string> myCurrentKeyWordsList = new List<string>();
                     // Populate  myCurrentKeyWordsList with the selected columns.
@@ -940,24 +969,22 @@ namespace NewLSP.UserControls
                     {
                         myCurrentKeyWordsList.Add(thisKeyWordItem);
                     }
-
                     //Set the Selected KeyWord to the 0th entry
                     KeyWord = myCurrentKeyWordsList[0];
-
+                    //Set the LinkNoteStaticMembers.SelectedKeyWord string to this value
+                    LinkNoteStaticMembers.SelectedKeyWord = KeyWord;
+                    LinkNoteStaticMembers.SearchKeyWord = KeyWord;
+                    if (LinkNoteStaticMembers.KeyWordSearch)
                     // add this Keyword to the list of selected keywords
                     tbxAllKeyWords.Text = tbxAllKeyWords.Text + KeyWord + ';';
-
                     //Clear tbxInput
                     tbxInput.Text = "";
-
                     //Clear lbxKeyWords
                     lbxKeyWords.Items.Clear();
-
                     //retrun  to UI
                     return;
-                }
-
-                // !! IF THERE ARE NO WORDS IN THE KEYWORD LIST BOX AND YOU HIT RETURN THIS CONVERTS THE TEXT IN THE INPUT TEXT BOX INTO A NEW KEY WORD !! //
+                }// End there is data in the lbxKeyWords ListBox
+                // If the program reaches this point, there is no data in the lbxKeyWords ListBox
                 // Create a new KeyWord from the current text in tbxInput
                 KeyWord = tbxInput.Text;
 
@@ -999,7 +1026,7 @@ namespace NewLSP.UserControls
                 KeyWordsStaticMembers.AppendNewKeyWordDictionaryItemString(ConvertedThisKeyWord);
 
                 tbxInput.Text = "";
-            }
+            }// End Enter Key clicked
 
             // Code to clear tbxInput if backspace results in empty text
             if (e.Key == Key.Back)
@@ -1012,11 +1039,25 @@ namespace NewLSP.UserControls
 
         #region lbxKeyWords_MouseLeftButtonUp
 
-
+        /// <summary>
+        /// This method is called when the user selects a KeyWord from the list of KeyWords in the lbxKeyWords ListBox  
+        /// by left clicking it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lbxKeyWords_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             string KeyWord = "";
-            try { KeyWord = lbxKeyWords.SelectedItem.ToString(); }
+            try 
+            { 
+                KeyWord = lbxKeyWords.SelectedItem.ToString();
+                LinkNoteStaticMembers.SearchKeyWord = KeyWord;
+                if (!LinkNoteStaticMembers.ShowAllKeywords)
+                {
+                    // The user is in the Search Mode
+                    LinkNoteStaticMembers.SelectedKeyWord = KeyWord;
+                }
+            }
             catch(Exception ex)
             {
                 MessageBox.Show("You cannot have an empty keyword");
@@ -1089,27 +1130,20 @@ namespace NewLSP.UserControls
                 string CurrentKeyWords = tbxAllKeyWords.Text;
                 CurrentKeyWords = CurrentKeyWords + tbxInput.Text + ';';
                 return;
-
             }
-
             //Check to see if in edit mode
             if((rbtEdit.IsChecked == true))
             {
                 if(tbxAllKeyWords.Text != "")
-                {
-                    
+                {                    
                     string CurrentKeyWords = tbxAllKeyWords.Text;
                     return;
                 }
                 else
                 {
                     return;
-                }
-                
+                }                
             }
-           
-
-
             // Create a string variable from the text in tbxAllKeyWords
             var SearchKeyWord = tbxAllKeyWords.Text;
             if (SearchKeyWord == "") return;
@@ -1161,6 +1195,23 @@ namespace NewLSP.UserControls
         private void tbxLinkName_TextChanged(object sender, TextChangedEventArgs e)
         {
             LinkNoteStaticMembers.HyperlinkName = tbxLinkName.Text;
+        }
+
+        /// <summary>
+        /// This Method is called when the user clicks the open All KeyWords radio button. 
+        /// It calls a local private method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rbtKeyWordsAll_Checked(object sender, RoutedEventArgs e)
+        {
+            LinkNoteStaticMembers.ShowAllKeywords = true;
+        }
+
+        private void Selected_Checked(object sender, RoutedEventArgs e)
+        {
+            LinkNoteStaticMembers.ShowAllKeywords = false;
+
         }
     }// End class
 }// End Name space

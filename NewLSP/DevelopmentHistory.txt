@@ -1,4 +1,48 @@
-﻿20211213 COmMITED
+﻿20211219 
+	Committed VERSION20211213
+	Commit Message 1) Removed Instructions from Link_Note; 2) Created controls and methods to allow the user to  display only
+		the comments following a searched for KeyWord
+
+20211215
+	Working on VERSION20211213
+	1.	Logic for the search function of the Link_Notes page
+		a.	You should be able to search for notes containing a single Keyword even if you
+			have not specified a DataNode
+		b.	I need to identify all strings and list that are used to populate the various
+			display components; make them properties in LinkNoteStaticMembers and use
+			them rather than local private variables
+	2.	??? used to populate the tbxAllKeyWords TextBox
+		a.	If the programs is in the Add or Edit Mode, a local private variable CurrentKeyWords is defined 
+			from the text in tbxAllKeyWords in the Add or Edit Mode and returns  ??? without using it??
+	3.	The Edit radio button allows the user to edit the various components of the NoteReferenceFile 
+		and save the Updated NoteReference string  Test to see if it works
+
+
+		ERRORS!!! the  LinkNoteStaticMembers.HyperlinkDictionary is null????
+		NOTE: Move node doesn't work
+
+
+20211213
+	VERSION20211213 0953 has successfully removed the Instructions from the Link_Note UC and has 
+	modified the apperance of its UI to allow the user to display either all KeyWords and Comments
+	or only the searched for  KeyWord and its associated comments 
+	!!! NOTE !!!This version is saved to my Passport as Version20211213-14 dev
+
+	TASK 1 - Create methods to display either all or only selected KeyWords and their associated comments
+
+VERSION20211213 0953 New Development Version TASKS
+	1.	*Eliminate Instructions from the Link_Note xaml and xaml.cw 
+	2.	*Expand tbxAllKeyWords, allow wrap, put in vertical scoll bar
+	3.	*Add scroll bar to lbxLinks List box and decrease size
+	4.	*Create a Radio group to hold rbtns to select either all Key Words on only Searched Key words and their comments
+	6.	Create a method to edit and save changes to the QAFiles
+	7.	Check to see if there are other non coded component methods
+
+
+
+
+
+20211213 COmMITED
 Commit Message: 1) Reopened previous version prior to deleting Instructions and corrected errors in creating a new subject
 
 

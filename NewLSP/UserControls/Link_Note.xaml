@@ -32,13 +32,13 @@
             <!--Row 2, the name hyperlink row-->
             <RowDefinition Height="40"/>
             <!--Row 3, the label and KeyWords row-->
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="210"/>
             <!--Row 4 Divider line row-->
             <RowDefinition Height="5"/>
             <!--Row 5, hyperlink row-->
             <RowDefinition Height="*"/>
             <!--Row 6, the Notes  row-->
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
             <!--Row 5, the labels row-->
             <!--<RowDefinition Height="30"/>-->
             <!--the textbox row-->
@@ -118,19 +118,9 @@
 
             </MenuItem>
             <!--the Reset Page menu item-->
-                <MenuItem Header="Reset Page" 
+            <MenuItem Header="Reset Page" 
                       Name="miResetPage"
                       Click="miResetPage_Click"/>
-
-
-            
-            <!--the Instructions menu-->
-            <MenuItem Header="Instructions">
-                <MenuItem Header="Create a new Hyperlink"
-                          Name="miCreateNewHyperlinkInstructions"
-                          Click="miCreateNewHyperlinkInstructions_Click"/>
-
-            </MenuItem>
         </Menu>
 
         <!-- -Row 1 The FileType, Name and bookmark Row--> 
@@ -176,7 +166,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="28"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="60"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
@@ -251,6 +241,8 @@
                 <TextBox x:Name="tbxAllKeyWords" Grid.Row="2"
                  Grid.Column="1" Grid.ColumnSpan="2"
                  FontSize="15" TextChanged="tbxAllKeyWords_TextChanged"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"
                  
                  />
             </Grid>
@@ -293,12 +285,28 @@
                 <Grid Grid.Column="0">
                     <Grid x:Name="KeywordsColumn">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0"                                     
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Grid.Row="0"  
+                                       Margin="0,0,30,0"
                                    Text="Key Words"
-                                   HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Left"/>
+                            <RadioButton x:Name="rbtKeyWordsAll" 
+                                         FontSize="17"
+                                         Content="All"
+                                         Margin="0,0,30,0"
+                                         IsChecked="True"
+                                         Checked="rbtKeyWordsAll_Checked"/>
+                            <RadioButton x:Name="Selected" 
+                                         FontSize="17"
+                                         Content="SelectedOnly"
+                                         Checked="Selected_Checked"
+                                         IsChecked="False"
+                                         />
+                        </StackPanel>
+                        
                         <TextBox x:Name="tbxDisplayKeyWords"
                                  Grid.Row="1"
                                  IsReadOnly="True"
@@ -310,7 +318,7 @@
                 <Grid Grid.Column="1" Name="NoteNamesColumn">
                     <!--In column 1 create a grid with 2 rows-->                    
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Note Names"

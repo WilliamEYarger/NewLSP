@@ -13,7 +13,8 @@ namespace NewLSP.StaticHelperClasses
         #region KeyWordList
         private static List<string> _KeyWordList = new List<string>();
         /// <summary>
-        /// This is the current list of key words in thier unconverted fors (may contain spaces)
+        /// This is the current list of key words in thier unconverted form and may contain spaces. 
+        /// It is found in the References folder's CompositDataFolder's ListOfKeyWords.txt file
         /// </summary>
         public static List<string> KeyWordList
         {
@@ -109,8 +110,8 @@ namespace NewLSP.StaticHelperClasses
         private static string _ListOfKeyWordsPath;
 
         /// <summary>
-        /// This is the path to the list of all of the orriginal current KeyWords
-        /// which can contain spaces
+        /// This is the path to the Reference Folder's Composit folder's  ListOfKeyWords.txt, the  
+        /// list of all of the orriginal current KeyWords. Which can contain spaces
         /// </summary>
         public static string ListOfKeyWordsPath
         {
@@ -178,8 +179,16 @@ namespace NewLSP.StaticHelperClasses
            
 
         }
+
         #endregion List of Sorted KeyWords
 
+        #region KeyWordSearch
+        /// <summary>
+        /// This boolean is true if the user has clicked the Search radiobutton
+        /// </summary>
+        public static bool KeyWordSearch { get; internal set; }
+
+        #endregion KeyWordSearch
 
         #endregion Properties
 

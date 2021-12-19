@@ -6,6 +6,36 @@ namespace NewLSP.StaticHelperClasses
     public static class StringHelper
     {
 
+        #region GetItemNumberOfThisSubstring
+
+        /// <summary>
+        /// Receives a delimited string, a text string to search for and a delimiter characer 
+        /// if the text string to search for is found its item number is returned, else -1 is returned
+        /// </summary>
+        /// <param name="delString"></param>
+        /// <param name="itemText"></param>
+        /// <param name="del"></param>
+        /// <returns></returns>
+        public static int GetItemNumberOfThisSubstring(string delString, string itemText, char del)
+        {
+            int itemNumber =-1;
+
+            // create an array of all delimmited items
+            string[] itemsArray = delString.Split(del);
+            for(int itemNum = 0; itemNum< itemsArray.Length; itemNum++)
+            {
+                if(itemsArray[itemNum] == itemText)
+                {
+                    itemNumber = itemNum;
+                    return itemNumber;
+                }
+            }
+            // if no item matched the itemText then return -1
+            return itemNumber;
+        }
+
+        #endregion GetItemNumberOfThisSubstring
+
         #region ReturnNumberOfDeliniters
 
         public static int ReturnNumberOfDeliniters(string line, char del)
@@ -26,6 +56,14 @@ namespace NewLSP.StaticHelperClasses
 
 
         #region ReturnItemAtPos
+        /// <summary>
+        /// Received a delimited string, the delimiter and the number of the item desired in the string 
+        /// and returns that item
+        /// </summary>
+        /// <param name="delString"></param>
+        /// <param name="del"></param>
+        /// <param name="Pos"></param>
+        /// <returns></returns>
         public static string ReturnItemAtPos(string delString, char del, int Pos)
         {
             string[] itemsArray = delString.Split(del);
