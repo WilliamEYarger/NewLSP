@@ -14,15 +14,15 @@ namespace NewLSP.StaticHelperClasses
 
         #region Hyperlink
 
-        private static string _Hyperlink;
+        private static string _LNSelectedFilePath;
         /// <summary>
         /// This is the path to a hyperlinked file chosen by the user as 
         /// a hyperlink file using the OpenFildDialog
         /// </summary>
-        public static string Hyperlink
+        public static string LNSelectedFilePath
         {
-            get { return _Hyperlink; }
-            set { _Hyperlink = value; }
+            get { return _LNSelectedFilePath; }
+            set { _LNSelectedFilePath = value; }
         }
 
         #endregion Hyperlink
@@ -108,14 +108,14 @@ namespace NewLSP.StaticHelperClasses
 
 
         #region HyperlinkStringsList
+        
+       
+        private static List<string> _HyperlinkStringsList = new List<string>();
         /// <summary>
-        /// a delimites string containing the elements of
+        /// a delimites string of HyperlinkName + '^' + Url + '^' + FileType + '^' + BookMark
         /// a hyperlink objects added to the list<string> HyperlinkStringsList
         /// Called by LinkNote.xaml.cs miSaveHyperlink_Clic
         /// </summary>
-       
-        private static List<string> _HyperlinkStringsList = new List<string>();
-
         public static List<string> HyperlinkStringsList
         {
             get { return  _HyperlinkStringsList; }
@@ -276,8 +276,8 @@ namespace NewLSP.StaticHelperClasses
 
 
         /// <summary>
-        /// Adds a delimites string containing the elements of
-        /// a hyperlink object to the list<string> HyperlinkStringsList
+        /// Adds a '^' delimited string of HyperlinkName + '^' + Url + '^' + FileType + '^' + BookMark 
+        /// to the list<string> HyperlinkStringsList 
         /// Called by LinkNote.xaml.cs miSaveHyperlink_Clic
         /// </summary>
         /// <param name="delimitedHyperlink"></param>
@@ -291,7 +291,7 @@ namespace NewLSP.StaticHelperClasses
 
         #region AddItemToHyperlinkDictionary
         /// <summary>
-        /// When the user clicks the Open Hyperlink Menu item 
+        /// When the user clicks the Open LNSelectedFilePath Menu item 
         /// The 'cntr' parameter specifies the number of individual hyperlink references
         /// each hyperlink is on a single line delinited by \r\n return characters
         /// the meth0d then adds it to the HyperlinkDictionary
@@ -345,7 +345,7 @@ namespace NewLSP.StaticHelperClasses
                 string[] HyperlinkLineArray = line.Split('^');
                 HyperlinkUrls.Add(HyperlinkLineArray[0]);
 
-                // create a new Hyperlink object
+                // create a new LNSelectedFilePath object
                 LinkNoteModel.HyperlinkObject thisHyperlinkObject = new LinkNoteModel.HyperlinkObject();
                 thisHyperlinkObject.Url = HyperlinkLineArray[0];
                 thisHyperlinkObject.FileType = HyperlinkLineArray[1];

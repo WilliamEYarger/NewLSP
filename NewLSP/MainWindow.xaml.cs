@@ -159,7 +159,7 @@ namespace NewLSP
 
                 if (HasHyperlink && !HadDataNodeReferenceFile)
                 {
-                    MessageBox.Show("This node has a hyperlink file call Files -> Open Hyperlink");
+                    MessageBox.Show("This node has a hyperlink file call Files -> Open LNSelectedFilePath");
                     
                 }
                 else if(!HasHyperlink && HadDataNodeReferenceFile)
@@ -170,7 +170,7 @@ namespace NewLSP
                 else if (HasHyperlink && HadDataNodeReferenceFile)
                 {
                     MessageBox.Show("This node has a Notes file call Files -> Open Notes \r\n" +
-                        "and a hyperlink file call Files -> Open Hyperlink");
+                        "and a hyperlink file call Files -> Open LNSelectedFilePath");
                     
                 }
 

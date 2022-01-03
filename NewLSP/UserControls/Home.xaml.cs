@@ -5,7 +5,9 @@ using System.Windows.Controls;
 using System.IO;
 using NewLSP.DataModels;
 using System.Collections.Generic;
+using System.Linq;
 using System;
+
 
 namespace NewLSP.UserControls
 {
@@ -225,9 +227,15 @@ namespace NewLSP.UserControls
             // Set the SortedListOfKeyWordsPath in KeyWordsStaticMembers
             KeyWordsStaticMembers.ListOfSortedKeyWordsPath = ListOfSortedKeyWordsPath;
 
-           /* Stop Added 20211202 */
-
-
+           //Get the List of Key Words, Sort it and update the List of Sorted KeyWords
+           string [] ArrayOfKeyWords = File.ReadAllLines(KeyWordsStaticMembers.ListOfKeyWordsPath);
+            // Convert this array to a list and sort it
+            List<string> SortedListOfKeyWords = ArrayOfKeyWords.ToList();
+            SortedListOfKeyWords.Sort();
+            //Concert this sorted list back into an array
+            ArrayOfKeyWords = SortedListOfKeyWords.ToArray();
+            //Write this array to the 
+            File.WriteAllLines(KeyWordsStaticMembers.ListOfSortedKeyWordsPath, ArrayOfKeyWords);
             // Set the initial value of CurrentNoteIDInt
 
             MessageBox.Show("Click SubjectTreePage and then Click SHOW DISPLAY LIST to see all of the Base subjects for this project");

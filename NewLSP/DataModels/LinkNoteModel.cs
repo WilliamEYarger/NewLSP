@@ -12,7 +12,7 @@ namespace NewLSP.DataModels
 
 
         /// <summary>
-        /// Hyperlink objects hold the data for each hyperlink:
+        /// LNSelectedFilePath objects hold the data for each hyperlink:
         /// 1) The File type (*.docx, *.jpg., http:\\.... etc
         /// </summary>
         public class HyperlinkObject

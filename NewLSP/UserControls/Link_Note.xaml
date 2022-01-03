@@ -50,7 +50,7 @@
             <!--the Applications menu-->
             <MenuItem Header="          Applications">
 
-                <MenuItem Header="OpenF Hyperlink"
+                <MenuItem Header="Open A File or Web Site"
                           Name="miOpenFileDialog"
                           Click="miOpenFileDialog_Click"/>
                 <MenuItem Header="Word"
@@ -277,9 +277,9 @@
             <Grid x:Name ="NotesGrid">
                 <Grid.ColumnDefinitions>
                     <!--The column for the Key words label and textbox-->
-                    <ColumnDefinition Width="*"/>
-                    <!--The column for the Note Names-->
                     <ColumnDefinition Width="2*"/>
+                    <!--The column for the Note Names-->
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!--In column 0 create a grid with 2 rows-->
                 <Grid Grid.Column="0">
@@ -310,6 +310,7 @@
                         <TextBox x:Name="tbxDisplayKeyWords"
                                  Grid.Row="1"
                                  IsReadOnly="True"
+                                 TextWrapping="NoWrap"
                                  AcceptsReturn="True"
                                  HorizontalScrollBarVisibility="Auto"
                                  VerticalScrollBarVisibility="Auto"/>

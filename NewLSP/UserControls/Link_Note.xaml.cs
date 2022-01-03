@@ -8,8 +8,11 @@ using NewLSP.DataModels;
 using System;
 using System.Windows.Input;
 
+using System.Windows.Shapes;
+
 
 namespace NewLSP.UserControls
+
 {
     /// <summary>
     /// Interaction logic for Link_Note.xaml
@@ -20,7 +23,9 @@ namespace NewLSP.UserControls
         {
             InitializeComponent();
         }
-       
+
+
+
         #region Menu Click Methods
 
 
@@ -30,9 +35,11 @@ namespace NewLSP.UserControls
 
 
         /// <summary>
-        /// This method gets a file path string by calling the
-        /// ReturnFilePath() private method which uses the OpenFileDialog to get the path 
-        /// to a file that the user wants to save as a hyperlink for a DataNode
+        /// This method is called when the user clicks the Open 'A File or Web Site' menu item 
+        /// in the Applications Menu. It sets the LinkNoteStaticMembers.FileType for each particular type of file
+        /// 
+        /// hod which uses the OpenFileDialog to get the path 
+        /// to a file. that the user wants to save as a hyperlink for a DataNode
         /// It then posts the hyperlink to tbxHyperlink.Txt
         /// It then gets the file type and posts it to LinkNoteStaticMembers.FileType
         /// </summary>
@@ -40,12 +47,10 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miOpenFileDialog_Click(object sender, RoutedEventArgs e)
         {
-            string Hyperlink = ReturnFilePath();
-            LinkNoteStaticMembers.Hyperlink = Hyperlink;
-
-
-            // determine if this link is a web address
-            if (Hyperlink.IndexOf("http") == 0)
+            
+            LinkNoteStaticMembers.LNSelectedFilePath = ReturnFilePath(); 
+            // determine if this link is a web address or a file
+            if (LinkNoteStaticMembers.LNSelectedFilePath.IndexOf("http") == 0)
             {
                 //This is a web link
                 LinkNoteStaticMembers.FileType = "Web";
@@ -53,11 +58,9 @@ namespace NewLSP.UserControls
             }
             else
             {
-                // This is some other type of file so get the file extenxtion
-
-                //      get the position of the last '.'
-                int posLastDot = Hyperlink.LastIndexOf('.');
-                string FileExtension = Hyperlink.Substring(posLastDot + 1);
+                // This is a file on the computer so get the file extenxtion 
+                int posLastDot = LinkNoteStaticMembers.LNSelectedFilePath.LastIndexOf('.');
+                string FileExtension = LinkNoteStaticMembers.LNSelectedFilePath.Substring(posLastDot + 1);
                 switch (FileExtension)
                 {
                     case "docx":
@@ -85,18 +88,11 @@ namespace NewLSP.UserControls
                         cmbxFileType.SelectedIndex = 6;
                         break;
                 }
-
-
-                tbxHyperlink.Text = Hyperlink;
-
-            }
-           
-
-        }// End 
-
+                tbxHyperlink.Text = LinkNoteStaticMembers.LNSelectedFilePath;
+            }// End determine if this link is a web address or a file
+        }// End miOpenFileDialog_Click
 
         #endregion OpenFileDialog MenuItem
-
 
         #region Word MenuItem
 
@@ -108,12 +104,10 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miWord_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(@"C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE");
-            
+            System.Diagnostics.Process.Start(@"C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE");            
         }// miWord_Click
 
         #endregion Word MenuItem
-
 
         #region Excel MenuItem
         /// <summary>
@@ -124,8 +118,7 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miExcel_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(@"C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE");
-       
+            System.Diagnostics.Process.Start(@"C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE");       
         }// End miExcel_Click
 
         #endregion  Excel MenuItem
@@ -136,15 +129,13 @@ namespace NewLSP.UserControls
         /// play a mp4 file
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-       
+        /// <param name="e"></param>       
         private void miWindowsMediaPlayer_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Windows Media Player\wmplayer.exe");
         }
 
         #endregion Windows Media Player MenuItem
-
 
         #region FireFox MenuItem
         /// <summary>
@@ -171,7 +162,6 @@ namespace NewLSP.UserControls
         }
         #endregion  Notepad++ MenuItem
 
-
         #region Meun Item MS Paint
         /// <summary>
         /// This method opens MP paint 
@@ -185,24 +175,21 @@ namespace NewLSP.UserControls
         }
         #endregion Meun Item MS Paint
 
-
         #endregion Applications Menu
-
-
-
-
 
         #region Files Menu
 
-
-
         #region Save Hyperlink MenuItem
-
+        /// <summary>
+        /// Called when the user clicks the SaveHyperlink menu item it calls 
+        /// the  SaveHyperlink() local method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void miSaveHyperlink_Click(object sender, RoutedEventArgs e)
         {
             SaveHyperlink();
             return;
-
         }// End miSaveHyperlink_Click
 
         #endregion Save Hyperlink MenuItem
@@ -223,13 +210,10 @@ namespace NewLSP.UserControls
             {
                 // create a NoteReference string
                 string NoteReferenceStr = tbxLinkName.Text + "^" + tbxHyperlink.Text + "^" + tbxBookMark.Text + "^" + tbxAllKeyWords.Text;
-
-
                 // Call the static method to save both old and new note files
                 LinkNoteStaticMembers.SaveAndUpdateNoteReferenceAndKeywords(NoteReferenceStr);
                 return;
             }
-
             // Make sure that all required items for the NoteReferenceStr are present
             if (KeyWordsStaticMembers.ListAccess)
             {
@@ -240,21 +224,15 @@ namespace NewLSP.UserControls
                     MessageBox.Show("You cannot save a Note unless there is a Name, a hyperlink and KeyWord(s)");
                     return;
                 }
-
                 //  2.  Make sure the Key words are delimited witb ;s
                 if (!tbxAllKeyWords.Text.Contains(";"))
                 {
                     MessageBox.Show("Key words must be delimited wint ';'s ");
                     return;
                 }
-
-                // NEW 20210620
-
                 // create a NoteReference string
                 string NoteReferenceStr = tbxLinkName.Text + "^" + tbxHyperlink.Text + "^" + tbxBookMark.Text + "^" + tbxAllKeyWords.Text;
-                
-
-                // Call the static method to save both old and new note files
+                // Save the NoteReferenceStr as a file in the CommonStaticMember's NoteReference folder
                 LinkNoteStaticMembers.SaveAndUpdateNoteReferenceAndKeywords(NoteReferenceStr);
 
                 // Get the DataNodesNoteReferenceString and append it to the lbxOpenSelectedNote listBox
@@ -310,7 +288,7 @@ namespace NewLSP.UserControls
         private void miOpenHyperLink_Click(object sender, RoutedEventArgs e)
         {
 
-            // Create a List<string> of Hyperlink display string
+            // Create a List<string> of LNSelectedFilePath display string
             //List<string> HyperlinkUrls = new List<string>();
 
             string DataNodesHyperlinkPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
@@ -411,6 +389,10 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miResetPage_Click(object sender, RoutedEventArgs e)
         {
+            //Clear the link to any file selected
+            LinkNoteStaticMembers.LNSelectedFilePath = "";
+            //Clear the text in the  tbxHyperlink Text Box
+            tbxHyperlink.Text = "";
             lbxLinks.Items.Clear();
             tbxHyperlink.Text = "";
             cmbxFileType.SelectedIndex = -1;
@@ -538,9 +520,16 @@ namespace NewLSP.UserControls
         #endregion private method open an executable or specific file type
 
         #region private method SaveHyperlink
+        /// <summary>
+        /// Called by miSaveHyperlink_Click method
+        /// It checks the validity of the hyperlink
+        /// It then creates a sting to be stored in the DataNode's hyperlink file composed of
+        /// HyperlinkName^Url^FileType^BookMark
+        /// </summary>
 
         private void SaveHyperlink()
         {
+            //Test to see that a DataNode has been chosed and that the hyperlink has a name
             if (SubjectStaticMembers.DataNode == null)
             {
                 MessageBox.Show("You cannot save this hyperlink because there is no designated DataNode");
@@ -551,67 +540,45 @@ namespace NewLSP.UserControls
                 MessageBox.Show("You cannot save this hyperlink because there is no Name");
                 return;
             }
-
-            // create a hyperlink delimited string
-            // Get Hyperlink string fields
-
             //      Get any bookmakr if present
             string BookMark = tbxBookMark.Text;
-
             //      Get Name
             string HyperlinkName = tbxLinkName.Text;
-
             //      Get Url
-            string Url = LinkNoteStaticMembers.Hyperlink;
-
+            string Url = LinkNoteStaticMembers.LNSelectedFilePath;
             //      Get FileType
             string FileType = LinkNoteStaticMembers.FileType;
-
             string thisHyperlink = HyperlinkName + '^' + Url + '^' + FileType + '^' + BookMark;
-
-            // Add thisHyperLink to  HyperlinkStrings           
-
+            // Add thisHyperLink to  HyperlinkStrings 
             LinkNoteStaticMembers.AddHyperlinkToList(thisHyperlink);
-
-            // Get the updated HyperlinkStringsList
-            List<string> currentHyperlinkStringsList = LinkNoteStaticMembers.HyperlinkStringsList;
-
-            // Create a string [] from HyperlinkStringsList
-           // string[] HyperlinksArray = new string[4];
-
-
             // Create the filepath to the DataNodes HyperlinkFile
             string DataNodesHyperlinkPath = CommonStaticMembers.HomeFolderPath + "Hyperlinks\\" + SubjectStaticMembers.DataNode.ID.ToString() + ".txt";
 
-            //Append this to the DataNode's Hyperlink file 
-            File.WriteAllLines(DataNodesHyperlinkPath, currentHyperlinkStringsList);
+            //Append this to the DataNode's LNSelectedFilePath file 
+            File.WriteAllLines(DataNodesHyperlinkPath, LinkNoteStaticMembers.HyperlinkStringsList);
 
             // Add this line to the Dictionary
             LinkNoteStaticMembers.HyperlinkDictionary.Clear();
 
 
-            //For each line in currentHyperlinkStringsList get the component parts and convert them into a Dictionary value
+            //For each line in LinkNoteStaticMembers.HyperlinkStringsList get the component parts and convert them into a Dictionary value
             int HyperlinkCntr = 0;
-            foreach (string line in currentHyperlinkStringsList)
+            foreach (string line in LinkNoteStaticMembers.HyperlinkStringsList)
             {
                 string[] HyperlinkLineArray = line.Split('^');
-                // create a new Hyperlink object
+                // create a new LNSelectedFilePath object
                 LinkNoteModel.HyperlinkObject thisHyperlinkObject = new LinkNoteModel.HyperlinkObject();
                 thisHyperlinkObject.Name = HyperlinkLineArray[0];
                 thisHyperlinkObject.Url = HyperlinkLineArray[1];
                 thisHyperlinkObject.FileType = HyperlinkLineArray[2];
                 thisHyperlinkObject.BookMark = HyperlinkLineArray[3];
-
                 //Add thisHyperlinkObject to the HyperlinkDictionary
                 LinkNoteStaticMembers.HyperlinkDictionary.Add(HyperlinkCntr, thisHyperlinkObject);
                 HyperlinkCntr++;
             }
-
             // Clear the lbxLinks listbox
             lbxLinks.Items.Clear();
             LinkNoteStaticMembers.BookMarks = new List<string>();
-
-
             // add the revised HyperlinkToList to the ListBox
             foreach (string line in LinkNoteStaticMembers.HyperlinkStringsList)
             {
@@ -635,7 +602,10 @@ namespace NewLSP.UserControls
         #region Return File Path of File Dialog OpenFile
 
 
-
+        /// <summary>
+        /// Uses the open file dialog to return a complete file path
+        /// </summary>
+        /// <returns></returns>
         private string ReturnFilePath()
         {
             OpenFileDialog od = new OpenFileDialog();
@@ -643,7 +613,6 @@ namespace NewLSP.UserControls
             {
                 return od.FileName;
             }
-
         }
 
         #endregion Return File Path of File Dialog OpenFile
@@ -774,6 +743,7 @@ namespace NewLSP.UserControls
                 // Display tbxDisplayKeyWords
                 tbxDisplayKeyWords.Text = KeyWordsString;
             }
+            else
             // the Show only selected Keywords radiobutton is checked so show only the selected KeyWord and its following '#' comments
             {
                 KeyWordsString = StringHelper.ReturnItemAtPos(LinkNoteStaticMembers.DelStrOfKeyWordsAndComments, '^', 3);
@@ -988,6 +958,24 @@ namespace NewLSP.UserControls
                 // Create a new KeyWord from the current text in tbxInput
                 KeyWord = tbxInput.Text;
 
+                //Test to see if the KeyWord is longer than 50 characters
+
+               
+                if (KeyWord.Length > 50)
+                {
+                    //MessageBox.Show("Your KeyWord is >50 Charcters. Do you want to store it?", "No", MessageBoxButton.YesNo);
+                    MessageBoxResult result = MessageBox.Show("Your KeyWord is > 50 Charcters.Do you want to store it ? ", "No", MessageBoxButton.YesNo);
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            
+                            break;// continue program execution
+                        case MessageBoxResult.No:
+                            return;//return to the input box and allow the user to change the key word
+
+                    }
+                }
+
                 // Remove any leading or trailing spaces
                 KeyWord = KeyWord.Trim();
 
@@ -1184,7 +1172,7 @@ namespace NewLSP.UserControls
 
         private void tbxHyperlink_TextChanged(object sender, TextChangedEventArgs e)
         {
-            LinkNoteStaticMembers.Hyperlink = tbxHyperlink.Text;
+            LinkNoteStaticMembers.LNSelectedFilePath = tbxHyperlink.Text;
         }
 
         private void tbxBookMark_TextChanged(object sender, TextChangedEventArgs e)

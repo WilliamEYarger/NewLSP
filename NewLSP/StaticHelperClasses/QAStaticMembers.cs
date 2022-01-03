@@ -198,7 +198,9 @@ namespace NewLSP.StaticHelperClasses
 
 
         #region Read the QAFile into the Dictionary ReadQAFileIntoDictionary()
-
+        /// <summary>
+        /// This methods read the data in the QAFile text file and enters it into the QAStaticMembers.QADictionar
+        /// </summary>
         public static void ReadQAFileIntoDictionary()
         {
             // Read all of the lines in the qa file into an array

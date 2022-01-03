@@ -1,4 +1,15 @@
-﻿20211219 
+﻿20220102 
+	1. Increased the width of the KeyWords col and stopped wrapping
+	2. Create code to detect KeyWords greater that 50 characters and allows the user to escape
+
+20211221 
+	1. The program does not populate the sorted list of Key words
+		a. KeyWordsStaticMembers.ListOfSortedKeyWordsPath is not defined so make sure it exists when the References forder is chosen
+
+20211219 After commit
+	1.* Problems remaining checking all does not clear search for search word only 
+
+20211219 
 	Committed VERSION20211213
 	Commit Message 1) Removed Instructions from Link_Note; 2) Created controls and methods to allow the user to  display only
 		the comments following a searched for KeyWord

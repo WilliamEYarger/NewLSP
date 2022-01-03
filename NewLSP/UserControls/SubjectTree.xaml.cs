@@ -163,7 +163,7 @@ namespace NewLSP.UserControls
                 }
 
 
-                //Determine if this node has a Hyperlink file
+                //Determine if this node has a LNSelectedFilePath file
                
                 if (SubjectStaticMembers.NodeHasHyperlinksFile(NodeID))
                 {
@@ -188,6 +188,7 @@ namespace NewLSP.UserControls
                 }
 
             }
+            
 
         }// End  lvSubjects_PreviewMouseLeftButtonU
 
