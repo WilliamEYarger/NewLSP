@@ -885,6 +885,9 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void tbxInput_KeyUp(object sender, KeyEventArgs e)
         {
+            //Verify that the text in the tbxInput TextBox is either a valid keyword or comment
+            if (!ContentValid(tbxInput.Text)) return;
+
             // lbxKeyWords contains all of the keywords that start with the characters typed into the text box tbxInput
             //Clear the current content of lbxKeyWords 
             lbxKeyWords.Items.Clear();
@@ -958,23 +961,7 @@ namespace NewLSP.UserControls
                 // Create a new KeyWord from the current text in tbxInput
                 KeyWord = tbxInput.Text;
 
-                //Test to see if the KeyWord is longer than 50 characters
-
-               
-                if (KeyWord.Length > 50)
-                {
-                    //MessageBox.Show("Your KeyWord is >50 Charcters. Do you want to store it?", "No", MessageBoxButton.YesNo);
-                    MessageBoxResult result = MessageBox.Show("Your KeyWord is > 50 Charcters.Do you want to store it ? ", "No", MessageBoxButton.YesNo);
-                    switch (result)
-                    {
-                        case MessageBoxResult.Yes:
-                            
-                            break;// continue program execution
-                        case MessageBoxResult.No:
-                            return;//return to the input box and allow the user to change the key word
-
-                    }
-                }
+                
 
                 // Remove any leading or trailing spaces
                 KeyWord = KeyWord.Trim();
@@ -1022,7 +1009,90 @@ namespace NewLSP.UserControls
                 if (tbxInput.Text == "") lbxKeyWords.Items.Clear();
             }
         }// End tbxInput_KeyUp 
+
         #endregion  Input Textbox Key Up Procedure
+
+        #region ContentValid Verification
+
+
+        /// <summary>
+        /// This method receives the text in the tbxInput TextBox and verifies that it is valid or not
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private bool ContentValid(string text)
+        {
+            bool Valid = true;
+
+            //Test to insure that the text does not contain a semicolon ;
+            if (text.Contains(";"))
+            {
+                MessageBox.Show("You cannot include a semicolon ';' in a key word or comment!");
+                Valid = false;
+                return Valid;
+            }
+
+            //Test to see if text contains "#"
+            if (text.Contains("#"))
+            {
+                //This may be a comment
+                int numberOfHashes = StringHelper.ReturnNumberOfDeliniters(text, '#');
+                //If there is only one and its position is 0 this is a valid comment
+                if (numberOfHashes == 1) 
+                {
+                    if (text.StartsWith("#"))
+                    {
+                        return Valid;
+                    }
+                    else
+                    {
+                        MessageBox.Show("The Hash mark # must start a comment!");
+                        Valid = false;
+                        return Valid;
+                    }
+                }
+                else if(numberOfHashes > 1)
+                    {
+                        MessageBox.Show("You can only have 1 Hash mark in an expression!");
+                        Valid = false;
+                        return Valid;
+                    }
+            }// end text contains #
+
+            //At this point we should have only keywords, test length to detect unusually long key words
+            //Test to see if the KeyWord is longer than 50 characters
+            if (text.Length > 50)
+            {
+                //MessageBox.Show("Your KeyWord is >50 Charcters. Do you want to store it?", "No", MessageBoxButton.YesNo);
+                MessageBoxResult result = MessageBox.Show("Your KeyWord is > 50 Charcters.Do you want to store it ? ", "No", MessageBoxButton.YesNo);
+                 switch (result)
+                {
+                    case MessageBoxResult.Yes:
+
+                        return Valid; 
+                    case MessageBoxResult.No:
+                        Valid = false;
+                        return Valid;//return to the input box and allow the user to change the key word
+
+                }
+            }
+
+
+            return Valid;
+
+            //bool Valid = true;
+            ////test to see if content contains '#'
+            //if (text.Contains("#"))
+            //{
+
+            //}
+                
+
+            //}
+
+            //return Valid;
+        }
+        #endregion ContentValid Verification
 
 
         #region lbxKeyWords_MouseLeftButtonUp
