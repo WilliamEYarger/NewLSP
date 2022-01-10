@@ -478,16 +478,18 @@ namespace NewLSP.StaticHelperClasses
                 string NoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + CommonStaticMembers.CurrentNote26Name + ".txt";
                 File.WriteAllText(NoteReferenceFilePath, NoteReferenceStr);
 
+
+                //ERROR 20220110 The DataNodesReferenceNotesPath is already known do don't update it
                 //Add a link to the DataNode's DataNodeNoteReferenceFile
                 //      Get the DataNodes DataNodeNoteReferenceFile
-                string DataNodesID = CommonStaticMembers.CurrentNoteIDInt.ToString();
-                string DataNodesReferenceNotesPath = CommonStaticMembers.DataNodesNoteReferencesFilesPath+ DataNodesID+".txt";
+                ////string DataNodesID = CommonStaticMembers.CurrentNoteIDInt.ToString();
+                ////string DataNodesReferenceNotesPath = CommonStaticMembers.DataNodesNoteReferencesFilesPath+ DataNodesID+".txt";
 
                 //      Test to see if the file exists and if so read all lines
                 string[] DataNodesCurrentReferencesArray = null;
-                if (File.Exists(DataNodesReferenceNotesPath))
+                if (File.Exists(CommonStaticMembers.DataNodesNoteReferencesFilesPath))
                 {
-                    DataNodesCurrentReferencesArray = File.ReadAllLines(DataNodesReferenceNotesPath);
+                    DataNodesCurrentReferencesArray = File.ReadAllLines(CommonStaticMembers.DataNodesNoteReferencesFilesPath);
 
                     //      Construct the DataNode's reference string
                     string thisNoteName = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 0);
@@ -511,7 +513,7 @@ namespace NewLSP.StaticHelperClasses
                     {
                         List<string> ListOfDataNodesReferences = DataNodesCurrentReferencesArray.ToList();
                         ListOfDataNodesReferences.Add(DataNodesReferenceStr);
-                        File.WriteAllLines(DataNodesReferenceNotesPath, ListOfDataNodesReferences);
+                        File.WriteAllLines(CommonStaticMembers.DataNodesNoteReferencesFilesPath, ListOfDataNodesReferences);
                     }
                 }
                 else
@@ -519,7 +521,7 @@ namespace NewLSP.StaticHelperClasses
                     //      Construct the DataNode's reference string
                     string thisNoteName = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 0);
                     string DataNodesReferenceStr = thisNoteName + '^' + CommonStaticMembers.CurrentNote26Name;
-                    File.WriteAllText(DataNodesReferenceNotesPath, DataNodesReferenceStr);
+                    File.WriteAllText(CommonStaticMembers.DataNodesNoteReferencesFilesPath, DataNodesReferenceStr);
 
                 }
                

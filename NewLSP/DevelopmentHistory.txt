@@ -1,4 +1,7 @@
-﻿202201 Changes Commit message 20220105
+﻿20220110 commit message
+	Corrected an error in saving an edited note file reference
+
+202201 Changes Commit message 20220105 @1933
 	1.	Added method to test validity of a keyword or commnet
 
 20220102 
