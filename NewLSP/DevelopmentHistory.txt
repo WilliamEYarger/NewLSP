@@ -1,4 +1,7 @@
-﻿20220110 commit message
+﻿20220402 Commit Message
+	Added several try-catchs to prevent crashing
+
+20220110 commit message
 	Corrected an error in saving an edited note file reference
 
 202201 Changes Commit message 20220105 @1933

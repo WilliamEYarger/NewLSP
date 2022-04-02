@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NewLSP.DataModels;
 using System.IO;
 using System;
+using System.Windows;
 
 namespace NewLSP.StaticHelperClasses
 {
@@ -229,14 +230,22 @@ namespace NewLSP.StaticHelperClasses
                 string answer = thisQALineArray[2];
                 answer = answer.Replace("~", "\r\n");
                 qADataModel.Answer = answer;
+                try
+                {
+                    qADataModel.QuestionJpgUrl = thisQALineArray[3];
 
-                qADataModel.QuestionJpgUrl = thisQALineArray[3];
+                    qADataModel.QuestionMp3Url = thisQALineArray[4];
 
-                qADataModel.QuestionMp3Url = thisQALineArray[4];
+                    qADataModel.AnswerJpgUrl = thisQALineArray[5];
 
-                qADataModel.AnswerJpgUrl = thisQALineArray[5];
-
-                qADataModel.AnswerMp3Url = thisQALineArray[6];
+                    qADataModel.AnswerMp3Url = thisQALineArray[6];
+                }
+                catch (Exception e)
+                {
+                    string DataNodeId = SubjectStaticMembers.DataNode.ID.ToString();
+                    MessageBox.Show("Cannot execute this step because of an error in QAFile "+ DataNodeId+".txt line " + line);
+                    return;
+                }
 
                 //Add qADataModel to the QADictionary
                 QAStaticMembers.QADictionary.Add(Key, qADataModel);

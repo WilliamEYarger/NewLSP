@@ -309,12 +309,25 @@ namespace NewLSP.UserControls
                 int HyperlinkCntr = 0;
                 foreach (string line in HyperlinksArray)
                 {
-                    // Get the component parts
-                    string[] componentItems = line.Split('^');
-                    string Name = componentItems[0];
-                    string Url = componentItems[1];
-                    string FileType = componentItems[2];
-                    string BookMark = componentItems[3];
+                    string Name = "";
+                    string Url = "";
+                    string FileType = "";
+                    string BookMark = "";
+                    try
+                    {
+                        // Get the component parts
+                        string[] componentItems = line.Split('^');
+                         Name = componentItems[0];
+                         Url = componentItems[1];
+                         FileType = componentItems[2];
+                         BookMark = componentItems[3];
+                    }
+                    catch (Exception ex1)
+                    {
+                        MessageBox.Show("Cannot open this hyperlink because of " + ex1.Message);
+                        return;
+                    }
+                    
                     LinkNoteModel.HyperlinkObject hyperlinkObject = new LinkNoteModel.HyperlinkObject();
                     hyperlinkObject.Name = Name;
                     hyperlinkObject.Url = Url;
@@ -721,7 +734,15 @@ namespace NewLSP.UserControls
             string NoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + NotereferenceFileName + ".txt";
 
             // Read in the text in the NoteReferenceFile into a single ';' delimited string storred as DelStrOfKeyWordsAndComments
-            LinkNoteStaticMembers.DelStrOfKeyWordsAndComments = File.ReadAllText(NoteReferenceFilePath);
+            try 
+            {
+                LinkNoteStaticMembers.DelStrOfKeyWordsAndComments = File.ReadAllText(NoteReferenceFilePath);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not find" + NoteReferenceFilePath);
+                return;
+            }
 
             // Create a string variable to hold the keywords and comments that will be displayed in the 
             //  tbxDisplayKeyWords TextBox

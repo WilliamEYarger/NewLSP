@@ -522,10 +522,7 @@ namespace NewLSP.StaticHelperClasses
                     string thisNoteName = StringHelper.ReturnItemAtPos(NoteReferenceStr, '^', 0);
                     string DataNodesReferenceStr = thisNoteName + '^' + CommonStaticMembers.CurrentNote26Name;
                     File.WriteAllText(CommonStaticMembers.DataNodesNoteReferencesFilesPath, DataNodesReferenceStr);
-
                 }
-               
-
 
                 ProcessKeyWords(NoteReferenceStr);
                 return;

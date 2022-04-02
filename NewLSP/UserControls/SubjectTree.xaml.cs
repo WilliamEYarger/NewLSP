@@ -430,7 +430,7 @@ namespace NewLSP.UserControls
             SubjectStaticMembers.SetDataNodesQAFilePath();
 
             // Notify the user that the Data node has been set and uncheck it
-            MessageBox.Show("The Data Node has been set");
+            MessageBox.Show("The Data Node has been set for node #" + SubjectNodeId.ToString());
             rbDataNode.IsChecked = false;
 
 
