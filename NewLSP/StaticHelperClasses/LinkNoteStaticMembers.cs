@@ -266,6 +266,35 @@ namespace NewLSP.StaticHelperClasses
         /// This is the Key word chosen when the user is in the Search mode
         /// </summary>
         public static string SearchKeyWord { get; internal set; }
+
+
+        #region AddingAdditionalCommentsToExistingKeyWord
+
+        private static bool _AddingAdditionalCommentsToExistingKeyWord = false;
+
+        public static bool AddingAdditionalCommentsToExistingKeyWord
+        {
+            get { return _AddingAdditionalCommentsToExistingKeyWord; }
+            set { _AddingAdditionalCommentsToExistingKeyWord = value; }
+        }
+
+        private static string _ReusedKey;
+
+        public static string ReusedKey
+        {
+            get { return ReusedKey; }
+            set { ReusedKey = value; }
+        }
+
+
+       
+        public static string LastComment { get; internal set; }
+        public static string UpdatedReusedKayValue { get; internal set; }
+
+
+        #endregion AddingAdditionalCommentsToExistingKeyWord
+
+        //public static bool AddingAdditionalCommentsToExistingKeyWord { get; internal set; }
         #endregion SelectedKeyWord
 
         #endregion Properties

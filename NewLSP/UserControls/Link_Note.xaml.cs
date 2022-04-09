@@ -9,7 +9,7 @@ using System;
 using System.Windows.Input;
 
 using System.Windows.Shapes;
-
+using System.Linq;
 
 namespace NewLSP.UserControls
 
@@ -47,8 +47,8 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miOpenFileDialog_Click(object sender, RoutedEventArgs e)
         {
-            
-            LinkNoteStaticMembers.LNSelectedFilePath = ReturnFilePath(); 
+
+            LinkNoteStaticMembers.LNSelectedFilePath = ReturnFilePath();
             // determine if this link is a web address or a file
             if (LinkNoteStaticMembers.LNSelectedFilePath.IndexOf("http") == 0)
             {
@@ -104,7 +104,7 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miWord_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(@"C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE");            
+            System.Diagnostics.Process.Start(@"C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE");
         }// miWord_Click
 
         #endregion Word MenuItem
@@ -118,7 +118,7 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void miExcel_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(@"C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE");       
+            System.Diagnostics.Process.Start(@"C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE");
         }// End miExcel_Click
 
         #endregion  Excel MenuItem
@@ -255,7 +255,7 @@ namespace NewLSP.UserControls
                 string displayString = NoteName + spacesStr + '^' + NoteCurrentNote26Name;
 
                 // If not editing add this note to the listbox
-                if(LinkNoteStaticMembers.EditingBoolean == false)
+                if (LinkNoteStaticMembers.EditingBoolean == false)
                 {
                     // Add dispalySgtring to the lbxOpenSelectedNote
                     lbxOpenSelectedNote.Items.Add(displayString);
@@ -273,8 +273,8 @@ namespace NewLSP.UserControls
                 LinkNoteStaticMembers.EditingBoolean = false;
                 rbtEdit.IsChecked = false;
             }
-            
-             
+
+
 
         }// End miSaveNote_Click
 
@@ -303,7 +303,7 @@ namespace NewLSP.UserControls
 
                 LinkNoteStaticMembers.HyperlinkDictionary.Clear();
 
-               
+
 
                 lbxLinks.Items.Clear();
                 int HyperlinkCntr = 0;
@@ -317,17 +317,17 @@ namespace NewLSP.UserControls
                     {
                         // Get the component parts
                         string[] componentItems = line.Split('^');
-                         Name = componentItems[0];
-                         Url = componentItems[1];
-                         FileType = componentItems[2];
-                         BookMark = componentItems[3];
+                        Name = componentItems[0];
+                        Url = componentItems[1];
+                        FileType = componentItems[2];
+                        BookMark = componentItems[3];
                     }
                     catch (Exception ex1)
                     {
                         MessageBox.Show("Cannot open this hyperlink because of " + ex1.Message);
                         return;
                     }
-                    
+
                     LinkNoteModel.HyperlinkObject hyperlinkObject = new LinkNoteModel.HyperlinkObject();
                     hyperlinkObject.Name = Name;
                     hyperlinkObject.Url = Url;
@@ -430,7 +430,7 @@ namespace NewLSP.UserControls
         #endregion Menu Click Methods
 
         #region Private Methods
-      
+
         #region FileType combobox changed method
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace NewLSP.UserControls
         private void lbxLinks_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             int ItemClicked = lbxLinks.SelectedIndex;
-            
+
             LinkNoteModel.HyperlinkObject thisHyperlinkObject = LinkNoteStaticMembers.GetHyperlinkObject(ItemClicked);
             string LinkName = thisHyperlinkObject.Name;
             string Url = thisHyperlinkObject.Url;
@@ -501,7 +501,7 @@ namespace NewLSP.UserControls
             // Set the BookMark
             tbxBookMark.Text = BookMark;
 
-            if(tbxBookMark.Text != "")
+            if (tbxBookMark.Text != "")
             {
                 Clipboard.SetText(tbxBookMark.Text);
             }
@@ -524,7 +524,7 @@ namespace NewLSP.UserControls
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message+ " = "+ hyperlink);
+                MessageBox.Show(e.Message + " = " + hyperlink);
             }
         }
 
@@ -652,7 +652,7 @@ namespace NewLSP.UserControls
             CommonStaticMembers.CurrentNote26Name = thisNoteReferenceName;
 
             //Use this name to create the path to the NoteReferenceFile
-            string NoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath +"\\"+ thisNoteReferenceName + ".txt";
+            string NoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + thisNoteReferenceName + ".txt";
 
             // Create a string[] to hold the data
             string[] CurrentNoteReferenceFileDataArray = new string[4];
@@ -691,7 +691,7 @@ namespace NewLSP.UserControls
 
             //If there is no book mark change it from 
 
-            if(NoteBookmark != null)
+            if (NoteBookmark != null)
             {
                 Clipboard.SetText(NoteBookmark);
             }
@@ -700,7 +700,7 @@ namespace NewLSP.UserControls
                 NoteBookmark = "";
             }
 
-            
+
 
 
             //open the hyperlink
@@ -734,7 +734,7 @@ namespace NewLSP.UserControls
             string NoteReferenceFilePath = CommonStaticMembers.NoteReferencesPath + "\\" + NotereferenceFileName + ".txt";
 
             // Read in the text in the NoteReferenceFile into a single ';' delimited string storred as DelStrOfKeyWordsAndComments
-            try 
+            try
             {
                 LinkNoteStaticMembers.DelStrOfKeyWordsAndComments = File.ReadAllText(NoteReferenceFilePath);
             }
@@ -772,7 +772,7 @@ namespace NewLSP.UserControls
                 // Get the SelectedKeyWord
                 string SearchKeyWord = LinkNoteStaticMembers.SearchKeyWord;
 
-                if(SearchKeyWord == null)
+                if (SearchKeyWord == null)
                 {
                     MessageBox.Show("You must have designated a single search key word.");
                     return;
@@ -818,7 +818,7 @@ namespace NewLSP.UserControls
             lbxOpenSelectedNote.Items.Clear();
 
             // Fill the list box with ListOfNoteNameAndFileNames
-            foreach(string line in LinkNoteStaticMembers. ListBoxOfSelectedNotesList)
+            foreach (string line in LinkNoteStaticMembers.ListBoxOfSelectedNotesList)
             {
                 lbxOpenSelectedNote.Items.Add(line);
             }
@@ -841,7 +841,7 @@ namespace NewLSP.UserControls
             {
                 lbxOpenSelectedNote.Items.Add(noteName);
             }
-            
+
         }
 
 
@@ -852,7 +852,7 @@ namespace NewLSP.UserControls
 
         #region Link_Note UserControl Methods
 
-        
+
 
         #region RadioButton Add
         /// <summary>
@@ -886,26 +886,322 @@ namespace NewLSP.UserControls
             tbxAllKeyWords.Text = "";
             KeyWordsStaticMembers.ListAccess = false;
             LinkNoteStaticMembers.KeyWordSearch = true;
-           
+
         }
 
         #endregion Radio button Search
 
 
         #region Input Textbox Key Up Procedure
-        /// <summary>
-        /// Take the characters typed into lbxKeyWords and show all terms in KeyWordList that start with these characters
-        /// If the User Hits the Enter Key
-        ///     a. If there is data in the list of Keywords in the lbxKeyWords ListBox, 
-        ///        in either Add or Search mode then it returns the top item in the list
-        ///     b. If there are no Items
-        ///         1)  In search, Warn and return
-        ///         2)  In Create, create a new KeyWord from the characters in the textbox
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+        //private static bool AddCommentToReusedKeyWord = false; //If true the comment should be added to the ReusedKeyWord
+        private static bool LongKeyWordsOK = false;// if true Key words can be longer that 50 characters
+        private static bool AddCommentToPreviouslyUsedKeyWord = false;
+        private string ReusedKeyWord = "";//This keyword has beed entered more that once 
+        private string CurrentKeyWord = "";
+
+
         private void tbxInput_KeyUp(object sender, KeyEventArgs e)
         {
+            // local variables
+            bool Comment = false;
+            bool IsKeyWord = false;
+
+            /* if (e.Key == Key.Back)
+             * If the Receives Key e is Key.Back and if pressing it results in there
+             * being no text in the tbxInput text box then remove any items that
+             * may have been listed in the list of key words in the lbxKeyWords 
+             * that previously started with the former text in tbxInput
+            if (e.Key == Key.Back) */
+            {
+                if (tbxInput.Text == "") lbxKeyWords.Items.Clear();
+            }
+
+            //Remove any spaces at the end of the input text
+            tbxInput.Text.Trim();
+            //Clear all the items in the list of key words
+
+            //Determin whether a key word or a comment is being entered
+            if (tbxInput.Text.IndexOf('#') == 0) { Comment = true; }
+            else if ((tbxInput.Text.IndexOf('#') != 0) && (tbxInput.Text.Length > 0)) { IsKeyWord = true; }
+            else MessageBox.Show("There is an error");
+
+            //A key word is being entered
+            if (IsKeyWord)
+            /*
+             Goals to accomplish when a key word is being entered but the Enter key has not been pressed
+                1.*  Make sure it doesn't contain a ';'
+                2.*  List all keywords which start with the text in tbxInput
+                3.*  If search is pressed and there are no matching key words WARN the user  
+                4.*  If the length of the text is >50 and LongKeyWordsOK is false, then
+                    ask the user it this is OK
+                    a.  If it is then set LongKeyWordsOK to true and dont ask again WHILE THIS KEY WORD IN BEING ENTERED
+                        !!! MAKE SURE TO SET LongKeyWordsOK TO FALSE AFTER THE ENTER KEY IS PRESSED AND THE KEY WORD IS PROCDESSED
+            Goals to accomplish when a key word is being entered and the Enter key is pressed
+                1.  Determin if this KeyWord is already present in tbxAllKeyWords. 
+                    If it is:
+                        a.  If it has set the ReusedKeyWord to the rbxInput text
+                        b.  Set AddCommentToPreviouslyUsedKeyWord to true
+                        c.  Clear the text in tbxInput and lbxKeyWords
+                2.  It this keyword has not been used then:
+                    a.  Add it to tbxAllKeyWords with a ';'
+                    b.  Update List of KeyWords 
+                    c.  Add a new item to the KeyWord Dictionary with this as the key
+                    d.  Add this to the List of KeyWords
+                    e.  Update the List and Sorted list text files
+                    f.  Clear tbxInput and lbxKeyWords
+                    
+             */
+            {// Beginning if (IsKeyWord)
+                //If key != Enter
+                if (e.Key != Key.Enter)
+                {
+                    if (!ContentValid(tbxInput.Text))
+                    {
+                        return;
+                    }
+                    //If the text is greater that 50 ask the user if this is OK
+                    if( (tbxInput.Text.Length>50) && (!LongKeyWordsOK) ) SetLongKeyWordBool();
+                  
+                    //List all Key Words that begin with the text in the rbxInput TextBox
+                    ShowKeyWordsBeginningWithThisString();
+                    //If the user is searching and there are no KeyWords listed notify him, clear the input text and return
+                    if ((lbxKeyWords.Items.Count == 0) && (rbtSearch.IsChecked == true)) 
+                    {
+                        ShowSearchKeyWordInvalid();
+                        tbxInput.Text = "";
+                        return;
+
+                    }// End of if (e.Key != Key.Enter)
+                    return;
+                }// End if (e.Key != Key.Enter)
+                else
+                /*
+                Goals to accomplish when a key word is being entered and the Enter key is pressed
+                0*  Clear previously used globals
+                1*  Depending on whether the lbxKeyWords is empty or not set CurrentKeyWord
+                    a.  If this is a new Key Word add it to the appropriate data
+                2.  Determin if this KeyWord is already present in tbxAllKeyWords. 
+                    If it is:
+                        a*  If it has set the ReusedKeyWord to the rbxInput text
+                        b* Set AddCommentToPreviouslyUsedKeyWord to true
+                        c*  Clear the text in tbxInput and lbxKeyWords
+                        d*  return to the UI
+                2.  Else  this keyword has not been used then:
+                    a*  Add it to tbxAllKeyWords with a ';'
+                    b*  Update List of KeyWords 
+                    c*  Add a new item to the KeyWord Dictionary with this as the key
+                    d*  Add this to the List of KeyWords
+                    e  Update the List and Sorted list text files
+                    f.  Clear tbxInput and lbxKeyWords                
+                */
+
+                {// The user is entering a KeyWord and the Enter Key was hit
+
+                    // Clear globals that may have been set previously
+                    LongKeyWordsOK = false;
+                    AddCommentToPreviouslyUsedKeyWord = false;
+                    ReusedKeyWord = "";
+
+                    //Depending on whether the lbxKeyWords is empty or not set CurrentKeyWord
+                    if (lbxKeyWords.Items.Count != 0)
+                    {
+                        //If there are KeyWords in lbxKeyWord set Current key word to the 1st
+                        CurrentKeyWord = GetFirstItemInLbxKeyWords();
+                    }//End if(lbxKeyWords.Items.Count != 0)
+                    else
+                    {
+                        //otherwise create a new Key word update the storage variables, clear input fields and return
+                        CurrentKeyWord = tbxInput.Text;
+                        AddInputTextToTBXAllKeyWords(CurrentKeyWord);
+                        AddNewKeyWordToKeyWordList(CurrentKeyWord);
+                        tbxInput.Text = "";
+                        lbxKeyWords.Items.Clear();
+                        return;
+                    }
+
+                    //Determine if this key word has already been used
+                    if (ThisKeyWordHasAlreadyBeenUsed(CurrentKeyWord))
+                    {
+                        //This Key ward is already present in tbxAllKeyWords so set the appropriate variables
+                        ReusedKeyWord = CurrentKeyWord;
+                        AddCommentToPreviouslyUsedKeyWord = true;
+                        //Clear tbxInput and lbxKeyWords
+                        tbxInput.Text = "";
+                        lbxKeyWords.Items.Clear();
+                        return;
+                    }// End if (ThisKeyWordHasAlreadyBeenUsed(CurrentKeyWord))
+                    AddInputTextToTBXAllKeyWords(CurrentKeyWord);
+                }// End   if (e.Key != Key.Enter) ELSE
+            }// End if (IsKeyWord)
+
+            //Process Comments
+            if (Comment)
+            {
+                if (e.Key == Key.Enter)
+                {
+                    //Determine whether the comment contains a ‘;’ or a ‘#’ and if so will return the used to the main screen
+                    if (!CommentIsValid(tbxInput.Text)) return;
+                    // Entering a new Comment
+                    /*  Determine if this comment should be added to a previously used key word
+                        if so, then call AddThisCommentToTheReusedKeyWord and clear the varialbes*/
+                    if (AddCommentToPreviouslyUsedKeyWord)
+                    {
+                        AddThisCommentToTheReusedKeyWord(tbxInput.Text);
+                        tbxInput.Text = "";
+                        lbxKeyWords.Items.Clear();
+                        return;
+                    }
+                    else
+                    { //Add this comment to tbxAllKeyWords.Text 
+                        tbxAllKeyWords.Text = tbxAllKeyWords.Text + tbxInput.Text + ';';
+                        tbxInput.Text = "";
+                        lbxKeyWords.Items.Clear();
+                        return;
+                    }// End  if if (AddCommentToPreviouslyUsedKeyWord) ELSE
+
+                } //End  if (e.Key == Key.Enter)
+                else
+                {
+                    // Acomment is being entered check its validity
+                }
+
+                //Comment ADDED TO PREVIOUSLY USED KEY WORD, NEXT  MAKE THIS HAPPEN FOR A WORK CLICKED IN LBXKEYWORDS AND CLEAR VARIABLES WHEN A NEW KEY WORD IS ENETERE
+
+            }// End if (Comment)
+             //Verify that the text in the tbxInput TextBox is either a valid keyword or comment
+            if (!ContentValid(tbxInput.Text)) return;//THIS IS PROBABLY NOT AT THE CORRECT POSITION
+
+            // lbxKeyWords contains all of the keywords that start with the characters typed into the text box tbxInput
+            //Clear the current content of lbxKeyWords 
+            lbxKeyWords.Items.Clear();
+
+            /*  Create a List of KeyWords whose leading chars match the substring in the input textbox
+                Cycle through the list of all key words in the KeyWords dictionary
+                and list, selecting all that begin with the characters in tbxInput
+                and place them in the Listbox of matching key words so that the user
+                can either select the 0th entry by hitting return or one down in 
+                in the list by left clicking it
+            */
+            foreach (string line in KeyWordsStaticMembers.KeyWordList)
+            {
+                //In the current line begins with the characters in tbxInput add line to lbxKeyWords
+                if (line.IndexOf(tbxInput.Text) == 0)
+                {
+                    lbxKeyWords.Items.Add(line);
+                }
+            }// End of foreach (string line in KeyWordsStaticMembers.KeyWordList)
+
+            /* If the user hits the Enter key */
+            if (e.Key == Key.Enter)
+            {
+                if (rbtEdit.IsChecked == true) KeyWordsStaticMembers.ListAccess = true;
+
+                // !! CHECH TO SEE IF ANY SEARCH WORDS ARE PRESENT IN THE CURRENT LIST OF KEY WORDS !! //
+                // If ListAccess is false, that means you are in the search mode 
+                // If you are in the search mode and you type characters which do not occur at the start of 
+                // any words in the listof KeyWords yoy get the following message
+                //ListAccess is the abilits to access the current list of keywords
+                if (!KeyWordsStaticMembers.ListAccess)
+                {
+                    // If lbxKeyWords is empty in the Search statge send a message that you can only accepts existing keywords
+                    if (lbxKeyWords.Items.Count == 0)
+                    {
+                        MessageBox.Show("When You are in the Search mode you can only search for existing Keywords");
+                        // return to UI
+                        return;
+                    }
+                }// End of if (!KeyWordsStaticMembers.ListAccess)
+
+                string ThisKeyWord = "";
+                /* Determine if there are Keywords showing in lbxKeyWords then select #0,  
+                 * Set  LinkNoteStaticMembers.SelectedKeyWord to this value, 
+                 * Add the keyword to the tbxAllKeyWords.Text, 
+                 * and return */
+                if (lbxKeyWords.Items.Count != 0)
+                //There is data in the lbxKeyWords ListBox
+                {
+                    // Create a list from the KeyWords in lbxKeyWords so that the 0th item can be chosen
+                    List<string> myCurrentKeyWordsList = new List<string>();
+                    // Populate  myCurrentKeyWordsList with the selected columns.
+                    foreach (string thisKeyWordItem in lbxKeyWords.Items)
+                    {
+                        myCurrentKeyWordsList.Add(thisKeyWordItem);
+                    }
+                    //Set the Selected KeyWord to the 0th entry
+                    ThisKeyWord = myCurrentKeyWordsList[0];
+                    //Set the LinkNoteStaticMembers.SelectedKeyWord string to this value
+                    LinkNoteStaticMembers.SelectedKeyWord = ThisKeyWord;
+                    LinkNoteStaticMembers.SearchKeyWord = ThisKeyWord;
+                    // error here
+                    if (LinkNoteStaticMembers.KeyWordSearch)
+                        // add this Keyword to the list of selected keywords
+                        tbxAllKeyWords.Text = tbxAllKeyWords.Text + ThisKeyWord + ';';
+                    //Clear tbxInput
+                    tbxInput.Text = "";
+                    //Clear lbxKeyWords
+                    lbxKeyWords.Items.Clear();
+                    //retrun  to UI
+                    return;
+                }// End of if (lbxKeyWords.Items.Count != 0)
+
+                // If the program reaches this point, there is no data in the lbxKeyWords ListBox
+                // Create a new KeyWord from the current text in tbxInput
+                ThisKeyWord = tbxInput.Text;
+
+
+
+                // Remove any leading or trailing spaces
+                ThisKeyWord = ThisKeyWord.Trim();
+
+                // Add this KeyWord to tbxAllKeyWords with a ';' seperator
+                tbxAllKeyWords.Text = tbxAllKeyWords.Text + ThisKeyWord + ';';
+
+
+                //!! DETECE COMMENTS AND DONT ADD THEM TO THE KEYWORD LIST 11 //
+                // If this is a generic comment(ie it begins with #)  return  without adding it to the KeyWordList
+                if (ThisKeyWord.IndexOf("#") != -1)
+                {
+                    tbxInput.Text = "";
+                    return;
+                }// End of if (ThisKeyWord.IndexOf("#") != -1)
+
+                // !! UPDATE THE KEYWORD FILES !! //
+                // Update the active KeyWordList
+                KeyWordsStaticMembers.KeyWordList.Add(tbxInput.Text);
+                // Append this new Keyword to the Keyword txt Fild
+                KeyWordsStaticMembers.AppendNewKeyWord(ThisKeyWord);
+
+                //Added 20211202
+                KeyWordsStaticMembers.AppendNewSortedKeyWord(ThisKeyWord);
+                //End added 20211202
+
+
+                // Convert Keyword to Dictionary Item by replacing all spaces with '_'
+                string thisKeyWord = tbxInput.Text;
+                string ConvertedThisKeyWord = thisKeyWord.Replace(' ', '_');
+
+                //Add the new converted Key word to the dictionary with a value containing only the starting delimiter, ;
+                KeyWordsStaticMembers.KeyWordsDictionary.Add(ConvertedThisKeyWord, ";");
+
+                // Add the new converted keyword to the NotesDictionary.txt file
+                KeyWordsStaticMembers.AppendNewKeyWordDictionaryItemString(ConvertedThisKeyWord);
+
+                tbxInput.Text = "";
+            }// End of if (e.Key == Key.Enter)
+
+            // Code to clear tbxInput if backspace results in empty text
+            if (e.Key == Key.Back)
+            {
+                if (tbxInput.Text == "") lbxKeyWords.Items.Clear();
+            }// End of if (e.Key == Key.Back)
+        
+
+
+            // !!!!! END OF 20220407 ADDITIONS 
+
+
+
             //Verify that the text in the tbxInput TextBox is either a valid keyword or comment
             if (!ContentValid(tbxInput.Text)) return;
 
@@ -939,7 +1235,8 @@ namespace NewLSP.UserControls
                 // If you are in the search mode and you type characters which do not occur at the start of 
                 // any words in the listof KeyWords yoy get the following message
                 //ListAccess is the abilits to access the current list of keywords
-                if (!KeyWordsStaticMembers.ListAccess)                {
+                if (!KeyWordsStaticMembers.ListAccess)
+                {
                     // If lbxKeyWords is empty in the Search statge send a message that you can only accepts existing keywords
                     if (lbxKeyWords.Items.Count == 0)
                     {
@@ -969,8 +1266,8 @@ namespace NewLSP.UserControls
                     LinkNoteStaticMembers.SelectedKeyWord = KeyWord;
                     LinkNoteStaticMembers.SearchKeyWord = KeyWord;
                     if (LinkNoteStaticMembers.KeyWordSearch)
-                    // add this Keyword to the list of selected keywords
-                    tbxAllKeyWords.Text = tbxAllKeyWords.Text + KeyWord + ';';
+                        // add this Keyword to the list of selected keywords
+                        tbxAllKeyWords.Text = tbxAllKeyWords.Text + KeyWord + ';';
                     //Clear tbxInput
                     tbxInput.Text = "";
                     //Clear lbxKeyWords
@@ -982,7 +1279,7 @@ namespace NewLSP.UserControls
                 // Create a new KeyWord from the current text in tbxInput
                 KeyWord = tbxInput.Text;
 
-                
+
 
                 // Remove any leading or trailing spaces
                 KeyWord = KeyWord.Trim();
@@ -1001,23 +1298,19 @@ namespace NewLSP.UserControls
 
 
                 // !! UPDATE THE KEYWORD FILES !! //
-                // Update the active KeyWordList
+                //The KeyWordist is the items in the ListOfKekWords.txt file
+                // add this new key word to the KeyWordList
                 KeyWordsStaticMembers.KeyWordList.Add(tbxInput.Text);
                 // Append this new Keyword to the Keyword txt Fild
                 KeyWordsStaticMembers.AppendNewKeyWord(KeyWord);
-
-                //Added 20211202
+                //Add this new keyword to the SortedListOfKeyWords.txt file
                 KeyWordsStaticMembers.AppendNewSortedKeyWord(KeyWord);
-                //End added 20211202
-
-
                 // Convert Keyword to Dictionary Item by replacing all spaces with '_'
                 string thisKeyWord = tbxInput.Text;
+                //Convert the keyword to the dictionary key format (no spaces)
                 string ConvertedThisKeyWord = thisKeyWord.Replace(' ', '_');
-
                 //Add the new converted Key word to the dictionary with a value containing only the starting delimiter, ;
                 KeyWordsStaticMembers.KeyWordsDictionary.Add(ConvertedThisKeyWord, ";");
-
                 // Add the new converted keyword to the NotesDictionary.txt file
                 KeyWordsStaticMembers.AppendNewKeyWordDictionaryItemString(ConvertedThisKeyWord);
 
@@ -1031,89 +1324,14 @@ namespace NewLSP.UserControls
             }
         }// End tbxInput_KeyUp 
 
+
+
+
+
+
         #endregion  Input Textbox Key Up Procedure
 
-        #region ContentValid Verification
 
-
-        /// <summary>
-        /// This method receives the text in the tbxInput TextBox and verifies that it is valid or not
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        private bool ContentValid(string text)
-        {
-            bool Valid = true;
-
-            //Test to insure that the text does not contain a semicolon ;
-            if (text.Contains(";"))
-            {
-                MessageBox.Show("You cannot include a semicolon ';' in a key word or comment!");
-                Valid = false;
-                return Valid;
-            }
-
-            //Test to see if text contains "#"
-            if (text.Contains("#"))
-            {
-                //This may be a comment
-                int numberOfHashes = StringHelper.ReturnNumberOfDeliniters(text, '#');
-                //If there is only one and its position is 0 this is a valid comment
-                if (numberOfHashes == 1) 
-                {
-                    if (text.StartsWith("#"))
-                    {
-                        return Valid;
-                    }
-                    else
-                    {
-                        MessageBox.Show("The Hash mark # must start a comment!");
-                        Valid = false;
-                        return Valid;
-                    }
-                }
-                else if(numberOfHashes > 1)
-                    {
-                        MessageBox.Show("You can only have 1 Hash mark in an expression!");
-                        Valid = false;
-                        return Valid;
-                    }
-            }// end text contains #
-
-            //At this point we should have only keywords, test length to detect unusually long key words
-            //Test to see if the KeyWord is longer than 50 characters
-            if (text.Length > 50)
-            {
-                //MessageBox.Show("Your KeyWord is >50 Charcters. Do you want to store it?", "No", MessageBoxButton.YesNo);
-                MessageBoxResult result = MessageBox.Show("Your KeyWord is > 50 Charcters.Do you want to store it ? ", "No", MessageBoxButton.YesNo);
-                 switch (result)
-                {
-                    case MessageBoxResult.Yes:
-
-                        return Valid; 
-                    case MessageBoxResult.No:
-                        Valid = false;
-                        return Valid;//return to the input box and allow the user to change the key word
-
-                }
-            }
-
-
-            return Valid;
-
-            //bool Valid = true;
-            ////test to see if content contains '#'
-            //if (text.Contains("#"))
-            //{
-
-            //}
-                
-
-            //}
-
-            //return Valid;
-        }
-        #endregion ContentValid Verification
 
 
         #region lbxKeyWords_MouseLeftButtonUp
@@ -1126,9 +1344,24 @@ namespace NewLSP.UserControls
         /// <param name="e"></param>
         private void lbxKeyWords_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            /* STEPS to be done when the user selects a key word from the lbxKeyWords
+             *  1*.  Set CurrentKeyWord to Selected Key word
+                2*.  Clear previously used globals
+                3.  Determin if this KeyWord is already present in tbxAllKeyWords. 
+                  If it is:
+                        a*.  If it has set the ReusedKeyWord to the rbxInput text
+                        b*.  Set AddCommentToPreviouslyUsedKeyWord to true
+                        c*.  Clear the text in tbxInput and lbxKeyWords
+                        d*.  return to the UI
+                  Else  this keyword has not been used then:
+                    a*.  Call AddInputTextToTBXAllKeyWords
+                    b.  Clear tbxInput and lbxKeyWords                
+             */
+
+
             string KeyWord = "";
-            try 
-            { 
+            try
+            {
                 KeyWord = lbxKeyWords.SelectedItem.ToString();
                 LinkNoteStaticMembers.SearchKeyWord = KeyWord;
                 if (!LinkNoteStaticMembers.ShowAllKeywords)
@@ -1137,22 +1370,32 @@ namespace NewLSP.UserControls
                     LinkNoteStaticMembers.SelectedKeyWord = KeyWord;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("You cannot have an empty keyword");
                 return;
             }
-            
-            tbxAllKeyWords.Text = tbxAllKeyWords.Text + KeyWord + ';';
+            CurrentKeyWord = KeyWord;
+            // Clear globals that may have been set previously
+            LongKeyWordsOK = false;
+            AddCommentToPreviouslyUsedKeyWord = false;
+            ReusedKeyWord = "";
+
+            if (ThisKeyWordHasAlreadyBeenUsed(CurrentKeyWord))
+            {
+                    AddCommentToPreviouslyUsedKeyWord = true;
+                    ReusedKeyWord = CurrentKeyWord;
+
+            }//End if (ThisKeyWordHasAlreadyBeenUsed(CurrentKeyWord))
+            else
+            {
+                AddInputTextToTBXAllKeyWords(CurrentKeyWord);
+
+            }// End if (ThisKeyWordHasAlreadyBeenUsed(CurrentKeyWord)) ELSE 
             tbxInput.Text = "";
             lbxKeyWords.Items.Clear();
-        }
 
-
-
-
-
-
+        }// End lbxKeyWords_MouseLeftButtonUp
 
 
         #endregion lbxKeyWords_MouseLeftButtonUp
@@ -1178,7 +1421,7 @@ namespace NewLSP.UserControls
             lblKeyWordsAction.Content = "Revert to the previous Key Combination or Word";
             btnRevert.Content = "Revert";
 
-           
+
 
         }// End btnRevert_Click
 
@@ -1211,17 +1454,17 @@ namespace NewLSP.UserControls
                 return;
             }
             //Check to see if in edit mode
-            if((rbtEdit.IsChecked == true))
+            if ((rbtEdit.IsChecked == true))
             {
-                if(tbxAllKeyWords.Text != "")
-                {                    
+                if (tbxAllKeyWords.Text != "")
+                {
                     string CurrentKeyWords = tbxAllKeyWords.Text;
                     return;
                 }
                 else
                 {
                     return;
-                }                
+                }
             }
             // Create a string variable from the text in tbxAllKeyWords
             var SearchKeyWord = tbxAllKeyWords.Text;
@@ -1238,7 +1481,7 @@ namespace NewLSP.UserControls
             lbxOpenSelectedNote.Items.Clear();
 
             // Cycle through NoteNamesDispalyList adding them to the list box
-            foreach(string NoteName in NoteNamesDispalyList)
+            foreach (string NoteName in NoteNamesDispalyList)
             {
                 lbxOpenSelectedNote.Items.Add(NoteName);
             }
@@ -1292,5 +1535,353 @@ namespace NewLSP.UserControls
             LinkNoteStaticMembers.ShowAllKeywords = false;
 
         }
+
+
+        #region Methods called by tbxInput.KeyUp method
+
+        /// <summary>
+        /// This is called when the user is in search mode and there are no KeyWords that being with 
+        /// the string in the tbxInput TextBoxc to notify the user that 
+        /// "When You are in the Search mode you can only search for existing Keywords"
+        /// </summary>
+        /// <param name="listLbxKeyWords"></param>
+        private void ShowSearchKeyWordInvalid()
+        {
+            // If lbxKeyWords is empty in the Search statge send a message that you can only accepts existing keywords
+            if (lbxKeyWords.Items.Count == 0)
+            {
+                MessageBox.Show("When You are in the Search mode you can only search for existing Keywords");
+                return;
+            }// End if (lbxKeyWords.Items.Count == 0)
+
+        } // End ShowSearchKeyWordInvalid(
+
+
+
+        /// <summary>
+        /// This is called the first time that the length of a new KeyWord is >50 and it asks
+        /// the user if this is what is desired. If the reply is YES then a LongKeyWordsOK to 
+        /// true, and if additional characters are added to this KeyWord it will skip this
+        /// method. 
+        /// </summary>
+        private void SetLongKeyWordBool()
+        {
+
+            if (MessageBox.Show("Your KeyWord is >50 Charcters. Do you want to store it?", "Please Select", MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                LongKeyWordsOK = true;
+            }
+            else
+            {
+                LongKeyWordsOK = false;
+                tbxInput.Text = "";
+            } 
+            return;
+        }// End private void SetLongKeyWordBool()
+
+        /// <summary>
+        /// Receives the current key word and trims it. It then adds it to the existing KeyWordList,
+        /// in KeyWordsStaticMembers. It then appends it to the ListOfKeyWords.txt file and to the
+        /// ListOfSortedKeyWords.txt file. It the changes all spaces ' ' to underscores '_' and
+        /// creats in new item in the KeyWordDictionary with this as the Key. Finally it appelds
+        /// a '^' and return characters and adds it to the bottom of the KeyWordDictionary.txt file
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="currentKeyWord"></param>
+        private void AddNewKeyWordToKeyWordList(string currentKeyWord)
+        {
+            CurrentKeyWord.Trim();
+            // add this new key word to the KeyWordList
+            KeyWordsStaticMembers.KeyWordList.Add(CurrentKeyWord);
+            // Append this new Keyword to the Keyword txt Fild
+            KeyWordsStaticMembers.AppendNewKeyWord(CurrentKeyWord);
+            //Add this new keyword to the SortedListOfKeyWords.txt file
+            KeyWordsStaticMembers.AppendNewSortedKeyWord(CurrentKeyWord);
+            // Convert Keyword to Dictionary Item by replacing all spaces with '_'
+            string thisKeyWord = CurrentKeyWord;
+            //Convert the keyword to the dictionary key format (no spaces)
+            string ConvertedThisKeyWord = thisKeyWord.Replace(' ', '_');
+            //Add the new converted Key word to the dictionary with a value containing only the starting delimiter, ;
+            KeyWordsStaticMembers.KeyWordsDictionary.Add(ConvertedThisKeyWord, ";");
+            // Add the new converted keyword to the NotesDictionary.txt file
+            KeyWordsStaticMembers.AppendNewKeyWordDictionaryItemString(ConvertedThisKeyWord);
+
+        }// End private void AddNewKeyWordToKeyWordList(string KeyWordInAllKeyWordsText)
+
+        /// <summary>
+        /// Receives the text of a comment 
+        /// It it has illegal charcters it sends a message to the user
+        /// and returns false
+        /// otherwise it returns true
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private bool CommentIsValid(string text)
+        {
+            bool Valid = true;
+            string thisMessaage = "";
+            //Test to insure that the text does not contain a semicolon ;
+            if (tbxInput.Text.Contains(";"))
+            {
+                thisMessaage = "You cannot include a semicolon ';' in a key word or comment!";
+                Valid = false;
+            }
+            int NumOfHashes = StringHelper.ReturnNumberOfDeliniters(tbxInput.Text, '#');
+            if (NumOfHashes > 1)
+            {
+                thisMessaage = "A Comment can only have one #";
+                Valid = false;
+            }
+            return Valid;
+        }// End private bool CommentIsValid(string text)
+
+        /// <summary>
+        /// Receives a Key Word and determines if it has already been used or not
+        /// </summary>
+        /// <param name="thisKeyWord"></param>
+        /// <returns></returns>
+        private bool ThisKeyWordHasAlreadyBeenUsed(string thisKeyWord)
+        {
+            string currentTextInTbxAllKeyWords = tbxAllKeyWords.Text;
+           if (currentTextInTbxAllKeyWords.IndexOf(thisKeyWord+';') != -1)
+            {//This KeyWord has been used previously
+                return true;
+            }
+            else
+            {
+                return false;
+            }// End elseif (currentTextInTbxAllKeyWords.IndexOf(thisKeyWord+';') != -1)
+        }// End private bool ThisKeyWordHasAlreadyBeenUsed(string thisKeyWord)
+
+        /// <summary>
+        /// Returns the first item in the lbxKeyWords List Box
+        /// </summary>
+        /// <returns></returns>
+        private string GetFirstItemInLbxKeyWords()
+        {
+            string firstItem = "";
+            //Convert the Items in lbxKeyWords into a string []
+            if (lbxKeyWords.Items.Count != 0)
+            {
+                string[] lbxKeyWordsArray = lbxKeyWords.Items.OfType<string>().ToArray();
+                firstItem = lbxKeyWordsArray[0];
+                
+            }
+            return firstItem;
+        }// End of private string GetFirstItemInLbxKeyWords()
+
+
+
+        private void AddANewKeyWord(string currentKeyWord)
+        {
+
+            //Add this keyword to the appropriate variables and 
+            LinkNoteStaticMembers.SelectedKeyWord = currentKeyWord;
+            //Set the LinkNoteStaticMembers.SelectedKeyWord string to CurrentKeyWord
+            // It represents the KeyWord the user has selected to search for in all notes
+            LinkNoteStaticMembers.SearchKeyWord = currentKeyWord;
+            string currentValueOfTbxAllKeyWords = tbxAllKeyWords.Text;
+            currentValueOfTbxAllKeyWords = currentValueOfTbxAllKeyWords + currentKeyWord + ';';
+            tbxAllKeyWords.Text = currentValueOfTbxAllKeyWords;
+            //Clear tbxInput
+            tbxInput.Text = "";
+            //Clear lbxKeyWords
+            lbxKeyWords.Items.Clear();
+
+
+        }//End AddANewKeyWord(string currentKeyWord)
+
+
+        /// <summary>
+        /// This is called when a keyword that had previously been used was entered and the
+        /// value of ThisKeyWordHasAlreadyBeenUsed is true
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        private void AddThisCommentToTheReusedKeyWord(string text)
+        {
+            //Create a temp dictionary of the ';' delimited items in tbxAllKeyWords using KeyWords as Keys and comments as values
+            // Remove the terminal ';' from tbxAllKeyWords.Text
+            string textInTbxAllKeyWords = tbxAllKeyWords.Text.Substring(0, tbxAllKeyWords.Text.Length - 1);
+            //Use Split to convert the text in tbxAllKeyWords.Text into a string array
+            string[] ArrayOfAllKeyWordsItems = textInTbxAllKeyWords.Split(';');
+            //Create a Dictionary where the Keys are the KeyWords and the value are the Comments attached to that key word
+            Dictionary<string, string> KeyWord_CommentsDictionary = new Dictionary<string, string>();
+            string KeyWordInAllKeyWordsText = "";
+
+            /*Populate KeyWord_CommentsDictionary all KVPs consist of previously entered
+             * where the Key is a Key Word and the Value are all of the comments
+             * which followed it until the next Key word*/
+            //Create a variable to hold the value of the most recently entered key word
+            string mostRecentKeyWord = "";
+            foreach (string Item in ArrayOfAllKeyWordsItems)
+            {
+                if (Item.IndexOf('#') == -1)
+                {
+                    //This is a KeyWord so create a new dictionary item
+                    KeyWord_CommentsDictionary.Add(Item, "");
+                    mostRecentKeyWord = Item;
+                } //End of if(Iten.IndexOf('#') == -1)
+                if (Item.IndexOf('#') == 0)
+                {
+                    //This is a comment so add it to the Dictionary item whose key = KeyWordInAllKeyWordsText
+
+                    string CurrentValue = KeyWord_CommentsDictionary[mostRecentKeyWord];
+                    CurrentValue = CurrentValue + Item + ';';
+                    //Add the updated value to the dictionary
+                    KeyWord_CommentsDictionary[mostRecentKeyWord] = CurrentValue;
+                }//End if(Iten.IndexOf('#') == 0)
+            }//End of foreach(string Item in ArrayOfAllKeyWordsItems
+
+            /* Get the current Value of the Keyword Key which was already present in the tbxAllKeyWords.Text 
+             * which consists of all comments originally entered after that Key word  prior 
+             to the new Comment which was just added*/
+            string CurrentValueOfReusedKeyWord = KeyWord_CommentsDictionary[ReusedKeyWord];
+            string NewCommentToAdd = tbxInput.Text;
+            CurrentValueOfReusedKeyWord = CurrentValueOfReusedKeyWord + NewCommentToAdd + ';';
+            KeyWord_CommentsDictionary[ReusedKeyWord] = CurrentValueOfReusedKeyWord;
+            //Change the Dictionary back into a ';' delimited string
+            string RevisedtbxAllKeyWordsText = "";
+            //cycle thru the Dictionary getting all items
+            foreach (KeyValuePair<string, string> KVP in KeyWord_CommentsDictionary)
+            {
+                string Key = KVP.Key;
+                string Value = KVP.Value;
+                RevisedtbxAllKeyWordsText = RevisedtbxAllKeyWordsText + Key + ';' + Value;
+            }//End foreach(KeyValuePair KVP in KeyWord_CommentsDictionary       
+
+            tbxAllKeyWords.Text = RevisedtbxAllKeyWordsText;
+            return;
+
+        }// End private void AddThisCommentToTheReusedKeyWord(string text)
+
+        #region ContentValid Verification
+
+
+        /// <summary>
+        /// This method receives the text in the tbxInput TextBox and verifies that it is valid or not.
+        /// if it is either a comment or a keyword it cannot contain a ';' and if it is a comment
+        /// i.e. starts with # it cannot have more that 1 #
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private bool ContentValid(string text)
+        {
+            bool Valid = true;
+
+            //Test to insure that the text does not contain a semicolon ;
+            if (text.Contains(";"))
+            {
+                MessageBox.Show("You cannot include a semicolon ';' in a key word or comment!");
+                Valid = false;
+                return Valid;
+            }
+
+            //Test to see if text contains "#"
+            if (text.Contains("#"))
+            {
+                //This may be a comment
+                int numberOfHashes = StringHelper.ReturnNumberOfDeliniters(text, '#');
+                //If there is only one and its position is 0 this is a valid comment
+                if (numberOfHashes == 1)
+                {
+                    if (text.StartsWith("#"))
+                    {
+                        return Valid;
+                    }
+                    else
+                    {
+                        MessageBox.Show("The Hash mark # must start a comment!");
+                        Valid = false;
+                        return Valid;
+                    }
+                }
+                else if (numberOfHashes > 1)
+                {
+                    MessageBox.Show("You can only have 1 Hash mark in an expression!");
+                    Valid = false;
+                    return Valid;
+                }
+            }// end text contains #
+
+            //At this point we should have only keywords, test length to detect unusually long key words
+            //Test to see if the KeyWord is longer than 50 characters
+            if (text.Length > 50)
+            {
+                //MessageBox.Show("Your KeyWord is >50 Charcters. Do you want to store it?", "No", MessageBoxButton.YesNo);
+                MessageBoxResult result = MessageBox.Show("Your KeyWord is > 50 Charcters.Do you want to store it ? ", "No", MessageBoxButton.YesNo);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+
+                        return Valid;
+                    case MessageBoxResult.No:
+                        Valid = false;
+                        return Valid;//return to the input box and allow the user to change the key word
+
+                }//End switch (result)
+            }//End if (text.Length > 50)
+            return Valid;
+        }// End bool ContentValid(string text)
+        #endregion ContentValid Verification
+
+        /// <summary>
+        /// Uses the text in the tbxInput TextBox to query the list of all KeyWords in the current
+        /// KeyWordList and dictionary and all key words that begin with this string will be added
+        /// to the Items in the lbxKeyWords List Box
+        /// </summary>
+        private void ShowKeyWordsBeginningWithThisString()
+        {
+            lbxKeyWords.Items.Clear();
+            string leadingChars = tbxInput.Text;
+            //Get the list of existing key words
+            List<string> KeyWordsList = KeyWordsStaticMembers.KeyWordList;
+            //cycle thru KeyWordsList adding all who start with leadingChars to lbxKeyWords
+            foreach (string line in KeyWordsList)
+            {
+                int indexOfLeadingChars = line.IndexOf(leadingChars);
+                if (indexOfLeadingChars == 0)
+                {
+                    lbxKeyWords.Items.Add(line);
+                }
+            }
+        } // End ShowKeyWordsBeginningWithThisString()
+
+
+        /// <summary>
+        /// This method receives the text currently in tbxInput and adds it and a ';' to
+        /// the end of tbxAllKeyWords
+        /// </summary>
+        /// <param name="currentInputText"></param>
+        private void AddInputTextToTBXAllKeyWords(string currentInputText)
+        {
+            string CurrentTextInTbxAllKeyCords = tbxAllKeyWords.Text;
+            CurrentTextInTbxAllKeyCords = CurrentTextInTbxAllKeyCords + currentInputText + ';';
+            tbxAllKeyWords.Text = CurrentTextInTbxAllKeyCords;
+        }// End AddInputTextToTBXAllKeyWords(string currentInputText)
+
+
+
+
+
+
+
+
+
+
+        #endregion Methods called by tbxInput.KeyUp method
+
+
+
+
+
+
+
+
+
+
+
     }// End class
 }// End Name space

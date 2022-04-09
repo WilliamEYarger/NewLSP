@@ -1,4 +1,37 @@
-﻿20220402 Commit Message
+﻿20220409 Commit
+	Commit Message "In Link_Note.xaml.cx enabled adding to a key word that had previously been entered"
+
+20220405 Complete Rewrite to Input Textbox Key Up Procedure
+	Logic
+		1.	Use locally global variables
+			string PreviouslyEnteredKeyWord
+			string InputTextBoxText
+			string CurrentKeyWord
+			bool KeyWordBeingReused
+			bool KeyWordBeingEntered
+			bool CommentBeingEntered
+		2. Use local private methods within Input Textbox Key Up Procedure
+		3. Use a series of If statements to call these methods
+
+
+20220403
+	There is a major error in that when you try and add comments from a new source, if the key word has already been used
+	it will not be added and the commentd are simple added to the botton of the last unique keywrd
+	1.	The NoteReferenceFile name is stored in  CommonStaticMembers.CurrentNote26Name.	
+	2.	There is an error in editing a note. When a key word is selected by hitting return, you cannot
+		add the Keyword in the input text box but when you enter the key word by clicking the item
+		in the list you can. What is the logic behind thin???
+When you open a note it puts the program into edit mode so that the current not can be edited
+
+
+
+
+
+	I will need to detect if a keyword has been previously added and if so, set a boolean to true
+	I will then need to load all of the existing key words and comments into a two dementional array
+
+
+20220402 Commit Message
 	Added several try-catchs to prevent crashing
 
 20220110 commit message
