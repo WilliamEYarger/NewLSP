@@ -1,5 +1,9 @@
-﻿20220409 Commit
-	Commit Message "In Link_Note.xaml.cx enabled adding to a key word that had previously been entered"
+﻿
+20220605 Commit
+	Commit Message "
+	1. In Link_Note.xaml.cx enabled adding to a key word that had previously been entered
+	2. In Link_Note,xaml.cs 'ThisKeyWordHasAlreadyBeenUse' added a preceedind ';' to the search to make sure Key Words that contain the same lastword, ie Antioch and School of Antioch can be differentiated
+					"
 
 20220405 Complete Rewrite to Input Textbox Key Up Procedure
 	Logic

@@ -924,7 +924,7 @@ namespace NewLSP.UserControls
             //Determin whether a key word or a comment is being entered
             if (tbxInput.Text.IndexOf('#') == 0) { Comment = true; }
             else if ((tbxInput.Text.IndexOf('#') != 0) && (tbxInput.Text.Length > 0)) { IsKeyWord = true; }
-            else MessageBox.Show("There is an error");
+            //else MessageBox.Show("There is an error");
 
             //A key word is being entered
             if (IsKeyWord)
@@ -1645,7 +1645,11 @@ namespace NewLSP.UserControls
         private bool ThisKeyWordHasAlreadyBeenUsed(string thisKeyWord)
         {
             string currentTextInTbxAllKeyWords = tbxAllKeyWords.Text;
-           if (currentTextInTbxAllKeyWords.IndexOf(thisKeyWord+';') != -1)
+            //MODIFICATION 20220515
+            if((currentTextInTbxAllKeyWords.IndexOf(';'+thisKeyWord + ';') != -1) && (currentTextInTbxAllKeyWords.IndexOf(thisKeyWord + ';') != 0))
+
+            //END MODIFICATION 20220515
+           //// if (currentTextInTbxAllKeyWords.IndexOf(thisKeyWord+';') != -1)
             {//This KeyWord has been used previously
                 return true;
             }
