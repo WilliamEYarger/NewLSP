@@ -1,4 +1,6 @@
-﻿20220701 Commit
+﻿202207011428 Commit
+	Corrected error in multi comments
+20220701 Commit
 	Created procedure to test to see if Comment contains a tilda '~' and if it is supposed to be a multi-comment. If yes 
 	it adds the comments to the tbxAllKeyWords. Text if not it erases the data in the tbxInput txtbox.
 20220605 Commit

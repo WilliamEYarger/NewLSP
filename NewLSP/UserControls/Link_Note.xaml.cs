@@ -1064,24 +1064,28 @@ namespace NewLSP.UserControls
                 else
                 {
                     // Check to see if this is a multi comment
-
-                    if (MessageBox.Show("Containe tildas '~'. Is this a Multi-Comment?", "Multi-Comment?", MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (tbxInput.Text.IndexOf('~') != -1)
                     {
-                        //change '~' to ';'
-                        string  oldInputText = tbxInput.Text;
+                        if (MessageBox.Show("Containe tildas '~'. Is this a Multi-Comment?", "Multi-Comment?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            //change '~' to ';'
+                            string oldInputText = tbxInput.Text;
 
-                        string newInputText = oldInputText.Replace('~', ';');
+                            string newInputText = oldInputText.Replace('~', ';');
 
-                        tbxAllKeyWords.Text = tbxAllKeyWords.Text + newInputText;
-                        tbxInput.Text = "";
-                        //return;
+                            tbxAllKeyWords.Text = tbxAllKeyWords.Text + newInputText;
+                            tbxInput.Text = "";
+                            return;
+                        }
+                        else
+                        {
+
+                            tbxInput.Text = "";
+                            return;
+                        }
+
                     }
-                    else
-                    {
-
-                        tbxInput.Text = "";
-                        //return;
-                    }
+                   
 
 
 
@@ -1247,7 +1251,7 @@ namespace NewLSP.UserControls
             }
 
             /* If the user hits the Enter key */
-            if (e.Key == Key.Enter)
+                if (e.Key == Key.Enter)
             {
                 if (rbtEdit.IsChecked == true) KeyWordsStaticMembers.ListAccess = true;
 
