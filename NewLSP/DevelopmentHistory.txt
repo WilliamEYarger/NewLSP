@@ -1,4 +1,6 @@
-﻿
+﻿20220701 Commit
+	Created procedure to test to see if Comment contains a tilda '~' and if it is supposed to be a multi-comment. If yes 
+	it adds the comments to the tbxAllKeyWords. Text if not it erases the data in the tbxInput txtbox.
 20220605 Commit
 	Commit Message "
 	1. In Link_Note.xaml.cx enabled adding to a key word that had previously been entered

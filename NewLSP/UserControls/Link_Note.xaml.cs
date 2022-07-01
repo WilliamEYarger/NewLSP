@@ -1063,7 +1063,28 @@ namespace NewLSP.UserControls
                 } //End  if (e.Key == Key.Enter)
                 else
                 {
-                    // Acomment is being entered check its validity
+                    // Check to see if this is a multi comment
+
+                    if (MessageBox.Show("Containe tildas '~'. Is this a Multi-Comment?", "Multi-Comment?", MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        //change '~' to ';'
+                        string  oldInputText = tbxInput.Text;
+
+                        string newInputText = oldInputText.Replace('~', ';');
+
+                        tbxAllKeyWords.Text = tbxAllKeyWords.Text + newInputText;
+                        tbxInput.Text = "";
+                        //return;
+                    }
+                    else
+                    {
+
+                        tbxInput.Text = "";
+                        //return;
+                    }
+
+
+
                 }
 
                 //Comment ADDED TO PREVIOUSLY USED KEY WORD, NEXT  MAKE THIS HAPPEN FOR A WORK CLICKED IN LBXKEYWORDS AND CLEAR VARIABLES WHEN A NEW KEY WORD IS ENETERE
