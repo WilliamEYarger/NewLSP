@@ -57,52 +57,106 @@
                 </Grid.RowDefinitions>
                 <Button x:Name="btnShowDisplayLisgt" 
                         FontSize="20"
-                        Content="Show Display List"
+                        Content="_Show Display List"
                         Click="btnShowDisplayLisgt_Click"
                         />
 
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center"
-                    Text="Enter Node Text"
-                    FontSize="20"       />
+                <Label Grid.Row="1" HorizontalAlignment="Center"
+                    Content="_Enter Node Text"
+                    FontSize="20"   
+                    Target="tbxNodeName"   />
 
                 <TextBox x:Name="tbxNodeName" FontSize="20"
                     Grid.Row="2" Width="Auto" />
                 <StackPanel  Grid.Row="3" Orientation="Vertical">
+                    <Button x:Name="btnNewChild" Click="btnNewChild_Click"
+                            Width="200" Content="Create New _Child" 
+                            FontSize="15"
+                            />
 
-                    <RadioButton x:Name="rbNewChild" GroupName="NodeTasks"
+                    <!--The Following is invisible-->
+                    <RadioButton x:Name="rbNewChild" GroupName="NodeTasks" Visibility="Hidden"
                          Content="Create new child for Selected Node"
                          ToolTip="You Must enter text in the Enter Node Text TextBox" 
                          Checked="rbNewChild_Checked" 
+                         Height="0"
                          />
-
+                    <Button x:Name="btnChangeTitle" Click="btnChangeTitle_Click" 
+                            Width="200" Content="Change _Title of Selected Node"
+                            
+                            FontSize="15"/>
+                    <!--The Following is invisible-->                    
                     <RadioButton x:Name="rbText" GroupName="NodeTasks"
                          Content="Change Title Text of Selected Node"
-                         Checked="rbText_Checked"
+                         Checked="rbText_Checked" 
+                         Height="0"
+                         Visibility="Hidden"
                          />
 
+                    <Button x:Name="btnTerminal"
+                            Click="btnTerminal_Click"
+                            Content="_Make Selected Node Terminal"
+                            Width="200" 
+                            FontSize="15"/>
+                    <!--The Following is invisible-->
                     <RadioButton x:Name="rbTerminal" GroupName="NodeTasks"
                          Content="Make Selected Node Terminal"
                          Checked="rbTerminal_Checked"
+                                 Height="0"
+                                 Visibility="Hidden"
                          />
 
+                    <Button x:Name="btnDelect"
+                            Click="btnDelect_Click"
+                            Content="_Delete Selected Node"
+                            Width="200"
+                            FontSize="15"/>
+
+                    <!--The Following is invisible-->
                     <RadioButton x:Name="rbDelete" GroupName="NodeTasks"
                          Content="Delete Selected Node"
-                         Checked="rbDelete_Checked"        
+                         Checked="rbDelete_Checked" 
+                         Height="0"
+                         Visibility="Hidden"       
                          />
 
+                    <Button x:Name="btnMove"
+                            Click="btnMove_Click"
+                            Content="_Mark Node to Move"
+                            Width="200" 
+                            FontSize="15"/>
+                    <!--The Following is invisible-->
                     <RadioButton x:Name="rbMoveNode" GroupName="NodeTasks"
                          Content="Node Selected to Move"
                          Checked="rbMoveNode_Checked"
+                         Height="0"
+                         Visibility="Hidden"       
                                  />
 
+                    <Button x:Name="btnExpand"
+                            Click="btnExpand_Click"
+                            Content="E_xpand/Collapse"
+                            Width="200"
+                            FontSize="15" />
+                    <!--The Following is invisible-->
                     <RadioButton x:Name="rbExpandCollapse" GroupName="NodeTasks"
                          Content="Show Node, Ancestors and Children"
-                         Checked="rbExpandCollapse_Checked"
+                         Checked="rbExpandCollapse_Checked"                                 
+                         Height="0"
+                         Visibility="Hidden"       
                          />
+                    <Button x:Name="btnData"
+                            Click="btnData_Click"
+                            Content="Mar_K as Data Button"
+                            Width="200" 
+                            FontSize="15"/>
 
+                    <!--The Following is invisible-->
                     <RadioButton x:Name="rbDataNode" GroupName="NodeTasks"
                          Content="This is the DataNode"
-                         Click="rbDataNode_Click"
+                         Click="rbDataNode_Click"                                
+                         Height="0"
+                         Visibility="Hidden"       
                                  />
                 </StackPanel>
                 <StackPanel Orientation="Vertical"  Grid.Row="4">

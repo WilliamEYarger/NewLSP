@@ -565,6 +565,47 @@ namespace NewLSP.UserControls
         #endregion Private local methods
 
 
+        private void btnNewChild_Click(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs ex = new RoutedEventArgs();
+            rbNewChild_Checked(this, ex);
+        }
+
+        private void btnChangeTitle_Click(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs ex = new RoutedEventArgs();
+            rbText_Checked(this, ex);
+        }
+
+        private void btnTerminal_Click(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs ex = new RoutedEventArgs();
+            rbTerminal_Checked(this, ex);
+        }
+
+        private void btnDelect_Click(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs ex = new RoutedEventArgs();
+            rbDelete_Checked(this, ex);
+        }
+
+        private void btnMove_Click(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs ex = new RoutedEventArgs();
+            rbMoveNode_Checked(this, ex);
+        }
+
+        private void btnExpand_Click(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs ex = new RoutedEventArgs();
+            rbExpandCollapse_Checked(this, ex);
+        }
+
+        private void btnData_Click(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs ex = new RoutedEventArgs();
+            rbDataNode_Click(this, ex);
+        }
     }// End Class
 
 }//End Namespace

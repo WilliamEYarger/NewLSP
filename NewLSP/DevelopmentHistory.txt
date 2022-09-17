@@ -1,4 +1,8 @@
-﻿202207011428 Commit
+﻿20220917 Commit Message
+	In the SubjectTree xaml and xaml.cs converts all TextBox items on the left to buttons and adds accelerator Key Selection events
+
+
+202207011428 Commit
 	Corrected error in multi comments
 20220701 Commit
 	Created procedure to test to see if Comment contains a tilda '~' and if it is supposed to be a multi-comment. If yes 
