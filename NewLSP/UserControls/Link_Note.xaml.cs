@@ -422,6 +422,7 @@ namespace NewLSP.UserControls
             LinkNoteStaticMembers.SearchKeyWord = null;
 
             LinkNoteStaticMembers.HyperlinkDictionary.Clear();
+            LinkNoteStaticMembers.HyperlinkStringsList.Clear();
         }
 
 
@@ -917,7 +918,8 @@ namespace NewLSP.UserControls
                 if (tbxInput.Text == "") lbxKeyWords.Items.Clear();
             }
 
-            //Remove any spaces at the end of the input text
+           
+            
             tbxInput.Text.Trim();
             //Clear all the items in the list of key words
 
@@ -956,6 +958,8 @@ namespace NewLSP.UserControls
                 //If key != Enter
                 if (e.Key != Key.Enter)
                 {
+                   
+                    
                     if (!ContentValid(tbxInput.Text))
                     {
                         return;
@@ -997,6 +1001,13 @@ namespace NewLSP.UserControls
                 */
 
                 {// The user is entering a KeyWord and the Enter Key was hit
+                 //Added 20221111
+                    if (tbxInput.Text.EndsWith(" "))
+                    {
+                        tbxInput.Text = tbxInput.Text.Trim();
+                    }
+
+                    //End added20221111
 
                     // Clear globals that may have been set previously
                     LongKeyWordsOK = false;
@@ -1618,6 +1629,9 @@ namespace NewLSP.UserControls
         private void AddNewKeyWordToKeyWordList(string currentKeyWord)
         {
             CurrentKeyWord.Trim();
+            //Addded 02221111
+            if (KeyWordsStaticMembers.KeyWordList.Contains(currentKeyWord)) return;
+            //End Added20221111
             // add this new key word to the KeyWordList
             KeyWordsStaticMembers.KeyWordList.Add(CurrentKeyWord);
             // Append this new Keyword to the Keyword txt Fild
@@ -1629,9 +1643,17 @@ namespace NewLSP.UserControls
             //Convert the keyword to the dictionary key format (no spaces)
             string ConvertedThisKeyWord = thisKeyWord.Replace(' ', '_');
             //Add the new converted Key word to the dictionary with a value containing only the starting delimiter, ;
-            KeyWordsStaticMembers.KeyWordsDictionary.Add(ConvertedThisKeyWord, ";");
-            // Add the new converted keyword to the NotesDictionary.txt file
-            KeyWordsStaticMembers.AppendNewKeyWordDictionaryItemString(ConvertedThisKeyWord);
+            //Added 20221111
+            if (!KeyWordsStaticMembers.KeyWordsDictionary.ContainsKey(CurrentKeyWord))
+            {
+                KeyWordsStaticMembers.KeyWordsDictionary.Add(ConvertedThisKeyWord, ";");
+                // Add the new converted keyword to the NotesDictionary.txt file
+                KeyWordsStaticMembers.AppendNewKeyWordDictionaryItemString(ConvertedThisKeyWord);
+            }
+            //End Added20221111
+            //KeyWordsStaticMembers.KeyWordsDictionary.Add(ConvertedThisKeyWord, ";");
+            //// Add the new converted keyword to the NotesDictionary.txt file
+            //KeyWordsStaticMembers.AppendNewKeyWordDictionaryItemString(ConvertedThisKeyWord);
 
         }// End private void AddNewKeyWordToKeyWordList(string KeyWordInAllKeyWordsText)
 
@@ -1670,12 +1692,10 @@ namespace NewLSP.UserControls
         private bool ThisKeyWordHasAlreadyBeenUsed(string thisKeyWord)
         {
             string currentTextInTbxAllKeyWords = tbxAllKeyWords.Text;
-            //MODIFICATION 20220515
-            if((currentTextInTbxAllKeyWords.IndexOf(';'+thisKeyWord + ';') != -1) && (currentTextInTbxAllKeyWords.IndexOf(thisKeyWord + ';') != 0))
-
-            //END MODIFICATION 20220515
-           //// if (currentTextInTbxAllKeyWords.IndexOf(thisKeyWord+';') != -1)
-            {//This KeyWord has been used previously
+            //MODIFICATION 20221115
+            //There is a logic error here if the keyword is the first item in the list
+            if((currentTextInTbxAllKeyWords.IndexOf(thisKeyWord + ';') == 0) || (currentTextInTbxAllKeyWords.IndexOf(';'+thisKeyWord + ';') != -1) )
+            {
                 return true;
             }
             else

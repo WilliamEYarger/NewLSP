@@ -48,7 +48,7 @@
         <!-- Row 0 the MenuBar row-->
         <Menu Grid.Row="0">
             <!--the Applications menu-->
-            <MenuItem Header="          Applications">
+            <MenuItem Header="          _Applications">
 
                 <MenuItem Header="Open A File or Web Site"
                           Name="miOpenFileDialog"
@@ -93,7 +93,7 @@
             </MenuItem>-->
 
             <!--the Files menu-->
-            <MenuItem Header="Files">
+            <MenuItem Header="_Files">
 
                 <MenuItem Header="Save Hyperlink"
                           Name="miSaveHyperlink"
@@ -118,7 +118,7 @@
 
             </MenuItem>
             <!--the Reset Page menu item-->
-            <MenuItem Header="Reset Page" 
+            <MenuItem Header="_Reset Page" 
                       Name="miResetPage"
                       Click="miResetPage_Click"/>
         </Menu>

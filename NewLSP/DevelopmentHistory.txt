@@ -1,4 +1,11 @@
-﻿20220917 Commit Message
+﻿20221122 Commit Message
+	Changed when terminal blanks were removed from tbxInput.Text and corrected errors in looking for duplicate key words
+
+202209171008 dev Update
+`the purpose of this update is to add acclerator keys to the SubjectTree Save Note
+
+
+20220917 Commit Message
 	In the SubjectTree xaml and xaml.cs converts all TextBox items on the left to buttons and adds accelerator Key Selection events
 
 
