@@ -1,4 +1,14 @@
-﻿20221122 Commit Message
+﻿20221211 commit message
+	1) Enabled addind Subject and Reference folder URLs at the same time
+	2) Converted Enter Term to a Lable with an accellerator key to tbxInput
+	3) Change the Question and answer so that as each pair is entered and the getNextQA button is click they will automaticallty be entered
+
+20221210 dev2 Tasks:
+	1.	*Create a alternate method for directly entering the urls of the study and references folder, bypassing entering them seperatly
+	2.	*Convert the Enter Term Textbox to a label with an accelerator key to the tbxInput Textbox
+	3.	*Change the Question and answer so that as each pair is entered and the getNextQA button is click they will automaticallty be entered
+
+20221122 Commit Message
 	Changed when terminal blanks were removed from tbxInput.Text and corrected errors in looking for duplicate key words
 
 202209171008 dev Update

@@ -208,11 +208,12 @@
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Text="Enter Term" Grid.Row="0"
-                   Grid.Column="0" FontSize="15"
-                     TextAlignment="Center"
-                     Background="LightBlue"
-                       />
+                    
+                    <Label Content="_Enter Term" Grid.Column="0"
+                           Target="{Binding ElementName=tbxInput}"
+                            FontSize="15"
+                     
+                     Background="LightBlue"/>
                     <TextBox x:Name="tbxInput" Grid.Row="0"
                      Grid.Column="1" KeyUp="tbxInput_KeyUp" 
                      Grid.ColumnSpan="2" 

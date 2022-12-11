@@ -565,11 +565,7 @@ namespace NewLSP.UserControls
         #endregion Private local methods
 
 
-        private void btnNewChild_Click(object sender, RoutedEventArgs e)
-        {
-            RoutedEventArgs ex = new RoutedEventArgs();
-            rbNewChild_Checked(this, ex);
-        }
+       
 
         private void btnChangeTitle_Click(object sender, RoutedEventArgs e)
         {
@@ -605,6 +601,12 @@ namespace NewLSP.UserControls
         {
             RoutedEventArgs ex = new RoutedEventArgs();
             rbDataNode_Click(this, ex);
+        }
+
+        private void btnNewChild_Click(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs ex = new RoutedEventArgs();
+            btnNewChild_Click(this, ex);
         }
     }// End Class
 

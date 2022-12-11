@@ -56,7 +56,7 @@ namespace NewLSP.UserControls
         private void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             QAStaticMembers.SaveQADictionary();
-            MessageBox.Show("This QA File Saved.");
+            //MessageBox.Show("This QA File Saved.");
         }
 
 
@@ -178,6 +178,11 @@ namespace NewLSP.UserControls
             QuestionMp3Url = "";
             AnswerJpgUrl = "";
             AnswerMp3Url = "";
+
+            //20221211 Add Save to file here
+
+            RoutedEventArgs ex = new RoutedEventArgs();
+            SaveFile_Click(this, ex);
         }
 
         #region Private Methods

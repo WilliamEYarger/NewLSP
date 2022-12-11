@@ -16,11 +16,23 @@
                 Margin="0,100,0,0"
                 Click="btnOpenSubjectFolder_Click"/>
 
-        <!--<Button x:Name="btnSetInstructionsFolder" 
-                Content="Create or Open Instructions folder"
-                 Width="300" Height="50" FontSize="18"
-                Margin="0,100,0,0"/>-->
-        <!--Click="btnSetInstructionsFolder_Click"-->
+        <Label 
+            Width="590" Height="50" FontSize="18"
+            Margin="20,50,0,0"
+            Padding="10"
+            Content="Or _Directly Enter Urls of Subject and Reference folders delimited with ^"
+            Target="{Binding ElementName=txtUrls}"
+            >
+        </Label>
+
+        <TextBox Name="txtUrls" Height="100" Width="590"
+            TextWrapping="Wrap"
+            KeyUp="txtUrls_KeyUp"
+                 
+                 >
+            
+            
+        </TextBox>
                 
         
     </StackPanel>
