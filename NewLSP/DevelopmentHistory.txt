@@ -1,4 +1,7 @@
-﻿20221211 commit message
+﻿20221212 Comit message
+ Corrected error in that Reference folder path was not passed to other procedures
+
+20221211 commit message
 	1) Enabled addind Subject and Reference folder URLs at the same time
 	2) Converted Enter Term to a Lable with an accellerator key to tbxInput
 	3) Change the Question and answer so that as each pair is entered and the getNextQA button is click they will automaticallty be entered

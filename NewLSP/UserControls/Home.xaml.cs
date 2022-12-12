@@ -624,7 +624,7 @@ namespace NewLSP.UserControls
             if (txtUrls.Text == "Click SubjectTreePage and then Click SHOW DISPLAY LIST to see all of the Base subjects for this project") return;
             String[] Urls = txtUrls.Text.Split('^');
             string HomeFolderPath = Urls[0];
-            string ReferenceFolderPath = Urls[1];
+            ReferenceFolderPath = Urls[1];
 
             if ((!Directory.Exists(HomeFolderPath)) || (!Directory.Exists(ReferenceFolderPath)))
                 {
