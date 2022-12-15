@@ -606,7 +606,7 @@ namespace NewLSP.UserControls
         private void btnNewChild_Click(object sender, RoutedEventArgs e)
         {
             RoutedEventArgs ex = new RoutedEventArgs();
-            btnNewChild_Click(this, ex);
+            rbNewChild_Checked(this, ex);
         }
     }// End Class
 
