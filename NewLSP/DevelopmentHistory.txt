@@ -1,4 +1,10 @@
-﻿20221219 transfer of dev2 to dev3 prior to merging dev2 with mai
+﻿20221225 commit
+	Corrected an error in the search strategy
+
+20221225
+	There is an error in Search
+
+20221219 transfer of dev2 to dev3 prior to merging dev2 with mai
 
 20221215 Commit
 	Corrected error in btnNewChild_Click method

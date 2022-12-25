@@ -1170,9 +1170,14 @@ namespace NewLSP.UserControls
                     LinkNoteStaticMembers.SelectedKeyWord = ThisKeyWord;
                     LinkNoteStaticMembers.SearchKeyWord = ThisKeyWord;
                     // error here
-                    if (LinkNoteStaticMembers.KeyWordSearch)
-                        // add this Keyword to the list of selected keywords
-                        tbxAllKeyWords.Text = tbxAllKeyWords.Text + ThisKeyWord + ';';
+                    //20221225 change start
+                    //if (LinkNoteStaticMembers.KeyWordSearch)
+                    //    // add this Keyword to the list of selected keywords
+                    //    //tbxAllKeyWords.Text = tbxAllKeyWords.Text + ThisKeyWord + ';';
+                    //    //new
+                    //    tbxAllKeyWords.Text = tbxAllKeyWords.Text + ';';
+                    ////20221225 change end
+
                     //Clear tbxInput
                     tbxInput.Text = "";
                     //Clear lbxKeyWords
