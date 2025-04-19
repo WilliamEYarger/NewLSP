@@ -21,7 +21,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical" >
+        <Grid >
 
             <TextBlock x:Name="tblkSubjectName" 
                 FontSize="20"
@@ -29,14 +29,15 @@
                        "/>
 
             <ListView x:Name="lvSubjects" Grid.Column ="0" 
-                  Height="750"
+                  Height="600"
                   SelectionMode="Single" 
                   PreviewMouseLeftButtonUp="lvSubjects_PreviewMouseLeftButtonUp" 
                   MouseRightButtonUp="lvSubjects_MouseRightButtonUp" 
-                 
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.CanContentScroll="False"    
                       />
 
-        </StackPanel>
+        </Grid>
 
         <Border Grid.Row="2" Grid.Column="1"
             BorderThickness="3" BorderBrush="Black">
