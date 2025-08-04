@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using NewLSP.StaticHelperClasses;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using NewLSP.DataModels;
 
 namespace NewLSP.UserControls
@@ -150,8 +152,31 @@ namespace NewLSP.UserControls
 
         private void miRandom_Click(object sender, RoutedEventArgs e)
         {
-
+            TestReviewStaticMembers.QANUmbersString = RandomizeDelimitedNumbers(TestReviewStaticMembers.QANUmbersString, '^');
         }
+
+        public static string RandomizeDelimitedNumbers(string input, char delimiter = '^')
+        {
+            if (string.IsNullOrWhiteSpace(input)) return string.Empty;
+
+            // Trim trailing delimiters and split
+            var items = input.TrimEnd(delimiter)
+                             .Split(delimiter)
+                             .ToList();
+
+            // Fisher-Yates shuffle
+            var rng = new Random();
+            int n = items.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                (items[k], items[n]) = (items[n], items[k]);
+            }
+
+            return string.Join(delimiter.ToString(), items) + delimiter;
+        }
+
 
         #endregion MenuItem Random
         #endregion Subject Order Menu

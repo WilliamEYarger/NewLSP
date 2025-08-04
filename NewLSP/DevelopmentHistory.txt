@@ -1,4 +1,9 @@
-﻿20221219 transfer of dev2 to dev3 prior to merging dev2 with mai
+﻿20250804
+Added randomization methods to QA files
+committ of dev 2
+Added randomization methods to QA files 
+
+20221219 transfer of dev2 to dev3 prior to merging dev2 with mai
 
 20221215 Commit
 	Corrected error in btnNewChild_Click method
