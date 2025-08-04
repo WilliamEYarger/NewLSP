@@ -1137,3 +1137,5 @@ At this point save a copy of all altered files and commit and sync
         Height="800" Width="1200"        
         WindowStartupLocation="CenterScreen">
 	Create source control and commit and send master to dev
+	20250419 commit of master
+	The ListView wouldn't scroll so I included a scroll bar and decreased to height to 600 which corrected the problem
